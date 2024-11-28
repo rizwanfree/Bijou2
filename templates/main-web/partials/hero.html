@@ -1,0 +1,72 @@
+{% load static %}
+
+<section class="hero section">
+    <div class="container container--hero d-lg-flex align-items-center justify-content-between">
+        <div class=hero_main>
+            <h1 class=hero_main-title data-aos=fade-up>Hosteller — amazing hostel for the free spirited traveler
+            </h1>
+            <div class="hero_main-content d-flex"><span class=line data-aos=fade-up data-aos-delay=50></span>
+                <p class=text data-aos=fade-up data-aos-delay=100>Egestas pretium aenean pharetra magna ac. Et
+                    tortor consequat id porta nibh venenatis cras sed. Vel turpis nunc eget lorem dolor sed</p>
+            </div>
+            <form class=booking action=# method=post autocomplete=off data-type=booking data-aos=fade-up>
+                <div class="item-wrapper d-sm-flex flex-wrap flex-lg-nowrap align-items-lg-center">
+                    <div class="booking_group d-flex flex-column"><label class="booking_group-label h5"
+                            for=checkIn>Check-in</label>
+                        <div class=booking_group-wrapper><i class="icon-calendar icon"></i> <input
+                                class="booking_group-field field required" data-type=date data-start=true
+                                type=text id=checkIn value="Add date" readonly=readonly> <i
+                                class="icon-chevron_down icon"></i></div>
+                    </div>
+                    <div class="booking_group d-flex flex-column"><label class="booking_group-label h5"
+                            for=checkOut>Check-out</label>
+                        <div class=booking_group-wrapper><i class="icon-calendar icon"></i> <input
+                                class="booking_group-field field required" data-type=date data-end=true
+                                type=text id=checkOut value="Add date" readonly=readonly> <i
+                                class="icon-chevron_down icon"></i></div>
+                    </div>
+                    <div class="booking_group d-flex flex-column"><span
+                            class="booking_group-label h5">Guests</span>
+                        <div class="booking_group-wrapper booking_group-wrapper--guests"><i
+                                class="icon-user icon"></i>
+                            <div class="booking_group-field dropdown-toggle" role=presentation id=guests
+                                data-bs-toggle=collapse data-bs-target=#bookingDropdown></div>
+                            <div class="booking_group-dropdown collapse" id=bookingDropdown>
+                                <div class=content>
+                                    <div
+                                        class="booking_group-dropdown_wrapper d-flex align-items-center justify-content-between">
+                                        <label class="label h5" for=adults>Adults</label>
+                                        <div class="main d-flex align-items-center justify-content-between"><a
+                                                class="qty_minus qty-changer d-flex align-items-center justify-content-center"
+                                                href=# data-disabled=true></a> <input class="field required"
+                                                id=adults type=text value=1> <a
+                                                class="qty_plus qty-changer d-flex align-items-center justify-content-center"
+                                                href=# data-disabled="">+</a></div>
+                                    </div>
+                                    <div
+                                        class="booking_group-dropdown_wrapper d-flex align-items-center justify-content-between">
+                                        <label class="label h5" for=children>Children</label>
+                                        <div class="main d-flex align-items-center justify-content-between"><a
+                                                class="qty_minus qty-changer d-flex align-items-center justify-content-center"
+                                                href=# data-disabled=""></a> <input class="field required"
+                                                id=children type=text value=0> <a
+                                                class="qty_plus qty-changer d-flex align-items-center justify-content-center"
+                                                href=# data-disabled="">+</a></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div><button class="booking_btn btn theme-element theme-element--accent"
+                        type=submit>Search</button>
+                </div>
+            </form>
+        </div>
+        <div class=hero_media data-aos=zoom-in>
+            <picture>
+                <source data-srcset={% static "img/index/hero.jpg" %} srcset={% static "img/index/hero.jpg"
+                    %}><img class=lazy data-src={% static "img/index/hero.jpg" %} src={%
+                    static "img/index/hero.jpg" %} alt=media>
+            </picture>
+        </div>
+    </div>
+</section>
