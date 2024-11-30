@@ -23,3 +23,7 @@ def contact(request):
     return render(request, 'main-web/contacts.html')
 
 
+def room_list(request):
+    return render(request, 'main-web/room-list.html')
+
+
