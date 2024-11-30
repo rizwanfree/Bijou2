@@ -168,6 +168,8 @@
     <script src={% static "js/index.min.js" %}></script>
     <script src={% static "js/gallery.min.js" %}></script>
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-FC3KYV46D4"></script>
+
+    {% block js %}{% endblock js %}
     <script>
         window.dataLayer = window.dataLayer || [];
 
