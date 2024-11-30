@@ -20,6 +20,9 @@
     <link rel="icon" type="image/png" sizes="32x32" href={% static "img/favicon-32x32.png" %}>
     <link rel="icon" type="image/png" sizes="16x16" href={% static "img/favicon-16x16.png" %}>
     <link rel="manifest" href="/site.webmanifest">
+
+    {% block css %}
+    {% endblock css %}
 </head>
 
 <body>
@@ -44,8 +47,8 @@
                     <ul class=header_nav-list>
                         <li class=header_nav-list_item><a class=nav-item href={% url "mainweb:index" %}>Home</a></li>
                         <li class=header_nav-list_item><a class=nav-item href={% url "mainweb:about" %}>About</a></li>
-                        <li class=header_nav-list_item><a class=nav-item href=about.html>Services</a></li>
-                        <li class=header_nav-list_item><a class=nav-item href=about.html>Gallery</a></li>
+                        <li class=header_nav-list_item><a class=nav-item href={% url "mainweb:about" %}>Services</a></li>
+                        <li class=header_nav-list_item><a class=nav-item href={% url "mainweb:gallery" %}>Gallery</a></li>
                         <li class="header_nav-list_item dropdown">
                             <a class="nav-link dropdown-toggle d-inline-flex align-items-center"
                                 href=rooms.html data-bs-toggle=collapse data-bs-target=#roomMenu aria-expanded=false
@@ -84,12 +87,12 @@
                 data-bs-target=#menuOffcanvas><i class=icon-stream></i></button>
         </div>
     </header>    
-
+    <main>
         {% block content %}
             
             
         {% endblock content %}
-
+    </main>
 
     <!--Foot Section-->
 <footer class="footer accent">
