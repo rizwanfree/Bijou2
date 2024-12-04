@@ -40,6 +40,7 @@ INSTALLED_APPS = [
 
     'mainweb',
     'accomodations',
+    'users',
 ]
 
 MIDDLEWARE = [
