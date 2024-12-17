@@ -17,8 +17,7 @@ def services(request):
 
 
 def gallery(request):
-    property_images = PropertyImage.objects.all()
-    
+    property_images = PropertyImage.objects.select_related('property').all()
     return render(request, 'main-web/gallery.html', {"property_images": property_images})
 
 
