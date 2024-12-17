@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 
 from accomodations.models import PropertyImage, RoomImage, Room, Property
 # Create your views here.
@@ -38,7 +38,24 @@ def room_list(request):
     return render(request, 'main-web/room-list.html', context)
 
 
+def room_details(request, slug):
+    room = get_object_or_404(Room, slug=slug)  # Get room by slug
+    context = {
+        'room': room,
+    }
+    return render(request, "main-web/room.html", context)
+
+
 def house_list(request):
-    return render(request, 'main-web/room-list.html')
+    houses = Property.objects.all()
+    price_for_seven_nights = 0
+    for room in houses:
+        price_for_seven_nights = room.price_per_night * 7
+    
+    context = {
+        'houses': houses,
+        'price_for_seven_nights': price_for_seven_nights,
+    }
+    return render(request, 'main-web/house-list.html', context)
 
 

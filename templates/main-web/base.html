@@ -44,8 +44,8 @@
                     <ul class=header_nav-list>
                         <li class=header_nav-list_item><a class=nav-item href={% url "mainweb:index" %}>Home</a></li>
                         <li class=header_nav-list_item><a class=nav-item href={% url "mainweb:about" %}>About</a></li>
-                        <li class=header_nav-list_item><a class=nav-item href={% url "mainweb:about" %}>Services</a></li>
-                        <li class=header_nav-list_item><a class=nav-item href={% url "mainweb:gallery" %}>Gallery</a></li>
+{#                        <li class=header_nav-list_item><a class=nav-item href={% url "mainweb:about" %}>Services</a></li>#}
+{#                        <li class=header_nav-list_item><a class=nav-item href={% url "mainweb:gallery" %}>Gallery</a></li>#}
                         <li class="header_nav-list_item dropdown">
                             <a class="nav-link dropdown-toggle d-inline-flex align-items-center"
                                 href="" data-bs-toggle=collapse data-bs-target=#roomMenu aria-expanded=false
@@ -54,7 +54,7 @@
                                 <ul class=dropdown-list>
                                     <li class=list-item><a class="dropdown-item nav-item" href={% url "mainweb:room-list" %}>Single rooms</a>
                                     </li>
-                                    <li class=list-item><a class="dropdown-item nav-item" href=room.html>Houses</a></li>
+                                    <li class=list-item><a class="dropdown-item nav-item" href={% url "mainweb:house-list" %}>Houses</a></li>
                                 </ul>
                             </div>
                         </li>
@@ -159,19 +159,9 @@
 
     <script src={% static "js/common.min.js" %}></script>
     <script src={% static "js/index.min.js" %}></script>
-    
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-FC3KYV46D4"></script>
 
     {% block js %}{% endblock js %}
-    <script>
-        window.dataLayer = window.dataLayer || [];
 
-        function gtag() {
-            dataLayer.push(arguments);
-        }
-        gtag('js', new Date());
-        gtag('config', 'G-FC3KYV46D4');
-    </script>
 </body>
 
 </html>

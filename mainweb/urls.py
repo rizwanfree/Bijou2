@@ -14,6 +14,8 @@ urlpatterns = [
     path('services/', views.services, name='services'),
     path('contact/', views.contact, name='contact'),
     path('room-list/', views.room_list, name='room-list'),
+    path('room/<slug:slug>/', views.room_details, name='room-details'),
+    path('house-list/', views.house_list, name='house-list'),
 ]
 # Serve media files during development
 if settings.DEBUG:
