@@ -1,6 +1,8 @@
 
 from django.urls import path, include
 
+from django.conf import settings
+from django.conf.urls.static import static
 from . import views
 
 app_name = 'mainweb'
@@ -12,4 +14,4 @@ urlpatterns = [
     path('services/', views.services, name='services'),
     path('contact/', views.contact, name='contact'),
     path('room-list/', views.room_list, name='room-list'),
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

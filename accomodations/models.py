@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 
 class Amenity(models.Model):
     name = models.CharField(max_length=100, unique=True)
-
+    
     def __str__(self):
         return self.name
 
@@ -22,16 +22,16 @@ class Property(models.Model):
     managers = models.ManyToManyField(User, related_name='managed_properties_list', blank=True)  # Updated related_name
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-
+    
     def __str__(self):
         return self.name
 
 
 class PropertyImage(models.Model):
     property = models.ForeignKey(Property, on_delete=models.CASCADE, related_name='images')  # Link to Property
-    image = models.ImageField(upload_to='img/property_images/')
+    image = models.ImageField(upload_to='property_images/')
     caption = models.CharField(max_length=255, blank=True, null=True)  # Optional caption
-
+    
     def __str__(self):
         return f"Image for {self.property.name}"
 
@@ -44,7 +44,7 @@ class Room(models.Model):
     description = models.TextField(blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-
+    
     def __str__(self):
         return f"{self.name} - {self.property.name}"
 
@@ -53,6 +53,6 @@ class RoomImage(models.Model):
     room = models.ForeignKey(Room, on_delete=models.CASCADE, related_name='images')  # Link to Room
     image = models.ImageField(upload_to='room_images/')
     caption = models.CharField(max_length=255, blank=True, null=True)
-
+    
     def __str__(self):
         return f"Image for {self.room.name}"

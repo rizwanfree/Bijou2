@@ -1,5 +1,6 @@
 from django.shortcuts import render
 
+from accomodations.models import PropertyImage, RoomImage
 # Create your views here.
 
 
@@ -16,7 +17,9 @@ def services(request):
 
 
 def gallery(request):
-    return render(request, 'main-web/gallery.html')
+    property_images = PropertyImage.objects.all()
+    
+    return render(request, 'main-web/gallery.html', {"property_images": property_images})
 
 
 def contact(request):
