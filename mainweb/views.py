@@ -1,6 +1,6 @@
 from django.shortcuts import render
 
-from accomodations.models import PropertyImage, RoomImage
+from accomodations.models import PropertyImage, RoomImage, Room, Property
 # Create your views here.
 
 
@@ -26,6 +26,19 @@ def contact(request):
 
 
 def room_list(request):
+    rooms = Room.objects.all()
+    price_for_seven_nights = 0
+    for room in rooms:
+        price_for_seven_nights = room.price_per_night * 7
+    
+    context = {
+        'rooms': rooms,
+        'price_for_seven_nights': price_for_seven_nights,
+    }
+    return render(request, 'main-web/room-list.html', context)
+
+
+def house_list(request):
     return render(request, 'main-web/room-list.html')
 
 

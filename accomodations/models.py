@@ -33,7 +33,7 @@ class PropertyImage(models.Model):
     caption = models.CharField(max_length=255, blank=True, null=True)  # Optional caption
     
     def __str__(self):
-        return f"Image for {self.property.name}"
+        return f"Image for {self.caption}-{self.property.name}"
 
 
 class Room(models.Model):

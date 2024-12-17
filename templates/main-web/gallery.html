@@ -21,7 +21,7 @@
             <div class="gallery_masonry row g-0">
 	            {% for img in property_images %}
 	                <figure class="gallery_masonry-item col-sm-6 col-lg-4" data-groups='["apartment"]'>
-	                    <a class=aspect href={{ img.image.url }} data-caption="Image caption" data-role=gallery-link>
+	                    <a class=aspect href={{ img.image.url }} data-caption={{ img.caption }} data-role=gallery-link>
 	                        <div class=aspect__inner>
 	                            <picture>
 	                                <source data-srcset={{ img.image.url }} srcset="{{ img.image.url }}">

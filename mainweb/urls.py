@@ -14,4 +14,7 @@ urlpatterns = [
     path('services/', views.services, name='services'),
     path('contact/', views.contact, name='contact'),
     path('room-list/', views.room_list, name='room-list'),
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+]
+# Serve media files during development
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

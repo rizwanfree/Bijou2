@@ -48,17 +48,13 @@
                         <li class=header_nav-list_item><a class=nav-item href={% url "mainweb:gallery" %}>Gallery</a></li>
                         <li class="header_nav-list_item dropdown">
                             <a class="nav-link dropdown-toggle d-inline-flex align-items-center"
-                                href={% url "mainweb:room-list" %} data-bs-toggle=collapse data-bs-target=#roomMenu aria-expanded=false
-                                aria-controls=roomMenu>Rooms <i class="icon-chevron_down--entypo icon"></i>
-                            </a>
+                                href="" data-bs-toggle=collapse data-bs-target=#roomMenu aria-expanded=false
+                                aria-controls=roomMenu>Rooms</a>
                             <div class="dropdown-menu collapse" id=roomMenu>
                                 <ul class=dropdown-list>
-                                    <li class=list-item data-main=true><a class="dropdown-item nav-item" data-page=rooms
-                                            href=rooms.html>Rooms</a></li>
-                                    <li class=list-item><a class="dropdown-item nav-item" href=room.html>Single rooms</a>
+                                    <li class=list-item><a class="dropdown-item nav-item" href={% url "mainweb:room-list" %}>Single rooms</a>
                                     </li>
-                                    <li class=list-item><a class="dropdown-item nav-item" href=room.html>Double
-                                            rooms</a></li>
+                                    <li class=list-item><a class="dropdown-item nav-item" href=room.html>Houses</a></li>
                                 </ul>
                             </div>
                         </li>
