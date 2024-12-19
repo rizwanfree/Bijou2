@@ -25,7 +25,14 @@ class Property(models.Model):
     is_available = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    slug = models.SlugField(unique=False, blank=True)  # Add the slug field
     
+    def save(self, *args, **kwargs):
+        # Automatically generate slug from the name if not provided
+        if not self.slug:
+            self.slug = slugify(self.name)
+        super().save(*args, **kwargs)
+        
     def __str__(self):
         return self.name
 
