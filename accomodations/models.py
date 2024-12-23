@@ -8,6 +8,13 @@ class Amenity(models.Model):
     
     def __str__(self):
         return self.name
+    
+
+class Facility(models.Model):
+    name = models.CharField(max_length=100, unique=True)
+    
+    def __str__(self):
+        return self.name
 
 
 class Property(models.Model):
@@ -47,12 +54,21 @@ class PropertyImage(models.Model):
 
 
 class Room(models.Model):
+    TYPE_OF_BED = [
+    ('single', 'Single'),
+    ('double', 'Double'),
+    ('queen', 'Queen'),
+    ('king', 'King'),
+    ]
     property = models.ForeignKey(Property, on_delete=models.CASCADE, related_name='rooms')
     name = models.CharField(max_length=255)
     slug = models.SlugField(unique=True, blank=True)  # Add the slug field
-    capacity = models.PositiveIntegerField()
+    capacity = models.PositiveIntegerField(default=1)
+    number_of_bed = models.PositiveIntegerField(default=1)
+    type_of_bed = models.CharField(choices=TYPE_OF_BED, max_length=50, default=TYPE_OF_BED[0])
     price_per_night = models.DecimalField(max_digits=10, decimal_places=2)
     description = models.TextField(blank=True, null=True)
+    facilities = models.ManyToManyField('Facility', related_name='rooms', blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     
