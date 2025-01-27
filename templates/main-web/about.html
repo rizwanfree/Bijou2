@@ -1,26 +1,54 @@
 {% extends "main-web/base.html" %}
+{% load static %}
 
 {% block content %}
 
-    
-        <div class=container>
-            <h3 class="text-center">About Us</h3>
-            <div class="about_benefits-header d-md-flex align-items-center justify-content-between">
-                <h2 class=about_benefits-header_title data-aos=fade-up>The main benefits to choose Hosteller</h2>
-                <p class=about_benefits-header_text data-aos=fade-up>Aliquam eleifend mi in nulla. Viverra nibh cras pulvinar mattis nunc</p>
+
+<section class="hero section">
+    <div class="container container--hero d-lg-flex align-items-center justify-content-between">
+        <div class=hero_main>
+                <h3 class="text-center">Learn More About Us</h3>
+            <div class="hero_main-content d-flex"><span class=line data-aos=fade-up data-aos-delay=50></span>
+                <p class=text data-aos=fade-up data-aos-delay=100>Welcome to The Bijou LLC, 
+                    a premier property management company based in Detroit. With over 10 years of experience in the industry, 
+                    we have proudly served our community and hosted thousands of satisfied customers. 
+                    Our portfolio includes multiple properties across Detroit, Pontiac, and Gross Pointe, 
+                    offering a range of fully furnished houses and rooms for rent. </p>
             </div>
-            <ul class="about_benefits-list d-md-flex">
-                <li class=about_benefits-list_item><span class="countNum number h1 d-flex align-items-center" data-suffix=+ data-value=240>0</span>
-                    <p class=number-label>Consequat interdum varius sit amet mattis vulputate enim nulla</p>
-                </li>
-                <li class=about_benefits-list_item><span class="countNum number h1 d-flex align-items-center" data-suffix=+ data-value=60>0</span>
-                    <p class=number-label>Consequat interdum varius sit amet mattis vulputate enim nulla</p>
-                </li>
-                <li class=about_benefits-list_item><span class="countNum number h1 d-flex align-items-center" data-suffix=% data-value=98>0</span>
-                    <p class=number-label>Consequat interdum varius sit amet mattis vulputate enim nulla</p>
-                </li>
-            </ul>
+
         </div>
+        <div class=hero_media data-aos=zoom-in>
+            <picture>
+                <source data-srcset={% static "img/index/hero.jpg" %} srcset={% static "img/index/hero.jpg"
+                    %}><img class=lazy data-src={% static "img/index/hero.jpg" %} src={%
+                    static "img/index/hero.jpg" %} alt=media>
+            </picture>
+
+            
+        </div>
+    </div>
+    <br>
+    <div class="container container--hero d-lg-flex align-items-center justify-content-between">
+        <div class=hero_main>
+            <h3 class="text-center">Learn More About Us</h3>
+            <div class="hero_main-content d-flex"><span class=line data-aos=fade-up data-aos-delay=50></span>
+                <p class=text data-aos=fade-up data-aos-delay=100>Welcome to The Bijou LLC, 
+                    a premier property management company based in Detroit. With over 10 years of experience in the industry, 
+                    we have proudly served our community and hosted thousands of satisfied customers. 
+                    Our portfolio includes multiple properties across Detroit, Pontiac, and Gross Pointe, 
+                    offering a range of fully furnished houses and rooms for rent. </p>
+            </div>
+
+        </div>
+        <div class=hero_media data-aos=zoom-in>
+            <picture style="height: 200;">
+                <source data-srcset={% static "img/index/hero.jpg" %} srcset={% static "img/index/hero.jpg"
+                    %}><img   class=lazy data-src={% static "img/index/hero.jpg" %} src={%
+                    static "img/index/hero.jpg" %} alt=media>
+            </picture>
+        </div>
+    </div>
+</section>
     
 
 {% endblock content %}
