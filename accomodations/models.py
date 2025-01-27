@@ -8,7 +8,7 @@ class Amenity(models.Model):
     
     def __str__(self):
         return self.name
-    
+
 
 class Facility(models.Model):
     name = models.CharField(max_length=100, unique=True)
@@ -39,7 +39,7 @@ class Property(models.Model):
         if not self.slug:
             self.slug = slugify(self.name)
         super().save(*args, **kwargs)
-        
+    
     def __str__(self):
         return self.name
 
@@ -55,10 +55,10 @@ class PropertyImage(models.Model):
 
 class Room(models.Model):
     TYPE_OF_BED = [
-    ('single', 'Single'),
-    ('double', 'Double'),
-    ('queen', 'Queen'),
-    ('king', 'King'),
+        ('single', 'Single'),
+        ('double', 'Double'),
+        ('queen', 'Queen'),
+        ('king', 'King'),
     ]
     property = models.ForeignKey(Property, on_delete=models.CASCADE, related_name='rooms')
     name = models.CharField(max_length=255)
