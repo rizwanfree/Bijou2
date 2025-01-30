@@ -6,6 +6,8 @@ from django.contrib.auth.decorators import login_required
 from .forms import TenantRegistrationForm
 from .models import TenantProfile
 from django.contrib.auth.models import User
+from finances.models import Payment
+from accomodations.models import Property, Room
 # Create your views here.
 
 
@@ -17,9 +19,20 @@ def tenant_required(view_func):
     return wrapper
 
 
-@tenant_required
+@login_required
 def tenant_dashboard(request):
-    return render(request, 'users/tenant-dashboard.html')
+    tenant_profile = request.user.tenant_profile  # Access the TenantProfile using the logged-in user
+    
+    # Get payments for the tenant
+    payments = Payment.objects.filter(tenant=request.user).order_by('-payment_date')
+    
+    # Prepare the context data to render the template
+    context = {
+        'tenant_profile': tenant_profile,
+        'payments': payments,
+    }
+    
+    return render(request, 'users/tenant-dashboard.html', context)
 
 
 def user_logout(request):
