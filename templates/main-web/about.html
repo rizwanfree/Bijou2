@@ -1,6 +1,10 @@
 {% extends "main-web/base.html" %}
 {% load static %}
 
+{% block css %}
+<link rel="stylesheet preload" as=style href={% static "css/about.min.css" %}>
+{% endblock css %}
+
 {% block content %}
 
 
@@ -22,9 +26,7 @@
                 <source data-srcset={% static "img/index/hero.jpg" %} srcset={% static "img/index/hero.jpg"
                     %}><img class=lazy data-src={% static "img/index/hero.jpg" %} src={%
                     static "img/index/hero.jpg" %} alt=media>
-            </picture>
-
-            
+            </picture>            
         </div>
     </div>
     <br>

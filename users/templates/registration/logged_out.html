@@ -1,0 +1,14 @@
+{% comment %} {% extends "base.html" %} {% endcomment %}
+{% block title %}
+    Logged out
+{% endblock title %}
+{% block content %}
+    <h1>Logged out</h1>
+    <p>
+        You have been successfully logged out.
+        You can <a href="{% url "users:login" %}">log-in again</a>.
+    </p>
+    <p>
+        <a href="{% url "mainweb:index" %}">Back to main page</a>.
+    </p>
+{% endblock %}

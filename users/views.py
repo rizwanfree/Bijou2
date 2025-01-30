@@ -1,9 +1,11 @@
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponseForbidden
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-
+from .forms import TenantRegistrationForm
+from .models import TenantProfile
+from django.contrib.auth.models import User
 # Create your views here.
 
 
@@ -19,6 +21,10 @@ def tenant_required(view_func):
 def tenant_dashboard(request):
     return render(request, 'users/tenant-dashboard.html')
 
+
+def user_logout(request):
+    logout(request)  # Logs out the user
+    return redirect('mainweb:index')  # Redirect to your homepage or login page
 
 def tenant_login(request):
     if request.method == "POST":
@@ -38,3 +44,59 @@ def tenant_login(request):
     
     return render(request, 'users/tenant-login.html')
 
+
+def create_tenant(request):
+    if request.method == 'POST':
+        form = TenantRegistrationForm(request.POST)
+
+        if form.is_valid():
+            username = form.cleaned_data['username']
+            email = form.cleaned_data['email']
+            password = form.cleaned_data['password']
+            first_name = form.cleaned_data['first_name']
+            middle_name = form.cleaned_data['middle_name']
+            last_name = form.cleaned_data['last_name']
+            phone_number = form.cleaned_data['phone_number']
+            address = form.cleaned_data['address']
+
+            print(username, email)
+
+            try:
+                # Check if username or email already exists
+                if User.objects.filter(username=username).exists():
+                    messages.error(request, "Username already taken")
+                    return render(request, 'users/registration.html', {'form': form})
+                
+                if User.objects.filter(email=email).exists():
+                    messages.error(request, "Email already registered")
+                    return render(request, 'users/registration.html', {'form': form})
+
+                # Create User
+                user = User.objects.create_user(username=username, email=email, password=password)
+
+                # Create Tenant Profile
+                TenantProfile.objects.create(
+                    user=user,
+                    first_name=first_name,
+                    middle_name=middle_name,
+                    last_name=last_name,
+                    phone_number=phone_number,
+                    address=address
+                )
+
+                # Auto-login and redirect
+                login(request, user)
+                messages.success(request, "Account created successfully!")
+                return redirect('mainweb:index')  # Change 'mainweb:index' to your home page
+
+            except Exception as e:
+                # Log the error (optional)
+                print(f"Error during tenant creation: {e}")
+                # Display a generic error message to the user
+                messages.error(request, "An error occurred during registration. Please try again.")
+                return render(request, 'users/registration.html', {'form': form})
+
+    else:
+        form = TenantRegistrationForm()
+
+    return render(request, 'users/registration.html', {'form': form})

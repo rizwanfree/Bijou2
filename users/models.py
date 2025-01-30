@@ -8,8 +8,7 @@ class TenantProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='tenant_profile')
     first_name = models.CharField(max_length=50, blank=True, null=True)
     middle_name = models.CharField(max_length=50, blank=True, null=True)
-    last_name = models.CharField(max_length=50, blank=True, null=True)
-    email = models.EmailField(max_length=50, blank=True, null=True)
+    last_name = models.CharField(max_length=50)
     phone_number = models.CharField(max_length=15, blank=True, null=True)
     address = models.TextField(blank=True, null=True)  # Tenant's address
 
@@ -22,7 +21,6 @@ class PropertyManagerProfile(models.Model):
     first_name = models.CharField(max_length=50, blank=True, null=True)
     middle_name = models.CharField(max_length=50, blank=True, null=True)
     last_name = models.CharField(max_length=50, blank=True, null=True)
-    email = models.EmailField(max_length=50, blank=True, null=True)
     phone_number = models.CharField(max_length=15, blank=True, null=True)
     address = models.TextField(blank=True, null=True)
     managed_properties = models.ManyToManyField(Property, related_name='assigned_managers', blank=True)

@@ -17,6 +17,7 @@ ALLOWED_HOSTS = ['*']
 # Application definition
 
 INSTALLED_APPS = [
+    'users.apps.UsersConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -26,7 +27,7 @@ INSTALLED_APPS = [
     
     'mainweb',
     'accomodations',
-    'users',
+    
 ]
 
 MIDDLEWARE = [
@@ -120,5 +121,6 @@ CSRF_TRUSTED_ORIGINS = [
     'https://baijo-dtdmf3f3c6c7e4eu.uaenorth-01.azurewebsites.net'
 ]
 
-LOGIN_URL = 'users:tenant-login'
+LOGIN_URL = 'users:login'
 LOGOUT_REDIRECT_URL = 'mainweb:index'
+LOGIN_REDIRECT_URL = 'mainweb:index'
