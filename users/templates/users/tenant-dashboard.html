@@ -8,8 +8,9 @@
 <div class="container mt-5">
     <!-- Upper section: Tenant Information -->
     <div class="card mb-4">
-        <div class="card-header">
-            <h3>Welcome, {{ tenant_profile.first_name }} {{ tenant_profile.last_name }}</h3>
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <h3>Welcome, {{ tenant_profile.last_name }}</h3>
+            <a href="{% url 'users:logout' %}" class="btn btn-outline-danger">Logout</a>
         </div>
         <div class="card-body">
             <p><strong>Phone Number:</strong> {{ tenant_profile.phone_number }}</p>
