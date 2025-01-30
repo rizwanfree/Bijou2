@@ -27,6 +27,7 @@ INSTALLED_APPS = [
     
     'mainweb',
     'accomodations',
+    'finances',
     
 ]
 

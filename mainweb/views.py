@@ -1,4 +1,5 @@
 from django.shortcuts import render, get_object_or_404
+from django.core.paginator import Paginator
 
 from accomodations.models import PropertyImage, RoomImage, Room, Property
 # Create your views here.
@@ -27,13 +28,13 @@ def contact(request):
 
 def room_list(request):
     rooms = Room.objects.all()
-    price_for_seven_nights = 0
-    for room in rooms:
-        price_for_seven_nights = room.price_per_night * 7
-    
+    paginator = Paginator(rooms, 5)  # Show 5 rooms per page
+
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
     context = {
-        'rooms': rooms,
-        'price_for_seven_nights': price_for_seven_nights,
+        'page_obj': page_obj,  # Use `page_obj` instead of `rooms`
     }
     return render(request, 'main-web/room-list.html', context)
 
@@ -48,13 +49,16 @@ def room_details(request, slug):
 
 def house_list(request):
     houses = Property.objects.all()
-    price_for_seven_nights = 0
-    for room in houses:
-        price_for_seven_nights = room.price_per_night * 7
-    
+    paginator = Paginator(houses, 5)  # Show 5 houses per page
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
+    # Calculate price for 7 nights per house (if needed)
+    for house in page_obj:
+        house.price_for_seven_nights = house.price_per_night * 7
+
     context = {
-        'houses': houses,
-        'price_for_seven_nights': price_for_seven_nights,
+        'houses': page_obj,  # Pass the paginated object to the template
     }
     return render(request, 'main-web/house-list.html', context)
 

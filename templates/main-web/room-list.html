@@ -11,40 +11,69 @@
         <div class=container>
             <ul class=rooms_list>
 	            
-	            {% for obj in rooms %}
-                <li class=rooms_list-item data-order={{ forloop.counter }} data-aos=fade-up>
-                    <div class="item-wrapper d-md-flex">
-                        <div class=media>
-                        {% if obj.images.first %}
-                            <picture>
-                                <source data-srcset={{ obj.images.first.image.url }} srcset={{ obj.images.first.image.url }}>
-                                <img class="lazy" data-src={{ obj.images.first.image.url }} src={{ obj.images.first.image.url }} alt="media">
-                            </picture>
-                        {% else %}
-                            <img class="lazy" data-src="{% static 'img/placeholder.png' %}" src="{% static 'img/placeholder.png' %}" alt="No Image">
-                        {% endif %}
-                        </div>
-                        <div class="main d-md-flex justify-content-between">
-                            <div class="main_info d-md-flex flex-column justify-content-between"><a class="main_title h4" href="{% url 'mainweb:room-details' slug=obj.slug %}">{{ obj.name }}</a>
-                                <p class=main_description>{{ obj.description|slice:":100" }}{% if obj.description|length > 100 %}...{% endif %}</p>
-                                <div class=main_amenities><span class="main_amenities-item d-inline-flex align-items-center">
-                                    <i class="icon-user icon"></i> {{ obj.capacity }} Sleeps </span>
-                                    <span class="main_amenities-item d-inline-flex align-items-center">
-                                        <i class="icon-bunk_bed icon"></i> {{ obj.capacity }} bunk bed</span>
+                {% for obj in page_obj %}
+                    <li class="rooms_list-item" data-order={{ forloop.counter }} data-aos="fade-up">
+                        <div class="item-wrapper d-md-flex">
+                            <div class="media">
+                                {% if obj.images.first %}
+                                    <picture>
+                                        <source data-srcset="{{ obj.images.first.image.url }}" srcset="{{ obj.images.first.image.url }}">
+                                        <img class="lazy" data-src="{{ obj.images.first.image.url }}" src="{{ obj.images.first.image.url }}" alt="media">
+                                    </picture>
+                                {% else %}
+                                    <img class="lazy" data-src="{% static 'img/placeholder.png' %}" src="{% static 'img/placeholder.png' %}" alt="No Image">
+                                {% endif %}
+                            </div>
+                            <div class="main d-md-flex justify-content-between">
+                                <div class="main_info d-md-flex flex-column justify-content-between">
+                                    <a class="main_title h4" href="{% url 'mainweb:room-details' slug=obj.slug %}">{{ obj.name }}</a>
+                                    <p class="main_description">{{ obj.description|slice:":100" }}{% if obj.description|length > 100 %}...{% endif %}</p>
+                                    <div class="main_amenities">
+                                        <span class="main_amenities-item d-inline-flex align-items-center">
+                                            <i class="icon-user icon"></i> {{ obj.capacity }} Sleeps
+                                        </span>
+                                        <span class="main_amenities-item d-inline-flex align-items-center">
+                                            <i class="icon-bunk_bed icon"></i> {{ obj.capacity }} bunk bed
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="main_pricing d-flex flex-column align-items-md-end justify-content-md-between">
+                                    <div class="wrapper d-flex flex-column">
+                                        <span class="main_pricing-item"><span class="h2">${{ obj.price_per_night }}</span> / 1 night </span>
+                                        <span class="main_pricing-item"><span class="h4">${{ obj.price_for_seven_nights }}</span> / 7 nights</span>
+                                    </div>
+                                    <a class="theme-element theme-element--accent btn" href="#">Book now</a>
                                 </div>
                             </div>
-                            <div class="main_pricing d-flex flex-column align-items-md-end justify-content-md-between">
-                                <div class="wrapper d-flex flex-column"><span class=main_pricing-item><span class=h2>${{ obj.price_per_night }}</span> / 1 night </span><span class=main_pricing-item><span class=h4>${{ price_for_seven_nights }}</span> / 7 nights</span>
-                                </div><a class="theme-element theme-element--accent btn" href=#>Book now</a></div>
                         </div>
-                    </div>
-                </li>
-	            {% endfor %}
-            </ul>
-            <ul class="pagination d-flex align-items-center">
-                <li class=pagination-page><a class="pagination-page_link d-flex align-items-center justify-content-center" href=# data-current=true>1</a></li>
-                <li class=pagination-page><a class="pagination-page_link d-flex align-items-center justify-content-center" href=#>2</a></li>
-                <li class=pagination-page><a class="pagination-page_link d-flex align-items-center justify-content-center" href=#>3</a></li>
+                    </li>
+                {% endfor %}
+
+            <!-- Pagination Controls -->
+            <ul class="pagination d-flex justify-content-center align-items-center">
+                {% if page_obj.has_previous %}
+                    <li class="pagination-page">
+                        <a class="pagination-page_link d-flex align-items-center justify-content-center" href="?page=1">&laquo; First</a>
+                    </li>
+                    <li class="pagination-page">
+                        <a class="pagination-page_link d-flex align-items-center justify-content-center" href="?page={{ page_obj.previous_page_number }}">Previous</a>
+                    </li>
+                {% endif %}
+
+                {% for num in page_obj.paginator.page_range %}
+                    <li class="pagination-page {% if num == page_obj.number %}active{% endif %}">
+                        <a class="pagination-page_link d-flex align-items-center justify-content-center" href="?page={{ num }}">{{ num }}</a>
+                    </li>
+                {% endfor %}
+
+                {% if page_obj.has_next %}
+                    <li class="pagination-page">
+                        <a class="pagination-page_link d-flex align-items-center justify-content-center" href="?page={{ page_obj.next_page_number }}">Next</a>
+                    </li>
+                    <li class="pagination-page">
+                        <a class="pagination-page_link d-flex align-items-center justify-content-center" href="?page={{ page_obj.paginator.num_pages }}">Last &raquo;</a>
+                    </li>
+                {% endif %}
             </ul>
         </div>
     </main>
