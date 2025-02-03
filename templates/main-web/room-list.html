@@ -38,9 +38,11 @@
                                     </div>
                                 </div>
                                 <div class="main_pricing d-flex flex-column align-items-md-end justify-content-md-between">
-                                    <div class="wrapper d-flex flex-column">
-                                        <span class="main_pricing-item"><span class="h2">${{ obj.price_per_night }}</span> / 1 night </span>
-                                        <span class="main_pricing-item"><span class="h4">${{ obj.price_for_seven_nights }}</span> / 7 nights</span>
+                                    <div class="wrapper d-flex flex-column">                                        
+                                        {% if obj.price_per_night %}
+                                            <span class="main_pricing-item"><span class="h2">${{ obj.price_per_night }}</span> / 1 night</span>
+                                            <span class="main_pricing-item"><span class="h4">${{ obj.price_for_seven_nights }}</span> / 7 nights</span>
+                                        {% endif %}
                                     </div>
                                     <a class="theme-element theme-element--accent btn" href="#">Book now</a>
                                 </div>

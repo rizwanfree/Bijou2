@@ -1,64 +1,73 @@
 from django.shortcuts import render, get_object_or_404
 from django.core.paginator import Paginator
 
-from accomodations.models import PropertyImage, RoomImage, Room, Property
-# Create your views here.
+from accomodations.models import HouseImage, RoomImage, Room, House
 
+# Create your views here.
 
 def index(request):
     return render(request, 'main-web/index-2.html')
 
-
 def about(request):
     return render(request, 'main-web/about.html')
-
 
 def services(request):
     return render(request, 'main-web/index-2.html')
 
-
 def gallery(request):
-    property_images = PropertyImage.objects.select_related('property').all()
-    return render(request, 'main-web/gallery.html', {"property_images": property_images})
-
+    """Display images from both houses and rooms."""
+    house_images = HouseImage.objects.select_related('house').all()
+    room_images = RoomImage.objects.select_related('room').all()
+    
+    context = {
+        "house_images": house_images,
+        "room_images": room_images,
+    }
+    return render(request, 'main-web/gallery.html', context)
 
 def contact(request):
     return render(request, 'main-web/contacts.html')
 
-
 def room_list(request):
-    rooms = Room.objects.all()
+    """List all available rooms with pagination."""
+    rooms = Room.objects.filter(is_available=True)  # Only show available rooms
     paginator = Paginator(rooms, 5)  # Show 5 rooms per page
 
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
 
+        # Calculate price for 7 nights per room
+    for room in page_obj:
+        room.price_for_seven_nights = room.price_per_night * 7
+
     context = {
-        'page_obj': page_obj,  # Use `page_obj` instead of `rooms`
+        'page_obj': page_obj,
     }
     return render(request, 'main-web/room-list.html', context)
 
-
 def room_details(request, slug):
-    room = get_object_or_404(Room, slug=slug)  # Get room by slug
+    """Show details for a specific room."""
+    room = get_object_or_404(Room, slug=slug)
+    
     context = {
         'room': room,
     }
     return render(request, "main-web/room.html", context)
 
-
 def house_list(request):
-    houses = Property.objects.all()
+    """List all available houses with pagination."""
+    houses = House.objects.filter(is_available=True)  # Only show available houses
     paginator = Paginator(houses, 5)  # Show 5 houses per page
+
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
 
-    # Calculate price for 7 nights per house (if needed)
+    # Calculate price for 7 nights per house
     for house in page_obj:
         house.price_for_seven_nights = house.price_per_night * 7
 
     context = {
-        'houses': page_obj,  # Pass the paginated object to the template
+        'page_obj': page_obj,  # Pass paginated object
     }
     return render(request, 'main-web/house-list.html', context)
 

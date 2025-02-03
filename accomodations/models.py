@@ -9,13 +9,11 @@ class Amenity(models.Model):
     def __str__(self):
         return self.name
 
-
 class Facility(models.Model):
     name = models.CharField(max_length=100, unique=True)
     
     def __str__(self):
         return self.name
-
 
 class Property(models.Model):
     name = models.CharField(max_length=255)
@@ -24,34 +22,45 @@ class Property(models.Model):
     state = models.CharField(max_length=100)
     zip_code = models.CharField(max_length=10)
     description = models.TextField(blank=True, null=True)
-    price_per_night = models.DecimalField(max_digits=10, decimal_places=2)
-    total_rooms = models.IntegerField(default=1)
     amenities = models.ManyToManyField('Amenity', related_name='properties', blank=True)
     rules = models.TextField(blank=True, null=True)
-    managers = models.ManyToManyField(User, related_name='managed_properties_list', blank=True)  # Updated related_name
-    is_available = models.BooleanField(default=False)
+    managers = models.ManyToManyField(User, related_name='managed_properties', blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    slug = models.SlugField(unique=False, blank=True)  # Add the slug field
-    
+    slug = models.SlugField(unique=True, blank=True)  # Ensure uniqueness
+
     def save(self, *args, **kwargs):
-        # Automatically generate slug from the name if not provided
         if not self.slug:
             self.slug = slugify(self.name)
         super().save(*args, **kwargs)
-    
+
     def __str__(self):
         return self.name
 
+class House(models.Model):
+    property = models.ForeignKey(Property, on_delete=models.CASCADE, related_name='houses')
+    name = models.CharField(max_length=255)
+    slug = models.SlugField(unique=True, blank=True)
+    price_per_night = models.DecimalField(max_digits=10, decimal_places=2)
+    number_of_rooms = models.IntegerField(default=1)
+    description = models.TextField(blank=True, null=True)
+    is_available = models.BooleanField(default=True)  # Ensuring new houses start as available
 
-class PropertyImage(models.Model):
-    property = models.ForeignKey(Property, on_delete=models.CASCADE, related_name='images')  # Link to Property
-    image = models.ImageField(upload_to='property_images/')
-    caption = models.CharField(max_length=255, blank=True, null=True)  # Optional caption
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.name)
+        super().save(*args, **kwargs)
+
+    def __str__(self):
+        return f"House: {self.name} - {self.property.name}"
+
+class HouseImage(models.Model):
+    house = models.ForeignKey(House, on_delete=models.CASCADE, related_name='images')  # Renamed from `property`
+    image = models.ImageField(upload_to='house_images/')
+    caption = models.CharField(max_length=255, blank=True, null=True)
     
     def __str__(self):
-        return f"Image for {self.property.name}"
-
+        return f"Image for {self.house.name}"
 
 class Room(models.Model):
     TYPE_OF_BED = [
@@ -62,28 +71,27 @@ class Room(models.Model):
     ]
     property = models.ForeignKey(Property, on_delete=models.CASCADE, related_name='rooms')
     name = models.CharField(max_length=255)
-    slug = models.SlugField(unique=True, blank=True)  # Add the slug field
+    slug = models.SlugField(unique=True, blank=True)
     capacity = models.PositiveIntegerField(default=1)
     number_of_bed = models.PositiveIntegerField(default=1)
-    type_of_bed = models.CharField(choices=TYPE_OF_BED, max_length=50, default=TYPE_OF_BED[0])
+    type_of_bed = models.CharField(choices=TYPE_OF_BED, max_length=50, default='single')
     price_per_night = models.DecimalField(max_digits=10, decimal_places=2)
     description = models.TextField(blank=True, null=True)
     facilities = models.ManyToManyField('Facility', related_name='rooms', blank=True)
+    is_available = models.BooleanField(default=True)  # Ensuring new rooms start as available
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    
+
     def save(self, *args, **kwargs):
-        # Automatically generate slug from the name if not provided
         if not self.slug:
             self.slug = slugify(self.name)
         super().save(*args, **kwargs)
-    
-    def __str__(self):
-        return f"{self.name} - {self.property.name}"
 
+    def __str__(self):
+        return f"Room: {self.name} - {self.property.name}"
 
 class RoomImage(models.Model):
-    room = models.ForeignKey(Room, on_delete=models.CASCADE, related_name='images')  # Link to Room
+    room = models.ForeignKey(Room, on_delete=models.CASCADE, related_name='images')
     image = models.ImageField(upload_to='room_images/')
     caption = models.CharField(max_length=255, blank=True, null=True)
     
