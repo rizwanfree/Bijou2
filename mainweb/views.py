@@ -72,3 +72,15 @@ def house_list(request):
     return render(request, 'main-web/house-list.html', context)
 
 
+def house_details(request, slug):
+    """Show details for a specific house with map location."""
+    house = get_object_or_404(House, slug=slug)
+    property_obj = house.property  # Get the associated property
+
+    context = {
+        'house': house,
+        'property': property_obj,  # Pass property data including lat/lng
+    }
+    print (property_obj.latitude)
+    print(property_obj.longitude)
+    return render(request, "main-web/house-details.html", context)
