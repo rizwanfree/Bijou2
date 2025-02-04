@@ -143,7 +143,7 @@ USE_TZ = True
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 CSRF_TRUSTED_ORIGINS = [
-    'https://baijo-dtdmf3f3c6c7e4eu.uaenorth-01.azurewebsites.net'
+    'https://baijotest-e5becebbd9byawbh.uaenorth-01.azurewebsites.net'
 ]
 
 STATIC_URL = '/static/'
