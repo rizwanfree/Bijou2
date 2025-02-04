@@ -64,7 +64,6 @@ class Property(models.Model):
 class House(models.Model):
     property = models.ForeignKey(Property, on_delete=models.CASCADE, related_name='houses')
     name = models.CharField(max_length=255)
-    no_of_room = models.IntegerField(default=1)
     no_of_bathroom = models.IntegerField(default=1)
     slug = models.SlugField(unique=True, blank=True)
     facilities = models.ManyToManyField('Facility', related_name='houses', blank=True)
