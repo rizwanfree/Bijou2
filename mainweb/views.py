@@ -48,9 +48,11 @@ def room_list(request):
 def room_details(request, slug):
     """Show details for a specific room."""
     room = get_object_or_404(Room, slug=slug)
+    property_obj = room.property
     
     context = {
         'room': room,
+        'property': property_obj
     }
     return render(request, "main-web/room.html", context)
 
@@ -81,6 +83,4 @@ def house_details(request, slug):
         'house': house,
         'property': property_obj,  # Pass property data including lat/lng
     }
-    print (property_obj.latitude)
-    print(property_obj.longitude)
     return render(request, "main-web/house-details.html", context)
