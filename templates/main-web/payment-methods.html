@@ -1,0 +1,25 @@
+{% extends "main-web/base.html" %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet preload" as="style" href="{% static 'css/payment-methods.css' %}">
+{% endblock css %}
+
+{% block content %}
+<div class="payment-methods-container">
+    <h2>Available Payment Methods</h2>
+    <div class="payment-methods-list">
+        {% for method in payment_methods %}
+        <div class="payment-method">
+            <h3>{{ method.get_name_display }}</h3>
+            <p>{{ method.details }}</p>
+            {% if method.qr_code %}
+            <img src="{{ method.qr_code.url }}" alt="{{ method.get_name_display }} QR Code" class="qr-code">
+            {% endif %}
+        </div>
+        {% empty %}
+        <p>No payment methods available.</p>
+        {% endfor %}
+    </div>
+</div>
+{% endblock content %}

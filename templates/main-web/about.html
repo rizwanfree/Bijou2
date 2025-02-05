@@ -2,55 +2,56 @@
 {% load static %}
 
 {% block css %}
-<link rel="stylesheet preload" as=style href={% static "css/about.min.css" %}>
+<link rel="stylesheet" href="{% static 'css/about-us.css' %}">
 {% endblock css %}
 
 {% block content %}
-
-
-<section class="hero section">
-    <div class="container container--hero d-lg-flex align-items-center justify-content-between">
-        <div class=hero_main>
-                <h3 class="text-center">Learn More About Us</h3>
-            <div class="hero_main-content d-flex"><span class=line data-aos=fade-up data-aos-delay=50></span>
-                <p class=text data-aos=fade-up data-aos-delay=100>Welcome to The Bijou LLC, 
-                    a premier property management company based in Detroit. With over 10 years of experience in the industry, 
-                    we have proudly served our community and hosted thousands of satisfied customers. 
-                    Our portfolio includes multiple properties across Detroit, Pontiac, and Gross Pointe, 
-                    offering a range of fully furnished houses and rooms for rent. </p>
-            </div>
-
-        </div>
-        <div class=hero_media data-aos=zoom-in>
-            <picture>
-                <source data-srcset={% static "img/index/hero.jpg" %} srcset={% static "img/index/hero.jpg"
-                    %}><img class=lazy data-src={% static "img/index/hero.jpg" %} src={%
-                    static "img/index/hero.jpg" %} alt=media>
-            </picture>            
-        </div>
+<section class="about-us-banner">
+    <div class="banner-content">
+        <h1>Welcome to The Bijou LLC</h1>
+        <p>Your premier property management company in Detroit</p>
     </div>
-    <br>
-    <div class="container container--hero d-lg-flex align-items-center justify-content-between">
-        <div class=hero_main>
-            <h3 class="text-center">Learn More About Us</h3>
-            <div class="hero_main-content d-flex"><span class=line data-aos=fade-up data-aos-delay=50></span>
-                <p class=text data-aos=fade-up data-aos-delay=100>Welcome to The Bijou LLC, 
-                    a premier property management company based in Detroit. With over 10 years of experience in the industry, 
-                    we have proudly served our community and hosted thousands of satisfied customers. 
-                    Our portfolio includes multiple properties across Detroit, Pontiac, and Gross Pointe, 
-                    offering a range of fully furnished houses and rooms for rent. </p>
+</section>
+
+<section class="about-us-section">
+    <div class="container">
+        <div class="intro">
+            <h2>About Us</h2>
+            <p>
+                Welcome to <strong>The Bijou LLC</strong>, a premier property management company based in Detroit. With over 10 years of experience in the industry, we have proudly served our community and hosted thousands of satisfied customers. Our portfolio includes multiple properties across Detroit, Pontiac, and Gross Pointe, offering a range of fully furnished houses and rooms for rent.
+            </p>
+        </div>
+
+        <div class="commitment">
+            <h2>Our Commitment to Excellence</h2>
+            <p>
+                At <strong>The Bijou</strong>, we understand the diverse needs of our tenants, which is why we provide flexible leasing options, including both short-term and long-term leases. Our commitment to excellence drives us to continually expand our offerings by acquiring new properties and transforming them into luxurious homes that meet the highest standards.
+            </p>
+        </div>
+
+        <div class="guest-experience">
+            <h2>Exceptional Guest Experience</h2>
+            <p>
+                We prioritize delivering an exceptional experience for our guests. Our dedicated team of experts works tirelessly around the clock to ensure that our services exceed expectations and maintain the quality our customers deserve. Located in the heart of Detroit's city center, our properties are ideally situated to provide easy access to local amenities and attractions.
+            </p>
+        </div>
+
+        <div class="vision-mission">
+            <h2>Our Vision & Mission</h2>
+            <div class="vision">
+                <h3>Vision</h3>
+                <p>
+                    To create a thriving community where individuals experience exceptional living standards in luxurious accommodations, enhancing their quality of life and fostering personal and professional growth.
+                </p>
             </div>
 
-        </div>
-        <div class=hero_media data-aos=zoom-in>
-            <picture style="height: 200;">
-                <source data-srcset={% static "img/index/hero.jpg" %} srcset={% static "img/index/hero.jpg"
-                    %}><img   class=lazy data-src={% static "img/index/hero.jpg" %} src={%
-                    static "img/index/hero.jpg" %} alt=media>
-            </picture>
+            <div class="mission">
+                <h3>Mission</h3>
+                <p>
+                    To provide high-quality, fully furnished rental properties that cater to the diverse needs of our tenants, offering both short-term and long-term leasing options. We are committed to expanding our portfolio by acquiring and transforming properties into luxury homes, ensuring our guests receive the best experience possible through dedicated service and expert management.
+                </p>
+            </div>
         </div>
     </div>
 </section>
-    
-
 {% endblock content %}

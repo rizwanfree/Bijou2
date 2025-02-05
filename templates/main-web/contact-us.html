@@ -1,0 +1,91 @@
+{% extends "main-web/base.html" %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/contact-us.css' %}">
+    <link rel="stylesheet" 
+          href=
+"https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css"
+          integrity=
+"sha512-5A8nwdMOWrSz20fDsjczgUidUBR8liPYU+WymTZP1lmY9G6Oc7HlZv156XqnsgNUzTyMefFTcsFH/tnJE/+xBg=="
+          crossorigin="anonymous"
+          referrerpolicy="no-referrer" />
+{% endblock css %}
+
+{% block content %}
+<!-- Leaflet CSS -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+    crossorigin=""/>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+    crossorigin=""></script>
+
+    <div class="ffbox">
+        <div class="ffbox1">            
+            <h2 class="gfg">Contact Us</h2>
+            <form>
+                <label for="fullName">
+                    <i class="fa fa-solid fa-user" 
+                       style="margin: 2px;">
+                    </i> Full Name:
+                </label>
+                <input type="text" 
+                       id="fullName" 
+                       name="fullName" required>
+
+                <label for="email">
+                    <i class="fa fa-solid fa-envelope" 
+                       style="margin: 2px;">
+                    </i>
+                    Email Address:
+
+                </label>
+                <input type="email"
+                       id="email" 
+                       name="email" required>
+
+                <label for="mobile">
+                    <i class=" fa fa-solid fa-phone" 
+                       style="margin: 2px;">
+                    </i>
+                    Contact No:
+                </label>
+                <input type="tel"
+                       id="mobile" 
+                       name="mobile" required>
+
+                <label for="msg">
+                    <i class=" fa fa-solid fa-comment" 
+                       style="margin: 2px;">
+                    </i>
+                    Write Message:
+                </label>
+                <textarea id="msg" 
+                          name="msg" 
+                          rows="5" required>
+                </textarea>
+
+                <button type="submit">
+                    Submit
+                </button>
+            </form>
+        </div>
+        <div class="map-div" id="map1">
+            
+        </div>
+    </div>
+
+<script>
+    var map = L.map('map1').setView([42.3314, -83.0458], 13);  // Detroit coordinates
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(map);
+
+    L.marker([42.3314, -83.0458]).addTo(map)
+        .bindPopup('<b>Our Office</b><br>Detroit, MI')
+        .openPopup();
+</script>
+{% endblock content %}

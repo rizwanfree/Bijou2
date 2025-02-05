@@ -50,14 +50,15 @@
                         <li class="header_nav-list_item"><a class="nav-item" href="{% url 'mainweb:about' %}">About</a></li>
                         <li class="header_nav-list_item"><a class="nav-item" href="{% url 'mainweb:room-list' %}">Rooms</a></li>
                         <li class="header_nav-list_item"><a class="nav-item" href="{% url 'mainweb:house-list' %}">Houses</a></li>
-                        <li class="header_nav-list_item"><a class="nav-item" href="about.html" data-page="about">Contact</a></li>
+                        <li class="header_nav-list_item"><a class="nav-item" href="{% url 'mainweb:contact' %}">Contact</a></li>
+                        
                         <!-- Add login or welcome logic here -->
                         {% if user.is_authenticated and user.tenant_profile %}
                             <li class="header_nav-list_item"><a class="nav-item" href={% url "users:tenant-dashboard" %}><b>Welcome {{ user.tenant_profile.last_name }}</b></a></li>
                             {% comment %} <span class="header_nav-list_item"><b>Welcome {{ user.last_name }}</b></span> {% endcomment %}
                             {% comment %} <a class="logout-link" href="{% url 'users:logout' %}">Logout</a> {% endcomment %}
                         {% else %}
-                            <li class="header_nav-list_item"><a class="nav-item" href="{% url 'users:login' %}" data-page="about">Login</a></li>
+                            <li class="header_nav-list_item"><a class="nav-item" href="{% url 'users:login' %}">Login</a></li>
                         {% endif %}
                     </ul>
                 </nav>

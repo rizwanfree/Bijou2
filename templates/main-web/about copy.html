@@ -1,0 +1,56 @@
+{% extends "main-web/base.html" %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet preload" as=style href={% static "css/about.min.css" %}>
+{% endblock css %}
+
+{% block content %}
+
+
+<section class="hero section">
+    <div class="container container--hero d-lg-flex align-items-center justify-content-between">
+        <div class=hero_main>
+                <h3 class="text-center">Learn More About Us</h3>
+            <div class="hero_main-content d-flex"><span class=line data-aos=fade-up data-aos-delay=50></span>
+                <p class=text data-aos=fade-up data-aos-delay=100>Welcome to The Bijou LLC, 
+                    a premier property management company based in Detroit. With over 10 years of experience in the industry, 
+                    we have proudly served our community and hosted thousands of satisfied customers. 
+                    Our portfolio includes multiple properties across Detroit, Pontiac, and Gross Pointe, 
+                    offering a range of fully furnished houses and rooms for rent. </p>
+            </div>
+
+        </div>
+        <div class=hero_media data-aos=zoom-in>
+            <picture>
+                <source data-srcset={% static "img/index/hero.jpg" %} srcset={% static "img/index/hero.jpg"
+                    %}><img class=lazy data-src={% static "img/index/hero.jpg" %} src={%
+                    static "img/index/hero.jpg" %} alt=media>
+            </picture>            
+        </div>
+    </div>
+    <br>
+    <div class="container container--hero d-lg-flex align-items-center justify-content-between">
+        <div class=hero_main>
+            <h3 class="text-center">Learn More About Us</h3>
+            <div class="hero_main-content d-flex"><span class=line data-aos=fade-up data-aos-delay=50></span>
+                <p class=text data-aos=fade-up data-aos-delay=100>Welcome to The Bijou LLC, 
+                    a premier property management company based in Detroit. With over 10 years of experience in the industry, 
+                    we have proudly served our community and hosted thousands of satisfied customers. 
+                    Our portfolio includes multiple properties across Detroit, Pontiac, and Gross Pointe, 
+                    offering a range of fully furnished houses and rooms for rent. </p>
+            </div>
+
+        </div>
+        <div class=hero_media data-aos=zoom-in>
+            <picture style="height: 200;">
+                <source data-srcset={% static "img/index/hero.jpg" %} srcset={% static "img/index/hero.jpg"
+                    %}><img   class=lazy data-src={% static "img/index/hero.jpg" %} src={%
+                    static "img/index/hero.jpg" %} alt=media>
+            </picture>
+        </div>
+    </div>
+</section>
+    
+
+{% endblock content %}

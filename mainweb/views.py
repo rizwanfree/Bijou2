@@ -2,6 +2,7 @@ from django.shortcuts import render, get_object_or_404
 from django.core.paginator import Paginator
 
 from accomodations.models import HouseImage, RoomImage, Room, House
+from finances.models import PaymentMethod
 
 # Create your views here.
 
@@ -11,8 +12,9 @@ def index(request):
 def about(request):
     return render(request, 'main-web/about.html')
 
-def services(request):
-    return render(request, 'main-web/index-2.html')
+def contact(request):
+    return render(request, 'main-web/contact-us.html')
+
 
 def gallery(request):
     """Display images from both houses and rooms."""
@@ -25,8 +27,6 @@ def gallery(request):
     }
     return render(request, 'main-web/gallery.html', context)
 
-def contact(request):
-    return render(request, 'main-web/contacts.html')
 
 def room_list(request):
     """List all available rooms with pagination."""
@@ -84,3 +84,9 @@ def house_details(request, slug):
         'property': property_obj,  # Pass property data including lat/lng
     }
     return render(request, "main-web/house-details.html", context)
+
+
+
+def payment_methods(request):
+    payment_methods = PaymentMethod.objects.all()
+    return render(request, 'mainweb/payment-methods.html', {'payment_methods': payment_methods})

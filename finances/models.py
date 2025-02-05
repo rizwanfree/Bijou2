@@ -17,7 +17,7 @@ class PaymentMethod(models.Model):
     
     name = models.CharField(max_length=50, choices=PAYMENT_CHOICES, unique=True)  # Ensure unique name
     details = models.TextField()  # To store details for each payment method
-    qr_code = models.ImageField(upload_to='payment_qr_codes/', blank=True, null=True)  # Store QR code image if needed
+    qr_code = models.ImageField(upload_to='payment_method_qr_codes/', blank=True, null=True)  # Store QR code image if needed
     slug = models.SlugField(unique=True, blank=True, null=True)  # Unique slug field for URL purposes
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
