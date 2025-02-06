@@ -35,8 +35,7 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
-    'django.contrib.staticfiles',
-    
+    'django.contrib.staticfiles',    
     
     'mainweb',
     'accomodations',
@@ -143,7 +142,7 @@ USE_TZ = True
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 CSRF_TRUSTED_ORIGINS = [
-    'https://baijotest-e5becebbd9byawbh.uaenorth-01.azurewebsites.net/'
+    'https://baijotest-e5becebbd9byawbh.uaenorth-01.azurewebsites.net'
 ]
 
 STATIC_URL = '/static/'
