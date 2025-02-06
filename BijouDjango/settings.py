@@ -169,7 +169,3 @@ LOGIN_REDIRECT_URL = 'mainweb:index'
 #DEFAULT_FILE_STORAGE = 'storages.backends.azure_storage.AzureStorage'
 
 MEDIA_URL = f"https://{AZURE_ACCOUNT_NAME}.blob.core.windows.net/{AZURE_CONTAINER}/"
-
-
-# Allow embedding in iframes
-X_FRAME_OPTIONS = 'SAMEORIGIN'

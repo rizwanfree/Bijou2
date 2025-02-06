@@ -54,34 +54,28 @@
 
             <!-- Pagination -->
             <ul class="pagination d-flex align-items-center justify-content-center">
-                {% if houses.has_previous %}
-                <li class="pagination-page">
-                    <a class="pagination-page_link" href="?page=1">First</a>
-                </li>
-                <li class="pagination-page">                    
-                    <a class="pagination-page_link" href="?page={{ page_obj.previous_page_number }}">Previous</a>
-                </li>
+                {% if page_obj.has_previous %}
+                    <li class="pagination-page">
+                        <a class="pagination-page_link d-flex align-items-center justify-content-center" href="?page=1">&laquo; First</a>
+                    </li>
+                    <li class="pagination-page">
+                        <a class="pagination-page_link d-flex align-items-center justify-content-center" href="?page={{ page_obj.previous_page_number }}">Previous</a>
+                    </li>
                 {% endif %}
 
-                {% for num in houses.paginator.page_range %}
-                    {% if houses.number == num %}
-                    <li class="pagination-page">
-                        <a class="pagination-page_link active" href="?page={{ num }}">{{ num }}</a>
+                {% for num in page_obj.paginator.page_range %}
+                    <li class="pagination-page {% if num == page_obj.number %}active{% endif %}">
+                        <a class="pagination-page_link d-flex align-items-center justify-content-center" href="?page={{ num }}">{{ num }}</a>
                     </li>
-                    {% else %}
-                    <li class="pagination-page">
-                        <a class="pagination-page_link" href="?page={{ num }}">{{ num }}</a>
-                    </li>
-                    {% endif %}
                 {% endfor %}
 
-                {% if houses.has_next %}
-                <li class="pagination-page">
-                    <a class="pagination-page_link" href="?page={{ houses.next_page_number }}">Next</a>
-                </li>
-                <li class="pagination-page">
-                    <a class="pagination-page_link" href="?page={{ houses.paginator.num_pages }}">Last</a>
-                </li>
+                {% if page_obj.has_next %}
+                    <li class="pagination-page">
+                        <a class="pagination-page_link d-flex align-items-center justify-content-center" href="?page={{ page_obj.next_page_number }}">Next</a>
+                    </li>
+                    <li class="pagination-page">
+                        <a class="pagination-page_link d-flex align-items-center justify-content-center" href="?page={{ page_obj.paginator.num_pages }}">Last &raquo;</a>
+                    </li>
                 {% endif %}
             </ul>
         </div>
