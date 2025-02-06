@@ -7,7 +7,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Initialize environment variables
 
-#os.environ(BASE_DIR / '.env')
+env = environ.Env()
+environ.Env.read_env(BASE_DIR / ".env")
 
 # Retrieve the values from the environment
 AZURE_ACCOUNT_NAME = os.environ.get('AZURE_ACCOUNT_NAME')
@@ -91,7 +92,8 @@ DATABASES = {
         'PORT': 1433,
         'OPTIONS': {
             'driver': 'ODBC Driver 17 for SQL Server',
-            'extra_params': 'schema=dj_testing;',  # Use your test schema here
+            'extra_params': 'schema=dj_testing;',  # Use your test schema here                        
+            'extra_params': 'Encrypt=yes;TrustServerCertificate=no',
         },
     }
 }
