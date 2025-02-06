@@ -1,6 +1,6 @@
 from pathlib import Path
 import environ
-
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -10,9 +10,9 @@ env = environ.Env()
 environ.Env.read_env(BASE_DIR / '.env')
 
 # Retrieve the values from the environment
-AZURE_ACCOUNT_NAME = env('AZURE_ACCOUNT_NAME')
-AZURE_ACCOUNT_KEY = env('AZURE_ACCOUNT_KEY')
-AZURE_CONTAINER = env('AZURE_CONTAINER')
+AZURE_ACCOUNT_NAME = os.environ('AZURE_ACCOUNT_NAME')
+AZURE_ACCOUNT_KEY = os.environ('AZURE_ACCOUNT_KEY')
+AZURE_CONTAINER = os.environ('AZURE_CONTAINER')
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
@@ -143,7 +143,7 @@ USE_TZ = True
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 CSRF_TRUSTED_ORIGINS = [
-    'https://baijotest-e5becebbd9byawbh.uaenorth-01.azurewebsites.net'
+    'https://baijotest-e5becebbd9byawbh.uaenorth-01.azurewebsites.net/'
 ]
 
 STATIC_URL = '/static/'
