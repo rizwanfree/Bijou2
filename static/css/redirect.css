@@ -1,0 +1,50 @@
+h1 {
+    color: #4a8df8;
+    font-family: 'Raleway', cursive;
+    font-weight: 100;
+    font-stretch: normal;
+    font-size: 3em;
+    text-align: center;
+    margin-top: 50px;
+}
+a {
+    color: #4a8df8;
+    font-family: 'Raleway', cursive;
+}
+.slider {
+    position: relative;
+    width: 400px;
+    height: 2px;
+    margin: 30px auto;
+}
+.line {
+    position: absolute;
+    background: #4a8df8;
+    width: 400px;
+    height: 2px;
+}
+.break {
+    position: absolute;
+    background: #222;
+    width: 6px;
+    height: 2px;
+}
+.dot1 {
+    animation: loading 2s infinite;
+}
+.dot2 {
+    animation: loading 2s 0.5s infinite;
+}
+.dot3 {
+    animation: loading 2s 1s infinite;
+}
+
+@keyframes loading {
+    from { left: 0; }
+    to { left: 400px; }
+}
+
+p {
+    text-align: center;
+    margin-top: 20px;
+}

@@ -3,6 +3,7 @@ from django.core.paginator import Paginator
 
 from accomodations.models import HouseImage, RoomImage, Room, House
 from finances.models import PaymentMethod
+from django.views.decorators.clickjacking import xframe_options_exempt
 
 # Create your views here.
 
@@ -15,17 +16,6 @@ def about(request):
 def contact(request):
     return render(request, 'main-web/contact-us.html')
 
-
-def gallery(request):
-    """Display images from both houses and rooms."""
-    house_images = HouseImage.objects.select_related('house').all()
-    room_images = RoomImage.objects.select_related('room').all()
-    
-    context = {
-        "house_images": house_images,
-        "room_images": room_images,
-    }
-    return render(request, 'main-web/gallery.html', context)
 
 
 def room_list(request):
@@ -86,7 +76,11 @@ def house_details(request, slug):
     return render(request, "main-web/house-details.html", context)
 
 
-
 def payment_methods(request):
     payment_methods = PaymentMethod.objects.all()
-    return render(request, 'mainweb/payment-methods.html', {'payment_methods': payment_methods})
+    return render(request, 'main-web/payment-methods.html', {'payment_methods': payment_methods})
+
+@xframe_options_exempt
+def payment_methods_iframe(request):
+    payment_methods = PaymentMethod.objects.all()
+    return render(request, 'main-web/payment-methods-iframe.html', {'payment_methods': payment_methods})
