@@ -7,7 +7,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Initialize environment variables
 
-os.environ(BASE_DIR / '.env')
+#os.environ(BASE_DIR / '.env')
 
 # Retrieve the values from the environment
 AZURE_ACCOUNT_NAME = os.environ.get('AZURE_ACCOUNT_NAME')
