@@ -70,12 +70,26 @@ class House(models.Model):
     price_per_night = models.DecimalField(max_digits=10, decimal_places=2)
     number_of_rooms = models.IntegerField(default=1)
     description = models.TextField(blank=True, null=True)
-    is_available = models.BooleanField(default=True)  # Ensuring new houses start as available
+    is_available = models.BooleanField(default=True)  # This is still needed to mark the house as available
 
     def save(self, *args, **kwargs):
         if not self.slug:
             self.slug = slugify(self.name)
         super().save(*args, **kwargs)
+
+    def check_availability(self, start_date, end_date):
+        """Check if the house is available for the requested date range."""
+        if not start_date or not end_date:
+            return True  # If no dates are provided, consider it available
+
+        overlapping_bookings = Booking.objects.filter(
+            house=self,
+            check_in__lt=end_date,  # Overlapping booking check
+            check_out__gt=start_date
+        )
+
+        return not overlapping_bookings.exists()
+
 
     def __str__(self):
         return f"House: {self.name} - {self.property.name}"
@@ -113,6 +127,15 @@ class Room(models.Model):
             self.slug = slugify(self.name)
         super().save(*args, **kwargs)
 
+    def check_availability(self, start_date, end_date):
+        # Check if there are any bookings overlapping with the requested dates
+        overlapping_bookings = Booking.objects.filter(
+            room=self,
+            check_in__lt=end_date,
+            check_out__gt=start_date
+        )
+        return not overlapping_bookings.exists()
+
     def __str__(self):
         return f"Room: {self.name} - {self.property.name}"
 
@@ -123,3 +146,19 @@ class RoomImage(models.Model):
     
     def __str__(self):
         return f"Image for {self.room.name}"
+    
+
+
+class Booking(models.Model):
+    tenant = models.ForeignKey(User, on_delete=models.CASCADE)  # Assuming you have a User model for tenants
+    house = models.ForeignKey(House, null=True, blank=True, on_delete=models.CASCADE)  # Null allows for Room bookings
+    room = models.ForeignKey(Room, null=True, blank=True, on_delete=models.CASCADE)  # Null allows for House bookings
+    check_in = models.DateField()
+    check_out = models.DateField()
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        if self.house:
+            return f"Booking for House: {self.house.name} ({self.check_in} to {self.check_out})"
+        else:
+            return f"Booking for Room: {self.room.name} ({self.check_in} to {self.check_out})"

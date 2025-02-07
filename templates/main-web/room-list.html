@@ -1,85 +1,235 @@
 {% extends "main-web/base.html" %}
 {% load static %}
 
-
 {% block css %}
-<link rel=stylesheet href={% static "css/rooms.min.css" %} >
+<link rel=stylesheet href="{% static 'css/rooms.min.css' %}">
 {% endblock css %}
 
 {% block content %}
-    <main class="rooms section">
-        <div class=container>
-            <ul class=rooms_list>
-	            
-                {% for obj in page_obj %}
-                    <li class="rooms_list-item" data-order={{ forloop.counter }} data-aos="fade-up">
-                        <div class="item-wrapper d-md-flex">
-                            <div class="media">
-                                {% if obj.images.first %}
-                                    <picture>
-                                        <source data-srcset="{{ obj.images.first.image.url }}" srcset="{{ obj.images.first.image.url }}">
-                                        <img class="lazy" data-src="{{ obj.images.first.image.url }}" src="{{ obj.images.first.image.url }}" alt="media">
-                                    </picture>
-                                {% else %}
-                                    <img class="lazy" data-src="{% static 'img/placeholder.png' %}" src="{% static 'img/placeholder.png' %}" alt="No Image">
-                                {% endif %}
+<style>
+/* General form styling */
+.booking {
+    max-width: 800px;
+    margin: 0 auto;
+    margin-top: -50px;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    margin-bottom: 15px;
+}
+
+.item-wrapper {
+    gap: 20px;
+}
+
+.booking_group {
+    flex: 1;
+    margin-bottom: 15px;
+}
+
+.booking_group-label {
+    font-size: 16px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 8px;
+}
+
+.booking_group-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 10px;
+    transition: border-color 0.3s ease;
+}
+
+.booking_group-wrapper:hover {
+    border-color: #007bff;
+}
+
+.icon-calendar {
+    font-size: 18px;
+    color: #666;
+    margin-right: 10px;
+}
+
+.booking_group-field {
+    flex: 1;
+    border: none;
+    outline: none;
+    font-size: 14px;
+    color: #333;
+    background-color: transparent;
+}
+
+.booking_group-field:focus {
+    border-color: #007bff;
+}
+
+/* Submit button styling */
+.booking_btn {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 12px 24px;
+    font-size: 16px;
+    font-weight: 600;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.booking_btn:hover {
+    background-color: #0056b3;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .item-wrapper {
+        flex-direction: column;
+    }
+
+    .booking_group {
+        width: 100%;
+    }
+
+    .booking_btn {
+        width: 100%;
+    }
+}
+.disabled {
+    pointer-events: none; /* Prevents clicking */
+    opacity: 0.5; /* Makes it look disabled */
+    cursor: not-allowed;
+}
+</style>
+<main class="rooms section">
+    <div class="container">
+
+        <!-- Booking Form -->
+        <form class="booking" action="#" method="get" autocomplete="off">
+            <div class="item-wrapper d-sm-flex flex-wrap flex-lg-nowrap align-items-lg-center">
+                <!-- Check-in date field -->
+                <div class="booking_group d-flex flex-column">
+                    <label class="booking_group-label h5" for="checkIn">Check-in</label>
+                    <div class="booking_group-wrapper">
+                        <input class="booking_group-field field required" type="date" id="checkIn" name="checkIn" required>
+                    </div>
+                </div>
+
+                <!-- Check-out date field -->
+                <div class="booking_group d-flex flex-column">
+                    <label class="booking_group-label h5" for="checkOut">Check-out</label>
+                    <div class="booking_group-wrapper">
+                        <input class="booking_group-field field required" type="date" id="checkOut" name="checkOut" required>
+                    </div>
+                </div>
+
+                <!-- Submit button -->
+                <button class="booking_btn btn theme-element theme-element--accent" type="submit">Search</button>
+            </div>
+        </form>
+
+        <!-- Room List -->
+        <ul class="rooms_list">	            
+            {% for obj in page_obj %}
+                <li class="rooms_list-item" data-order="{{ forloop.counter }}" data-aos="fade-up">
+                    <div class="item-wrapper d-md-flex">
+                        <div class="media">
+                            {% if obj.images.first %}
+                                <picture>
+                                    <source data-srcset="{{ obj.images.first.image.url }}" srcset="{{ obj.images.first.image.url }}">
+                                    <img class="lazy" data-src="{{ obj.images.first.image.url }}" src="{{ obj.images.first.image.url }}" alt="media">
+                                </picture>
+                            {% else %}
+                                <img class="lazy" data-src="{% static 'img/placeholder.png' %}" src="{% static 'img/placeholder.png' %}" alt="No Image">
+                            {% endif %}
+                        </div>
+                        <div class="main d-md-flex justify-content-between">
+                            <div class="main_info d-md-flex flex-column justify-content-between">
+                                <a class="main_title h4" href="{% url 'mainweb:room-details' slug=obj.slug %}">{{ obj.name }}</a>
+                                <p class="main_description">{{ obj.description|slice:":100" }}{% if obj.description|length > 100 %}...{% endif %}</p>
+                                <div class="main_amenities">
+                                    <span class="main_amenities-item d-inline-flex align-items-center">
+                                        <i class="icon-user icon"></i> {{ obj.capacity }} Sleeps
+                                    </span>
+                                    <span class="main_amenities-item d-inline-flex align-items-center">
+                                        <i class="icon-bunk_bed icon"></i> {{ obj.capacity }} bunk bed
+                                    </span>
+                                </div>
                             </div>
-                            <div class="main d-md-flex justify-content-between">
-                                <div class="main_info d-md-flex flex-column justify-content-between">
-                                    <a class="main_title h4" href="{% url 'mainweb:room-details' slug=obj.slug %}">{{ obj.name }}</a>
-                                    <p class="main_description">{{ obj.description|slice:":100" }}{% if obj.description|length > 100 %}...{% endif %}</p>
-                                    <div class="main_amenities">
-                                        <span class="main_amenities-item d-inline-flex align-items-center">
-                                            <i class="icon-user icon"></i> {{ obj.capacity }} Sleeps
-                                        </span>
-                                        <span class="main_amenities-item d-inline-flex align-items-center">
-                                            <i class="icon-bunk_bed icon"></i> {{ obj.capacity }} bunk bed
-                                        </span>
-                                    </div>
+                            <div class="main_pricing d-flex flex-column align-items-md-end justify-content-md-between">
+                                <div class="wrapper d-flex flex-column">                                        
+                                    {% if obj.price_per_night %}
+                                        <span class="main_pricing-item"><span class="h2">${{ obj.price_per_night }}</span> / 1 night</span>
+                                        <span class="main_pricing-item"><span class="h4">${{ obj.price_for_total_nights }}</span> / {{ total_nights }} nights</span>
+                                    {% endif %}
                                 </div>
-                                <div class="main_pricing d-flex flex-column align-items-md-end justify-content-md-between">
-                                    <div class="wrapper d-flex flex-column">                                        
-                                        {% if obj.price_per_night %}
-                                            <span class="main_pricing-item"><span class="h2">${{ obj.price_per_night }}</span> / 1 night</span>
-                                            <span class="main_pricing-item"><span class="h4">${{ obj.price_for_seven_nights }}</span> / 7 nights</span>
+
+                                <!-- Availability Status -->
+                                <div class="availability-status">
+                                    {% if start_date and end_date %}
+                                        {% if obj.is_available_for_dates %}
+                                            <span class="available" style="color: green;">Available</span>
+                                        {% else %}
+                                            <span class="not-available" style="color: red;">Not Available</span>
                                         {% endif %}
-                                    </div>
-                                    <a class="theme-element theme-element--accent btn" href={% url "mainweb:payment-methods" %}>Book now</a>
+                                    {% else %}
+                                        <span style="color: blue;">Select dates to check availability</span>
+                                    {% endif %}
                                 </div>
+
+                                <!-- Book Now Button -->
+                                <a class="theme-element theme-element--accent btn {% if start_date and end_date and not obj.is_available_for_dates %}disabled{% endif %}" 
+                                    href="{% if start_date and end_date and obj.is_available_for_dates %}booking-page-url{% else %}#{% endif %}">
+                                    Book now
+                                </a>
                             </div>
                         </div>
-                    </li>
-                {% endfor %}
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
 
-            <!-- Pagination Controls -->
-            <ul class="pagination d-flex justify-content-center align-items-center">
-                {% if page_obj.has_previous %}
-                    <li class="pagination-page">
-                        <a class="pagination-page_link d-flex align-items-center justify-content-center" href="?page=1">&laquo; First</a>
-                    </li>
-                    <li class="pagination-page">
-                        <a class="pagination-page_link d-flex align-items-center justify-content-center" href="?page={{ page_obj.previous_page_number }}">Previous</a>
-                    </li>
-                {% endif %}
+        <!-- Pagination Controls -->
+        <ul class="pagination d-flex justify-content-center align-items-center">
+            {% if page_obj.has_previous %}
+                <li class="pagination-page">
+                    <a class="pagination-page_link d-flex align-items-center justify-content-center" href="?page=1">&laquo; First</a>
+                </li>
+                <li class="pagination-page">
+                    <a class="pagination-page_link d-flex align-items-center justify-content-center" href="?page={{ page_obj.previous_page_number }}">Previous</a>
+                </li>
+            {% endif %}
 
-                {% for num in page_obj.paginator.page_range %}
-                    <li class="pagination-page {% if num == page_obj.number %}active{% endif %}">
-                        <a class="pagination-page_link d-flex align-items-center justify-content-center" href="?page={{ num }}">{{ num }}</a>
-                    </li>
-                {% endfor %}
+            {% for num in page_obj.paginator.page_range %}
+                <li class="pagination-page {% if num == page_obj.number %}active{% endif %}">
+                    <a class="pagination-page_link d-flex align-items-center justify-content-center" href="?page={{ num }}">{{ num }}</a>
+                </li>
+            {% endfor %}
 
-                {% if page_obj.has_next %}
-                    <li class="pagination-page">
-                        <a class="pagination-page_link d-flex align-items-center justify-content-center" href="?page={{ page_obj.next_page_number }}">Next</a>
-                    </li>
-                    <li class="pagination-page">
-                        <a class="pagination-page_link d-flex align-items-center justify-content-center" href="?page={{ page_obj.paginator.num_pages }}">Last &raquo;</a>
-                    </li>
-                {% endif %}
-            </ul>
-        </div>
-    </main>
+            {% if page_obj.has_next %}
+                <li class="pagination-page">
+                    <a class="pagination-page_link d-flex align-items-center justify-content-center" href="?page={{ page_obj.next_page_number }}">Next</a>
+                </li>
+                <li class="pagination-page">
+                    <a class="pagination-page_link d-flex align-items-center justify-content-center" href="?page={{ page_obj.paginator.num_pages }}">Last &raquo;</a>
+                </li>
+            {% endif %}
+        </ul>
+    </div>
+</main>
+
+<script>
+    document.querySelector('form.booking').addEventListener('submit', function(event) {
+        console.log("Form is being submitted...");
+        event.stopImmediatePropagation(); // Prevent other scripts from stopping submission
+        this.submit(); // Force submission
+    });
+</script>
 {% endblock content %}
-
 
 {% block js %}{% endblock js %}

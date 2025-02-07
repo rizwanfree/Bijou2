@@ -1,10 +1,7 @@
-{% comment %} {% extends 'main-web/base2.html' %} {% endcomment %}
+{% extends 'main-web/base.html' %}
 {% load static %}
 
-{% comment %} {% block content %} {% endcomment %}
-
-<html>
-    <body>
+{% block content %}
         <div class="login-container">
         <div class="login-card">
             <div class="card-header">
@@ -123,7 +120,13 @@
     </style>
     </body>
 </html>
- 
-{% comment %} {% endblock content %} {% endcomment %}
+ <script>
+    document.querySelector('form').addEventListener('submit', function(event) {
+        console.log("Form is being submitted...");
+        event.stopImmediatePropagation(); // Prevent other scripts from stopping submission
+        this.submit(); // Force submission
+    });
+</script>
+{% endblock content %}
    
 
