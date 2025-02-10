@@ -124,16 +124,44 @@ def house_list(request):
     return render(request, 'main-web/house-list.html', context)
 
 
+# def house_details(request, slug):
+#     """Show details for a specific house with map location."""
+#     house = get_object_or_404(House, slug=slug)
+#     property_obj = house.property  # Get the associated property
+
+#     context = {
+#         'house': house,
+#         'property': property_obj,  # Pass property data including lat/lng
+#     }
+#     return render(request, "main-web/house-details.html", context)
+
 def house_details(request, slug):
-    """Show details for a specific house with map location."""
-    house = get_object_or_404(House, slug=slug)
-    property_obj = house.property  # Get the associated property
+    house = get_object_or_404(House, slug=slug)  # Fetch by slug
+
+    checkin = request.GET.get('checkin')
+    checkout = request.GET.get('checkout')
+
+    price_per_night = house.price_per_night  # Assuming `price` field exists
+    total_price = price_per_night  # Default price for 1 night
+
+    if checkin and checkout:
+        try:
+            checkin_date = datetime.strptime(checkin, "%Y-%m-%d")
+            checkout_date = datetime.strptime(checkout, "%Y-%m-%d")
+            nights = (checkout_date - checkin_date).days
+            if nights > 0:
+                total_price = price_per_night * nights
+        except ValueError:
+            pass  # Handle invalid date format gracefully
 
     context = {
         'house': house,
-        'property': property_obj,  # Pass property data including lat/lng
+        'checkin': checkin,
+        'checkout': checkout,
+        'total_price': total_price,
     }
-    return render(request, "main-web/house-details.html", context)
+
+    return render(request, 'main-web/house-details.html', context)
 
 
 def payment_methods(request):
