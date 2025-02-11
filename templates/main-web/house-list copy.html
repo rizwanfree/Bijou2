@@ -170,6 +170,9 @@
                                 <span class="main_pricing-item">
                                     <span class="h2">${{ obj.price_per_night }}</span> / 1 night
                                 </span>
+                                <span class="main_pricing-item">
+                                    <span class="h4">${{ obj.price_for_total_nights }}</span> / {{total_nights}} nights
+                                </span>
                             </div>
 
                             <!-- Availability Status -->
@@ -181,9 +184,16 @@
                                         <span class="not-available" style="color: red;">Not Available</span>
                                     {% endif %}
                                 {% else %}
-                                    <span style="color: blue;">Select dates to check availability</span>                                    
+                                    <span style="color: blue;">Select dates to check availability</span>
+                                    <a class="theme-element theme-element--accent btn disabled" >Reserve</a>
                                 {% endif %}
                             </div>
+
+                            <!-- Disable button if house is not available -->
+                            <a class="theme-element theme-element--accent btn {% if start_date and end_date and not obj.is_available_for_dates %}disabled{% endif %}" 
+                                href={% url 'mainweb:house-details' obj.slug %}>
+                                Reserve
+                            </a>
                         </div>
                     </div>
                 </div>

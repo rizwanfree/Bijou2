@@ -2,10 +2,212 @@
 {% load static %}
 
 {% block content %}
-    <div style="width: 100%; height: 100vh; border: none; overflow: hidden;">
-        <iframe 
-            src="{% url 'mainweb:payment_methods_iframe' %}" 
-            style="width: 100%; height: 100%; border: none;"
-        ></iframe>
+<style>
+    .booking-container {
+        max-width: 1200px; /* Increased width to accommodate two columns */
+        margin: 0 auto;
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        display: flex; /* Use Flexbox for two columns */
+        gap: 40px; /* Space between columns */
+    }
+
+    .booking-left-column {
+        flex: 1; /* Left column takes up remaining space */
+    }
+
+    .booking-right-column {
+        width: 300px; /* Fixed width for the right column */
+    }
+
+    .booking-title {
+        font-size: 24px;
+        margin-bottom: 20px;
+    }
+
+    .booking-subtitle {
+        font-size: 20px;
+        margin-top: 20px;
+        margin-bottom: 10px;
+    }
+
+    .booking-price-info {
+        background-color: #e8f5e9;
+        padding: 10px;
+        border-radius: 4px;
+        margin-bottom: 20px;
+    }
+
+    .booking-trip-details, .booking-payment-options, .booking-login-section, .booking-price-details {
+        margin-bottom: 20px;
+    }
+
+    .booking-payment-options button {
+        display: block;
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 10px;
+        border: none;
+        border-radius: 4px;
+        background-color: #007bff;
+        color: #fff;
+        font-size: 16px;
+        cursor: pointer;
+    }
+
+    .booking-payment-options button.booking-part-pay {
+        background-color: #6c757d;
+    }
+
+    .booking-login-section input {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 10px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+    }
+
+    .booking-price-details {
+        border-top: 1px solid #ddd;
+        padding-top: 20px;
+    }
+
+    .booking-price-details p {
+        margin: 5px 0;
+    }
+
+    .booking-total {
+        font-weight: bold;
+        margin-top: 10px;
+    }
+
+    .house-details {
+        margin-bottom: 20px;
+    }
+
+    .house-details img {
+        width: 100%;
+        border-radius: 8px;
+        margin-bottom: 10px;
+    }
+
+    .house-details h3 {
+        font-size: 18px;
+        margin: 0;
+    }
+    .payment-methods-container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.payment-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #fff;
+    padding: 10px 15px; /* Reduced padding */
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: 10px; /* Reduced spacing */
+    height: auto; /* Ensure it only takes necessary space */
+}
+
+.payment-title {
+    font-size: 18px; /* Slightly smaller */
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.payment-details {
+    font-size: 14px; /* Smaller text */
+    color: #555;
+    line-height: 1.4;
+}
+
+.payment-left {
+    flex: 1;
+    padding-right: 10px; /* Ensure spacing from QR */
+}
+
+.payment-right {
+    width: 100px; /* Smaller QR area */
+    text-align: right;
+}
+
+.payment-qr {
+    max-width: 80px; /* Reduce QR code size */
+    height: auto;
+    border-radius: 4px;
+}
+</style>
+
+<div class="booking-container">
+    <!-- Left Column -->
+    <div class="booking-left-column">
+        <h1 class="booking-title">Request to book</h1>
+        <div class="booking-price-info">
+            <strong></strong> Your dates are $10 less than the avg. nightly rate over the last 3 months.
+        </div>
+
+        <div class="booking-trip-details">
+            <h2 class="booking-subtitle">Your Stay</h2>
+            <p><strong>Dates</strong><br>
+                {% if checkin_date and checkout_date %}
+                    {{ checkin_date }} – {{ checkout_date }}
+                {% else %}
+                    <span style="color: red;">Please select dates!</span>
+                {% endif %}
+            </p>            
+        </div>
+
+        <div class="booking-payment-options">
+        <h2 class="booking-subtitle mb-4">Choose how to pay</h2>
+            {% for p in payment_methods %}            
+                <div class="payment-container">
+                    <div class="payment-left">
+                        <h3 class="payment-title">{{ p.name }}</h3>
+                        <p class="payment-details"><strong>{{ p.details }}</strong></p>
+                    </div>
+                    <div class="payment-right">
+                        {% if p.qr_code %}
+                        <img src="{{ p.qr_code.url }}" alt="QR Code for {{ p.name }}" class="payment-qr">
+                        {% endif %}
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
     </div>
+
+    <!-- Right Column -->
+    <div class="booking-right-column">
+        <!-- House Details -->
+        <div class="house-details">
+            {% if house.images.first %}
+                <img src="{{ house.image }}" alt="{{ house.name }}">
+            {% else %}
+                <img src="{% static 'img/placeholder.png' %}" alt="No Image">
+            {% endif %}
+            <h3>{{ house.name }}</h3>
+        </div>
+
+        <!-- Price Calculation -->
+        <div class="booking-price-details">
+            <h2 class="booking-subtitle">Price details</h2>
+            <p>${{house.price_per_night}} X {{total_nights}} nights</p>
+            <p class="booking-total">Total $ {{total_price}}</p>
+        </div>
+        <div>
+            {% if user.is_authenticated %}
+                <a href="">Proceed To Booking</a>
+            {% else %}
+                <p><strong>Please Login to confirm booking</strong></p>
+            {% endif %}
+        </div>
+
+    </div>
+</div>
+
 {% endblock content %}

@@ -12,22 +12,21 @@ class PaymentMethod(models.Model):
         ('zelle', 'Zelle'),
         ('venmo', 'Venmo'),
         ('paypal', 'PayPal'),
-        # Add other payment options here
     ]
     
-    name = models.CharField(max_length=50, choices=PAYMENT_CHOICES, unique=True)  # Ensure unique name
-    details = models.TextField()  # To store details for each payment method
-    qr_code = models.ImageField(upload_to='payment_method_qr_codes/', blank=True, null=True)  # Store QR code image if needed
-    slug = models.SlugField(unique=True, blank=True, null=True)  # Unique slug field for URL purposes
+    name = models.CharField(max_length=50, choices=PAYMENT_CHOICES, unique=True)
+    details = models.TextField()
+    qr_code = models.ImageField(upload_to='payment_method_qr_codes', blank=True, null=True)
+    slug = models.SlugField(unique=True, blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     
     def __str__(self):
-        return f"{self.name} Payment Method"
-    
+        return dict(self.PAYMENT_CHOICES).get(self.name, self.name)  # Get display name
+
     def save(self, *args, **kwargs):
         if not self.slug:
-            self.slug = slugify(self.name)  # Generate a slug from the name if not set
+            self.slug = slugify(self.get_name_display())  # Use the human-readable name
         super().save(*args, **kwargs)
 
 

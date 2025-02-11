@@ -152,7 +152,7 @@ STATICFILES_DIRS = [BASE_DIR / 'static']
 
 
 MEDIA_URL = '/media/'
-MEDIA_ROOT = [BASE_DIR / 'media']
+MEDIA_ROOT = BASE_DIR / 'media'
 
 # STORAGES = {
 #     # Store static files locally (CSS, JS, images)

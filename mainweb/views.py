@@ -9,6 +9,7 @@ from finances.models import PaymentMethod
 from django.views.decorators.clickjacking import xframe_options_exempt
 from django.core.exceptions import ValidationError
 
+
 # Create your views here.
 
 def index(request):
@@ -90,13 +91,11 @@ def house_list(request):
             end_date = datetime.strptime(end_date, '%Y-%m-%d').date()
             if end_date <= start_date:
                 return HttpResponseBadRequest("Check-out date must be after check-in date.")
-            total_nights = (end_date - start_date).days
         except ValueError:
             return HttpResponseBadRequest("Invalid date format. Please use YYYY-MM-DD.")
     else:
         start_date = None
         end_date = None
-        total_nights = 1  # Default to 1 night if no dates are selected
 
     # Show all houses, don't filter them out
     houses = House.objects.all()
@@ -110,44 +109,29 @@ def house_list(request):
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
 
-    # Calculate price for total nights per house
-    for house in page_obj:
-        house.price_for_total_nights = house.price_per_night * total_nights
 
     context = {
         'page_obj': page_obj,
-        'start_date': start_date,
-        'end_date': end_date,
-        'total_nights': total_nights,
     }
 
     return render(request, 'main-web/house-list.html', context)
 
 
-# def house_details(request, slug):
-#     """Show details for a specific house with map location."""
-#     house = get_object_or_404(House, slug=slug)
-#     property_obj = house.property  # Get the associated property
-
-#     context = {
-#         'house': house,
-#         'property': property_obj,  # Pass property data including lat/lng
-#     }
-#     return render(request, "main-web/house-details.html", context)
-
 def house_details(request, slug):
     house = get_object_or_404(House, slug=slug)  # Fetch by slug
 
-    checkin = request.GET.get('checkin')
-    checkout = request.GET.get('checkout')
+    checkin_date = request.GET.get('checkIn')  # Use 'checkIn' (matching the URL)
+    checkout_date = request.GET.get('checkOut')
+
+    
 
     price_per_night = house.price_per_night  # Assuming `price` field exists
     total_price = price_per_night  # Default price for 1 night
 
-    if checkin and checkout:
+    if checkin_date and checkout_date:
         try:
-            checkin_date = datetime.strptime(checkin, "%Y-%m-%d")
-            checkout_date = datetime.strptime(checkout, "%Y-%m-%d")
+            checkin_date = datetime.strptime(checkin_date, "%Y-%m-%d")
+            checkout_date = datetime.strptime(checkout_date, "%Y-%m-%d")
             nights = (checkout_date - checkin_date).days
             if nights > 0:
                 total_price = price_per_night * nights
@@ -156,19 +140,47 @@ def house_details(request, slug):
 
     context = {
         'house': house,
-        'checkin': checkin,
-        'checkout': checkout,
+        'checkin': checkin_date,
+        'checkout': checkout_date,
         'total_price': total_price,
     }
-
+    print(checkin_date, checkout_date)
     return render(request, 'main-web/house-details.html', context)
 
 
-def payment_methods(request):
-    payment_methods = PaymentMethod.objects.all()
-    return render(request, 'main-web/payment-methods.html', {'payment_methods': payment_methods})
 
-@xframe_options_exempt
-def payment_methods_iframe(request):
+def payment_methods(request, id):
+    house = get_object_or_404(House, id=id)
     payment_methods = PaymentMethod.objects.all()
-    return render(request, 'main-web/payment-methods-iframe.html', {'payment_methods': payment_methods})
+    house_image = house.images.first()  # Get first image if exists
+
+    # Get dates from request
+    checkin = request.GET.get('checkIn')
+    checkout = request.GET.get('checkOut')
+
+    # Default values if no dates are provided
+    if checkin and checkout:
+        checkin_date = datetime.strptime(checkin, "%Y-%m-%d").date()
+        checkout_date = datetime.strptime(checkout, "%Y-%m-%d").date()
+        total_nights = (checkout_date - checkin_date).days
+    else:
+        checkin_date = None
+        checkout_date = None
+        total_nights = 1  # Default to 1 night if no dates
+
+    # Calculate price
+    total_price = house.price_per_night * total_nights
+
+
+    return render(request, 'main-web/payment-methods.html', {
+        'house': house,
+        'house_image': house_image,
+        'payment_methods': payment_methods,
+        'checkin_date': checkin_date,
+        'checkout_date': checkout_date,
+        'total_nights': total_nights,
+        'total_price': total_price,
+    })
+
+
+

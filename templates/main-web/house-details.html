@@ -133,7 +133,10 @@
                                 </div>
                                 <div class="booking_group d-flex flex-column"><label class="booking_group-label h5" for=checkOut>Check-out</label>
                                     <div class=booking_group-wrapper><i class="icon-calendar icon"></i> <input class="booking_group-field field required" data-type=date data-end=true type=text id=checkOut name=contactsDate placeholder="Add departure date" readonly=readonly> <i class="icon-chevron_down icon"></i></div>
-                                </div><button class="booking_btn btn theme-element theme-element--accent" type=submit>Book now</button></form>
+                                </div>
+                                <a class="booking_btn btn theme-element theme-element--accent" href="{% url 'mainweb:payment-methods' house.id %}?checkIn=2025-02-25&checkOut=2025-03-02">Reserve</a>
+                                {% comment %} <button class="booking_btn btn theme-element theme-element--accent" type=submit>Book now</button> {% endcomment %}
+                            </form>
                         </div>
 
 
