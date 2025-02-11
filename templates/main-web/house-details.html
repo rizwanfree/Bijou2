@@ -127,15 +127,24 @@
                     </div>
                     <div class="room_main-cards col-lg-4">
                         <div class=room_main-cards_card><span class=pricing><span class="pricing_price h2">${{ house.price_per_night }}</span> / 1 night</span>
-                            <form class=booking action=# method=post autocomplete=off data-type=booking>
-                                <div class="booking_group d-flex flex-column"><label class="booking_group-label h5" for=checkIn>Check-in</label>
-                                    <div class=booking_group-wrapper><i class="icon-calendar icon"></i> <input class="booking_group-field field required" data-type=date data-start=true type=text id=checkIn name=contactsDate placeholder="Add arrival date" readonly=readonly> <i class="icon-chevron_down icon"></i></div>
+                            <form class="booking" action="{% url 'mainweb:payment-methods' house.id %}" method="GET" autocomplete="off">
+                                <div class="booking_group d-flex flex-column">
+                                    <label class="booking_group-label h5" for="checkIn">Check-in</label>
+                                    <div class="booking_group-wrapper">
+                                        <i class="icon-calendar icon"></i>
+                                        <input class="booking_group-field field required" data-type="date" data-start="true" type="date" id="checkIn" name="checkIn" placeholder="Add arrival date">
+                                        <i class="icon-chevron_down icon"></i>
+                                    </div>
                                 </div>
-                                <div class="booking_group d-flex flex-column"><label class="booking_group-label h5" for=checkOut>Check-out</label>
-                                    <div class=booking_group-wrapper><i class="icon-calendar icon"></i> <input class="booking_group-field field required" data-type=date data-end=true type=text id=checkOut name=contactsDate placeholder="Add departure date" readonly=readonly> <i class="icon-chevron_down icon"></i></div>
+                                <div class="booking_group d-flex flex-column">
+                                    <label class="booking_group-label h5" for="checkOut">Check-out</label>
+                                    <div class="booking_group-wrapper">
+                                        <i class="icon-calendar icon"></i>
+                                        <input class="booking_group-field field required" data-type="date" data-end="true" type="date" id="checkOut" name="checkOut" placeholder="Add departure date">
+                                        <i class="icon-chevron_down icon"></i>
+                                    </div>
                                 </div>
-                                <a class="booking_btn btn theme-element theme-element--accent" href="{% url 'mainweb:payment-methods' house.id %}?checkIn=2025-02-25&checkOut=2025-03-02">Reserve</a>
-                                {% comment %} <button class="booking_btn btn theme-element theme-element--accent" type=submit>Book now</button> {% endcomment %}
+                                <button type="submit" class="booking_btn btn theme-element theme-element--accent">Reserve</button>
                             </form>
                         </div>
 
@@ -206,7 +215,6 @@ document.addEventListener("DOMContentLoaded", function () {
         .bindPopup("<b>{{ house.name }}</b><br>{{ house.property.address }}")
         .openPopup();
 });
-</script>
 
 {% endblock content %}
 

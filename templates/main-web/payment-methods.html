@@ -144,7 +144,7 @@
 }
 </style>
 
-<div class="booking-container">
+<div class="booking-container mb-3">
     <!-- Left Column -->
     <div class="booking-left-column">
         <h1 class="booking-title">Request to book</h1>
@@ -203,10 +203,9 @@
             {% if user.is_authenticated %}
                 <a href="">Proceed To Booking</a>
             {% else %}
-                <p><strong>Please Login to confirm booking</strong></p>
+                <p>Please<strong> <a href="{% url "users:login" %}">Login</a></strong> or <strong> <a href="{% url "users:register" %}">Register</a></strong> to confirm booking</p>
             {% endif %}
         </div>
-
     </div>
 </div>
 

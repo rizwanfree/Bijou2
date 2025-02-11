@@ -120,19 +120,19 @@ def house_list(request):
 def house_details(request, slug):
     house = get_object_or_404(House, slug=slug)  # Fetch by slug
 
-    checkin_date = request.GET.get('checkIn')  # Use 'checkIn' (matching the URL)
-    checkout_date = request.GET.get('checkOut')
+    check_in = request.GET.get('checkIn')
+    check_out = request.GET.get('checkOut')
 
     
 
     price_per_night = house.price_per_night  # Assuming `price` field exists
     total_price = price_per_night  # Default price for 1 night
 
-    if checkin_date and checkout_date:
+    if check_in and check_out:
         try:
-            checkin_date = datetime.strptime(checkin_date, "%Y-%m-%d")
-            checkout_date = datetime.strptime(checkout_date, "%Y-%m-%d")
-            nights = (checkout_date - checkin_date).days
+            check_in = datetime.strptime(check_in, "%Y-%m-%d")
+            check_out = datetime.strptime(check_out, "%Y-%m-%d")
+            nights = (check_out - check_in).days
             if nights > 0:
                 total_price = price_per_night * nights
         except ValueError:
@@ -140,11 +140,11 @@ def house_details(request, slug):
 
     context = {
         'house': house,
-        'checkin': checkin_date,
-        'checkout': checkout_date,
+        'checkin': check_in,
+        'checkout': check_out,
         'total_price': total_price,
     }
-    print(checkin_date, checkout_date)
+
     return render(request, 'main-web/house-details.html', context)
 
 
@@ -171,7 +171,7 @@ def payment_methods(request, id):
     # Calculate price
     total_price = house.price_per_night * total_nights
 
-
+    print(checkin_date, checkout_date)
     return render(request, 'main-web/payment-methods.html', {
         'house': house,
         'house_image': house_image,
