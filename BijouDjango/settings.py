@@ -1,5 +1,5 @@
 from pathlib import Path
-import environ
+# import environ
 import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -7,13 +7,13 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Initialize environment variables
 
-env = environ.Env()
-environ.Env.read_env(BASE_DIR / ".env")
+# env = environ.Env()
+# environ.Env.read_env(BASE_DIR / ".env")
 
 # Retrieve the values from the environment
-AZURE_ACCOUNT_NAME = env('AZURE_ACCOUNT_NAME')
-AZURE_ACCOUNT_KEY = env('AZURE_ACCOUNT_KEY')
-AZURE_CONTAINER = env('AZURE_CONTAINER')
+# AZURE_ACCOUNT_NAME = env('AZURE_ACCOUNT_NAME')
+# AZURE_ACCOUNT_KEY = env('AZURE_ACCOUNT_KEY')
+# AZURE_CONTAINER = env('AZURE_CONTAINER')
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
@@ -78,24 +78,24 @@ WSGI_APPLICATION = 'BijouDjango.wsgi.application'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
 DATABASES = {
-    # 'default': {
-    #     'ENGINE': 'django.db.backends.sqlite3',
-    #     'NAME': BASE_DIR / 'db.sqlite3',
-    # }
-
     'default': {
-        'ENGINE': 'mssql',
-        'NAME': 'Vuetesting',
-        'USER': 'rizwanadmincodecraft',
-        'PASSWORD': 'Aspire$112',
-        'HOST': 'codecraftsolutions.database.windows.net',
-        'PORT': 1433,
-        'OPTIONS': {
-            'driver': 'ODBC Driver 17 for SQL Server',
-            'extra_params': 'schema=dj_testing;',  # Use your test schema here                        
-            'extra_params': 'Encrypt=yes;TrustServerCertificate=no',
-        },
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
+
+    # 'default': {
+    #     'ENGINE': 'mssql',
+    #     'NAME': 'Vuetesting',
+    #     'USER': 'rizwanadmincodecraft',
+    #     'PASSWORD': 'Aspire$112',
+    #     'HOST': 'codecraftsolutions.database.windows.net',
+    #     'PORT': 1433,
+    #     'OPTIONS': {
+    #         'driver': 'ODBC Driver 17 for SQL Server',
+    #         'extra_params': 'schema=dj_testing;',  # Use your test schema here                        
+    #         'extra_params': 'Encrypt=yes;TrustServerCertificate=no',
+    #     },
+    # }
 }
 
 
@@ -150,17 +150,21 @@ CSRF_TRUSTED_ORIGINS = [
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [BASE_DIR / 'static']
 
-STORAGES = {
-    # Store static files locally (CSS, JS, images)
-    "staticfiles": {
-        "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage",
-    },
 
-    # Store uploaded media files in Azure
-    "default": {
-        "BACKEND": "storages.backends.azure_storage.AzureStorage",
-    }
-}
+MEDIA_URL = '/media/'
+MEDIA_ROOT = [BASE_DIR / 'media']
+
+# STORAGES = {
+#     # Store static files locally (CSS, JS, images)
+#     "staticfiles": {
+#         "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage",
+#     },
+
+#     # Store uploaded media files in Azure
+#     "default": {
+#         "BACKEND": "storages.backends.azure_storage.AzureStorage",
+#     }
+# }
 
 
 LOGIN_URL = 'users:login'
@@ -170,4 +174,4 @@ LOGIN_REDIRECT_URL = 'mainweb:index'
 
 #DEFAULT_FILE_STORAGE = 'storages.backends.azure_storage.AzureStorage'
 
-MEDIA_URL = f"https://{AZURE_ACCOUNT_NAME}.blob.core.windows.net/{AZURE_CONTAINER}/"
+# MEDIA_URL = f"https://{AZURE_ACCOUNT_NAME}.blob.core.windows.net/{AZURE_CONTAINER}/"
