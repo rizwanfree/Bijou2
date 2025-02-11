@@ -193,7 +193,7 @@
 <!-- Leaflet JS -->
 <script>
 document.addEventListener("DOMContentLoaded", function () {
-    var latitude = {{ property.latitude|default:0 }};  // Default: Bahria Town Karachi
+    var latitude = {{ property.latitude|default:0 }};
     var longitude = {{ property.longitude|default:0 }};
 
     // Check if latitude and longitude are valid
@@ -215,7 +215,15 @@ document.addEventListener("DOMContentLoaded", function () {
         .bindPopup("<b>{{ house.name }}</b><br>{{ house.property.address }}")
         .openPopup();
 });
+</script>
 
+ <script>
+    document.querySelector('form').addEventListener('submit', function(event) {
+        console.log("Form is being submitted...");
+        event.stopImmediatePropagation(); // Prevent other scripts from stopping submission
+        this.submit(); // Force submission
+    });
+</script>
 {% endblock content %}
 
 

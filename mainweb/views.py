@@ -123,7 +123,7 @@ def house_details(request, slug):
     check_in = request.GET.get('checkIn')
     check_out = request.GET.get('checkOut')
 
-    
+    property = house.property    
 
     price_per_night = house.price_per_night  # Assuming `price` field exists
     total_price = price_per_night  # Default price for 1 night
@@ -143,6 +143,8 @@ def house_details(request, slug):
         'checkin': check_in,
         'checkout': check_out,
         'total_price': total_price,
+        'property': property,
+        
     }
 
     return render(request, 'main-web/house-details.html', context)
@@ -152,7 +154,7 @@ def house_details(request, slug):
 def payment_methods(request, id):
     house = get_object_or_404(House, id=id)
     payment_methods = PaymentMethod.objects.all()
-    house_image = house.images.first()  # Get first image if exists
+    images = HouseImage.objects.filter(house=house).first()  # Get first image if exists
 
     # Get dates from request
     checkin = request.GET.get('checkIn')
@@ -174,7 +176,7 @@ def payment_methods(request, id):
     print(checkin_date, checkout_date)
     return render(request, 'main-web/payment-methods.html', {
         'house': house,
-        'house_image': house_image,
+        'house_image': images,
         'payment_methods': payment_methods,
         'checkin_date': checkin_date,
         'checkout_date': checkout_date,
