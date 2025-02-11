@@ -203,7 +203,7 @@ document.addEventListener("DOMContentLoaded", function () {
         longitude = longitude;
     }
 
-    var map = L.map('map1').setView([latitude, longitude], 15); // Set correct zoom
+    var map = L.map('map1').setView([latitude, longitude], 5); // Set correct zoom
 
     // Load OpenStreetMap tiles
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
