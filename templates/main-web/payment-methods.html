@@ -196,18 +196,29 @@
 
         <!-- Price Calculation -->
         <div class="booking-price-details">
-            <h2 class="booking-subtitle">Price details</h2>
-            <p>${{house.price_per_night}} X {{total_nights}} nights</p>
-            <p class="booking-total">Total $ {{total_price}}</p>
+            {% comment %} <h2 class="booking-subtitle">Price details</h2> {% endcomment %}
+            <p class="booking-total" style="display: flex; justify-content: space-between; width: 100%;">
+                <span>${{house.price_per_night}} x {{total_nights}} nights</span> 
+                <span>${{ total_price }}</span>
+            </p>
+            <hr />
+
+            <p class="booking-total" style="display: flex; justify-content: space-between; width: 100%;">
+                <span>Total</span> 
+                <span>${{ total_price }}</span>
+            </p>
         </div>
         <div>
             {% if user.is_authenticated %}
-                <a href="">Proceed To Booking</a>
+                <a class="btn theme-element theme-element--accent" style="width: 100%;" href="">Proceed To Booking</a>
             {% else %}
                 <p>Please<strong> <a href="{% url "users:login" %}">Login</a></strong> or <strong> <a href="{% url "users:register" %}">Register</a></strong> to confirm booking</p>
             {% endif %}
         </div>
-    </div>
+    </div> 
+
 </div>
+
+
 
 {% endblock content %}

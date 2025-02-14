@@ -82,40 +82,49 @@ def room_details(request, slug):
 
 def house_list(request):
     """List all houses and show if they are available for selected dates."""
-    start_date = request.GET.get('checkIn')
-    end_date = request.GET.get('checkOut')
-
-    if start_date and end_date:
-        try:
-            start_date = datetime.strptime(start_date, '%Y-%m-%d').date()
-            end_date = datetime.strptime(end_date, '%Y-%m-%d').date()
-            if end_date <= start_date:
-                return HttpResponseBadRequest("Check-out date must be after check-in date.")
-        except ValueError:
-            return HttpResponseBadRequest("Invalid date format. Please use YYYY-MM-DD.")
-    else:
-        start_date = None
-        end_date = None
-
-    # Show all houses, don't filter them out
     houses = House.objects.all()
+    if request.method == "POST":
+        start_date = request.POST.get('checkIn')
+        end_date = request.POST.get('checkOut')
 
-    # Attach availability info for each house
-    for house in houses:
-        house.is_available_for_dates = house.check_availability(start_date, end_date) if start_date and end_date else None
+        if start_date and end_date:
+            try:
+                start_date = datetime.strptime(start_date, '%Y-%m-%d').date()
+                end_date = datetime.strptime(end_date, '%Y-%m-%d').date()
+                if end_date <= start_date:
+                    return HttpResponseBadRequest("Check-out date must be after check-in date.")
+            except ValueError:
+                return HttpResponseBadRequest("Invalid date format. Please use YYYY-MM-DD.")
+        else:
+            start_date = None
+            end_date = None
+
+        # Attach availability info for each house
+        for house in houses:
+            house.is_available_for_dates = house.check_availability(start_date, end_date) if start_date and end_date else None
+
+        # Paginate all houses
+        paginator = Paginator(houses, 5)
+        page_number = request.GET.get('page')
+        page_obj = paginator.get_page(page_number)
+
+
+        context = {
+            'page_obj': page_obj,
+            'start_date': start_date,
+            'end_date': end_date
+        }
+
+        return render(request, 'main-web/house-list.html', context)
 
     # Paginate all houses
     paginator = Paginator(houses, 5)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
-
-
     context = {
-        'page_obj': page_obj,
+    'page_obj': page_obj,
     }
-
     return render(request, 'main-web/house-list.html', context)
-
 
 def house_details(request, slug):
     house = get_object_or_404(House, slug=slug)  # Fetch by slug

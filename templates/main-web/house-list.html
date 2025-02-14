@@ -112,13 +112,13 @@
     <div class="container">
 
 
-<form class="booking" action="#" method="get" autocomplete="off">
+<form class="booking" action="#" method="post" autocomplete="off">
+    {% csrf_token %}
     <div class="item-wrapper d-sm-flex flex-wrap flex-lg-nowrap align-items-lg-center">
         <!-- Check-in date field -->
         <div class="booking_group d-flex flex-column">
             <label class="booking_group-label h5" for="checkIn">Check-in</label>
-            <div class="booking_group-wrapper">
-                
+            <div class="booking_group-wrapper">                
                 <input class="booking_group-field field required" type="date" id="checkIn" name="checkIn" required>
             </div>
         </div>
@@ -130,8 +130,7 @@
                 
                 <input class="booking_group-field field required" type="date" id="checkOut" name="checkOut" required>
             </div>
-        </div>
-        
+        </div>        
         <!-- Submit button -->
         <button class="booking_btn btn theme-element theme-element--accent" type="submit">Search</button>
     </div>

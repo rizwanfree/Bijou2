@@ -131,17 +131,18 @@
                                 <div class="booking_group d-flex flex-column">
                                     <label class="booking_group-label h5" for="checkIn">Check-in</label>
                                     <div class="booking_group-wrapper">
-                                        <i class="icon-calendar icon"></i>
-                                        <input class="booking_group-field field required" data-type="date" data-start="true" type="date" id="checkIn" name="checkIn" placeholder="Add arrival date">
-                                        <i class="icon-chevron_down icon"></i>
+                                        <i class="icon-calendar icon"></i>              
+                                        <input class="booking_group-field field required" data-type="date" data-end="true" type="date" id="checkIn" name="checkIn" required>
+                                        
                                     </div>
                                 </div>
+
                                 <div class="booking_group d-flex flex-column">
                                     <label class="booking_group-label h5" for="checkOut">Check-out</label>
                                     <div class="booking_group-wrapper">
                                         <i class="icon-calendar icon"></i>
                                         <input class="booking_group-field field required" data-type="date" data-end="true" type="date" id="checkOut" name="checkOut" placeholder="Add departure date">
-                                        <i class="icon-chevron_down icon"></i>
+                                        
                                     </div>
                                 </div>
                                 <button type="submit" class="booking_btn btn theme-element theme-element--accent">Reserve</button>
