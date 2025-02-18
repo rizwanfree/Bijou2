@@ -9,13 +9,57 @@
     <!-- Upper section: Tenant Information -->
     <div class="card mb-4">
         <div class="card-header d-flex justify-content-between align-items-center">
-            <h3>Welcome, {{ tenant_profile.last_name }}</h3>
+            <h3>Welcome, {{ tenant_profile.first_name }} {{ tenant_profile.last_name }}</h3>
             <a href="{% url 'users:logout' %}" class="btn btn-outline-danger">Logout</a>
         </div>
         <div class="card-body">
             <p><strong>Phone Number:</strong> {{ tenant_profile.phone_number }}</p>
             <p><strong>Email:</strong> {{ request.user.email }}</p>
+
+
+            <div class="row">
+                <div class="col-md-6">
+                    <p><strong>Property:</strong> 
+                        {% if booking.house %} House - {{ booking.house.name }}
+                        {% elif booking.room %} Room - {{ booking.room.name }}
+                        {% else %} Not assigned {% endif %}
+                    </p>
+                </div>
+                <div class="col-md-6">
+                    <p><strong>Property Manager:</strong> 
+                        {% if managers %}
+                            {% for manager in managers %}
+                                {{ manager.user.first_name }} {{ manager.user.last_name }}{% if not forloop.last %}, {% endif %}
+                            {% endfor %}
+                        {% else %}
+                            Not Assigned
+                        {% endif %}
+                    </p>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <p><strong>Status:</strong> 
+                        {{booking.status}}
+                </div>
+                <div class="col-md-6">
+                    <p><strong>Property Manager Email:</strong> 
+                        {% if managers %}
+                            {% for manager in managers %}
+                                {{ manager.user.email }} {% if not forloop.last %}, {% endif %}
+                            {% endfor %}
+                        {% else %}
+                            Not Assigned
+                        {% endif %}
+                    </p>
+                </div>
+            </div>
+
+
         </div>
+
+
     </div>
 
     <!-- Lower section: Payments Table -->

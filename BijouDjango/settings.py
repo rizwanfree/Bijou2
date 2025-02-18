@@ -172,6 +172,12 @@ LOGOUT_REDIRECT_URL = 'mainweb:index'
 LOGIN_REDIRECT_URL = 'mainweb:index'
 
 
-#DEFAULT_FILE_STORAGE = 'storages.backends.azure_storage.AzureStorage'
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'rizwansoomro@gmail.com'  # Your email address
+EMAIL_HOST_PASSWORD = 'amqg djqq zflb gtdn'  # Use the App Password generated above
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
-# MEDIA_URL = f"https://{AZURE_ACCOUNT_NAME}.blob.core.windows.net/{AZURE_CONTAINER}/"
+

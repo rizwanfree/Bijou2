@@ -150,7 +150,16 @@
                         </div>
                         <div class="main d-md-flex justify-content-between">
                             <div class="main_info d-md-flex flex-column justify-content-between">
-                                <a class="main_title h4" href={% url 'mainweb:room-details' obj.slug start_date end_date %}>{{ obj.name }}</a>
+                                
+                                
+
+                                {% if start_date and end_date %}
+                                    <a class="main_title h4" href="{% url 'mainweb:room-details' obj.slug start_date end_date %}">{{ obj.name }}</a>
+                                {% else %}
+                                    <a class="main_title h4" href="{% url 'mainweb:room-details' obj.slug %}">{{ obj.name }}</a>
+                                {% endif %}
+
+
                                 <p class="main_description">{{ obj.description|slice:":100" }}{% if obj.description|length > 100 %}...{% endif %}</p>
                                 <div class="main_amenities">
                                     <span class="main_amenities-item d-inline-flex align-items-center">

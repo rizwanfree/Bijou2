@@ -71,4 +71,4 @@ class PropertyManagerProfile(models.Model):
     managed_properties = models.ManyToManyField(Property, related_name='assigned_managers', blank=True)
 
     def __str__(self):
-        return f"Manager: {self.user.username}"
+        return f"Manager: {self.user.first_name} {self.user.last_name}"

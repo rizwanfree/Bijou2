@@ -1,5 +1,5 @@
 from django.contrib.auth import authenticate, login, logout
-from django.http import HttpResponseForbidden
+from django.http import HttpResponseForbidden, HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
@@ -7,7 +7,7 @@ from .forms import TenantRegistrationForm
 from .models import TenantProfile
 from django.contrib.auth.models import User
 from finances.models import Payment
-from accomodations.models import Property, Room
+from accomodations.models import Booking, Property, Room
 # Create your views here.
 
 
@@ -21,23 +21,50 @@ def tenant_required(view_func):
 
 @login_required
 def tenant_dashboard(request):
-    tenant_profile = request.user.tenant_profile  # Access the TenantProfile using the logged-in user
+    try:
+        tenant_profile = request.user.tenant_profile
+    except TenantProfile.DoesNotExist:
+        messages.error(request, "Tenant profile not found. Please complete your profile.")
+        return redirect('users:create-profile')
+    
+    # Get the latest active booking for the tenant
+    booking = Booking.objects.filter(tenant=request.user).order_by('-created_at').first()
+
+    # Debugging step
+    print(f"Booking: {booking}")
+
+    # Get property managers if a booking exists
+    managers = []
+    if booking:
+        property_obj = booking.house.property if booking.house else booking.room.property if booking.room else None
+        print(f"Property: {property_obj}")  # Debugging: Check if property exists
+
+        if property_obj:
+            managers = property_obj.assigned_managers.all()
+            print(f"Managers: {list(managers)}")  # Debugging: Check managers
     
     # Get payments for the tenant
-    payments = Payment.objects.filter(tenant=request.user).order_by('-payment_date')
-    
-    # Prepare the context data to render the template
+    payments = Payment.objects.filter(booking__tenant=request.user).order_by('-created_at')
+
     context = {
         'tenant_profile': tenant_profile,
+        'booking': booking,
+        'managers': managers,
         'payments': payments,
     }
-    
+
     return render(request, 'users/tenant-dashboard.html', context)
+
+
+
+
 
 
 def user_logout(request):
     logout(request)  # Logs out the user
     return redirect('mainweb:index')  # Redirect to your homepage or login page
+
+
 
 def tenant_login(request):
     if request.method == "POST":
@@ -49,7 +76,17 @@ def tenant_login(request):
             # Check if user is tenant
             if hasattr(user, 'tenant_profile'):
                 login(request, user)
-                return redirect('mainweb:index')
+                
+                # Get 'next' parameter from the query string, if it exists
+                next_url = request.GET.get('next', 'mainweb:index')
+
+                # If the 'next' URL is for payment-methods, append the query parameters for checkin and checkout
+                if 'payment-methods' in next_url:
+                    checkin_date = request.GET.get('checkIn', '')
+                    checkout_date = request.GET.get('checkOut', '')
+                    next_url = f"{next_url}?checkIn={checkin_date}&checkOut={checkout_date}"
+
+                return HttpResponseRedirect(next_url)  # Redirect back to the payment methods page or the default page
             else:
                 messages.error(request, "This account is not associated with tenant.")
         else:

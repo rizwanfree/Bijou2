@@ -190,23 +190,24 @@
 
     <!-- Right Column -->
     <div class="booking-right-column">
-        <!-- House Details -->
+        <!-- Object Details -->
         <div class="house-details">
-            {% if house_image and house_image.image %}
-                <img src="{{ house_image.image.url }}" alt="{{ house.name }}">
+            <!-- Display Image -->
+            {% if image and image.image %}
+                <img src="{{ image.image.url }}" alt="{{ obj.name }}">
             {% else %}
                 <img src="{% static 'img/placeholder.png' %}" alt="No Image">
             {% endif %}
-            <h3>{{ house.name }}</h3>
+            <h3>{{ obj.name }}</h3>
         </div>
 
         <!-- Price Calculation -->
         <div class="booking-price-details">
             {% comment %} <h2 class="booking-subtitle">Price details</h2> {% endcomment %}
-            <p class="booking-total" style="display: flex; justify-content: space-between; width: 100%;">
-                <span>${{house.price_per_night}} x {{total_nights}} nights</span> 
-                <span>${{ total_price }}</span>
-            </p>
+                <p class="booking-total">
+                    <span>${{ obj.price_per_night }} x {{ total_nights }} nights</span> 
+                    <span>${{ total_price }}</span>
+                </p>
             <hr />
 
             <p class="booking-total" style="display: flex; justify-content: space-between; width: 100%;">
@@ -216,9 +217,23 @@
         </div>
         <div>
             {% if user.is_authenticated %}
-                <a class="btn theme-element theme-element--accent" style="width: 100%;" href="">Proceed To Booking</a>
+                <form method="POST" action="{% url 'mainweb:confirm-booking' type=type id=obj.id %}">
+                
+                    {% csrf_token %}
+                    <label for="checkIn">Check-in Date:</label>
+                    <input type="date" id="checkIn" name="checkIn" value={{checkin_date}} required>
+                    
+                    <label for="checkOut">Check-out Date:</label>
+                    <input type="date" id="checkOut" name="checkOut" value={{checkout_date}} required>
+
+                    <button type="submit">Proceed to Booking</button>
+                </form>
+
             {% else %}
-                <p>Please<strong> <a href="{% url "users:login" %}">Login</a></strong> or <strong> <a href="{% url "users:register" %}">Register</a></strong> to confirm booking</p>
+                <p>
+                    Please <strong><a href="{% url 'users:login' %}?next={{ request.path }}">Login</a></strong> 
+                    or <strong><a href="{% url 'users:register' %}">Register</a></strong> to confirm booking.
+                </p>
             {% endif %}
         </div>
     </div> 
@@ -226,5 +241,12 @@
 </div>
 
 
+ <script>
+    document.querySelector('form').addEventListener('submit', function(event) {
+        console.log("Form is being submitted...");
+        event.stopImmediatePropagation(); // Prevent other scripts from stopping submission
+        this.submit(); // Force submission
+    });
+</script>
 
 {% endblock content %}

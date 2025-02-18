@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.forms import ValidationError
 from django.utils.text import slugify
 import requests
 
@@ -10,11 +11,6 @@ class Amenity(models.Model):
     def __str__(self):
         return self.name
 
-class Facility(models.Model):
-    name = models.CharField(max_length=100, unique=True)
-    
-    def __str__(self):
-        return self.name
 
 class Property(models.Model):
     name = models.CharField(max_length=255)
@@ -66,7 +62,6 @@ class House(models.Model):
     name = models.CharField(max_length=255)
     no_of_bathroom = models.IntegerField(default=1)
     slug = models.SlugField(unique=True, blank=True)
-    facilities = models.ManyToManyField('Facility', related_name='houses', blank=True)
     price_per_night = models.DecimalField(max_digits=10, decimal_places=2)
     number_of_rooms = models.IntegerField(default=1)
     description = models.TextField(blank=True, null=True)
@@ -117,7 +112,6 @@ class Room(models.Model):
     type_of_bed = models.CharField(choices=TYPE_OF_BED, max_length=50, default='single')
     price_per_night = models.DecimalField(max_digits=10, decimal_places=2)
     description = models.TextField(blank=True, null=True)
-    facilities = models.ManyToManyField('Facility', related_name='rooms', blank=True)
     is_available = models.BooleanField(default=True)  # Ensuring new rooms start as available
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -150,12 +144,34 @@ class RoomImage(models.Model):
 
 
 class Booking(models.Model):
-    tenant = models.ForeignKey(User, on_delete=models.CASCADE)  # Assuming you have a User model for tenants
-    house = models.ForeignKey(House, null=True, blank=True, on_delete=models.CASCADE)  # Null allows for Room bookings
-    room = models.ForeignKey(Room, null=True, blank=True, on_delete=models.CASCADE)  # Null allows for House bookings
+    tenant = models.ForeignKey(User, on_delete=models.CASCADE)
+    house = models.ForeignKey(House, null=True, blank=True, on_delete=models.CASCADE)
+    room = models.ForeignKey(Room, null=True, blank=True, on_delete=models.CASCADE)
     check_in = models.DateField()
     check_out = models.DateField()
+    status = models.CharField(max_length=20, choices=[
+        ('pending', 'Pending'),
+        ('confirmed', 'Confirmed'),
+        ('cancelled', 'Cancelled')
+    ], default='pending')
     created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        indexes = [
+            models.Index(fields=['check_in', 'check_out']),
+        ]
+
+    def clean(self):
+        # Enforce that exactly one of house or room is set
+        if (self.house and self.room) or (not self.house and not self.room):
+            raise ValidationError("Booking must be for either a House or a Room (but not both).")
+        if self.check_out <= self.check_in:
+            raise ValidationError("Check-out date must be after check-in date.")
+        # Check availability
+        if self.house and not self.house.is_available(self.check_in, self.check_out):
+            raise ValidationError("This house is not available for the selected dates.")
+        if self.room and not self.room.is_available(self.check_in, self.check_out):
+            raise ValidationError("This room is not available for the selected dates.")
 
     def __str__(self):
         if self.house:

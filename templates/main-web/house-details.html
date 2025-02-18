@@ -129,7 +129,7 @@
                     </div>
                     <div class="room_main-cards col-lg-4">
                         <div class=room_main-cards_card><span class=pricing><span class="pricing_price h2">${{ house.price_per_night }}</span> / 1 night</span>
-                            <form class="booking" action={% url 'mainweb:payment-methods' house.id %} method="GET" autocomplete="off">
+                            <form class="booking" action="{% url 'mainweb:payment-methods' 'house' house.id %}" method="GET">
                                 <div class="booking_group d-flex flex-column">
                                     <label class="booking_group-label h5" for="checkIn">Check-in</label>
                                     <div class="booking_group-wrapper">
