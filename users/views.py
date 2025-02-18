@@ -104,7 +104,6 @@ def create_tenant(request):
             email = form.cleaned_data['email']
             password = form.cleaned_data['password']
             first_name = form.cleaned_data['first_name']
-            middle_name = form.cleaned_data['middle_name']
             last_name = form.cleaned_data['last_name']
             phone_number = form.cleaned_data['phone_number']
             address = form.cleaned_data['address']
@@ -128,7 +127,6 @@ def create_tenant(request):
                 TenantProfile.objects.create(
                     user=user,
                     first_name=first_name,
-                    middle_name=middle_name,
                     last_name=last_name,
                     phone_number=phone_number,
                     address=address
