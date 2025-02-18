@@ -25,137 +25,128 @@ def contact(request):
 
 def room_list(request):
     """List all rooms and show if they are available for selected dates."""
-    start_date = request.GET.get('checkIn')
-    end_date = request.GET.get('checkOut')
-
-    if start_date and end_date:
-        try:
-            start_date = datetime.strptime(start_date, '%Y-%m-%d').date()
-            end_date = datetime.strptime(end_date, '%Y-%m-%d').date()
-            if end_date <= start_date:
-                return HttpResponseBadRequest("Check-out date must be after check-in date.")
-            total_nights = (end_date - start_date).days
-        except ValueError:
-            return HttpResponseBadRequest("Invalid date format. Please use YYYY-MM-DD.")
-    else:
-        start_date = None
-        end_date = None
-        total_nights = 1  # Default to 1 night if no dates are selected
-
-    # Show all rooms, don't filter them out
-    rooms = Room.objects.all()
-
-    # Attach availability info for each room
-    for room in rooms:
-        room.is_available_for_dates = room.check_availability(start_date, end_date) if start_date and end_date else None
-
-    # Paginate all rooms
-    paginator = Paginator(rooms, 5)
-    page_number = request.GET.get('page')
-    page_obj = paginator.get_page(page_number)
-
-    # Calculate price for total nights per room
-    for room in page_obj:
-        room.price_for_total_nights = room.price_per_night * total_nights
-
-    context = {
-        'page_obj': page_obj,
-        'start_date': start_date,
-        'end_date': end_date,
-        'total_nights': total_nights,
-    }
-
-    return render(request, 'main-web/room-list.html', context)
-
-
-
-def room_details(request, slug):
-    """Show details for a specific room."""
-    room = get_object_or_404(Room, slug=slug)
-    property_obj = room.property
     
-    context = {
-        'room': room,
-        'property': property_obj
-    }
-    return render(request, "main-web/room.html", context)
+    rooms = Room.objects.all()
+    start_date = None
+    end_date = None
 
-def house_list(request):
-    """List all houses and show if they are available for selected dates."""
-    houses = House.objects.all()
     if request.method == "POST":
-        start_date = request.POST.get('checkIn')
-        end_date = request.POST.get('checkOut')
+        start_date = request.POST.get("checkIn")
+        end_date = request.POST.get("checkOut")
 
         if start_date and end_date:
             try:
-                start_date = datetime.strptime(start_date, '%Y-%m-%d').date()
-                end_date = datetime.strptime(end_date, '%Y-%m-%d').date()
+                start_date = datetime.strptime(start_date, "%Y-%m-%d").date()
+                end_date = datetime.strptime(end_date, "%Y-%m-%d").date()
+
                 if end_date <= start_date:
                     return HttpResponseBadRequest("Check-out date must be after check-in date.")
+
             except ValueError:
                 return HttpResponseBadRequest("Invalid date format. Please use YYYY-MM-DD.")
-        else:
-            start_date = None
-            end_date = None
 
-        # Attach availability info for each house
-        for house in houses:
-            house.is_available_for_dates = house.check_availability(start_date, end_date) if start_date and end_date else None
+    # Attach availability info for each room without filtering them out
+            for room in rooms:
+                room.is_available_for_dates = room.check_availability(start_date, end_date) if start_date and end_date else None
 
-        # Paginate all houses
-        paginator = Paginator(houses, 5)
-        page_number = request.GET.get('page')
-        page_obj = paginator.get_page(page_number)
-
-
-        context = {
-            'page_obj': page_obj,
-            'start_date': start_date,
-            'end_date': end_date
-        }
-
-        return render(request, 'main-web/house-list.html', context)
-
-    # Paginate all houses
-    paginator = Paginator(houses, 5)
-    page_number = request.GET.get('page')
+    # Paginate all rooms
+    paginator = Paginator(rooms, 5)
+    page_number = request.GET.get("page")
     page_obj = paginator.get_page(page_number)
-    context = {
-    'page_obj': page_obj,
-    }
-    return render(request, 'main-web/house-list.html', context)
 
-def house_details(request, slug):
+    context = {
+        "page_obj": page_obj,
+        "start_date": start_date,
+        "end_date": end_date,
+    }
+    return render(request, "main-web/room-list.html", context)
+
+
+
+def room_details(request, slug, checkin, checkout):
+    room = get_object_or_404(Room, slug=slug)  # Fetch by slug
+
+    checkin = datetime.strptime(checkin, "%Y-%m-%d").date()
+    checkout = datetime.strptime(checkout, "%Y-%m-%d").date()
+    nights = (checkin - checkout).days
+
+    property = room.property    
+
+    price_per_night = room.price_per_night  # Assuming `price` field exists
+    total_price = price_per_night * nights  # Default price for 1 night
+
+    context = {
+        'room': room,
+        'checkin': checkin.strftime("%Y-%m-%d"),
+        'checkout': checkout.strftime("%Y-%m-%d"),
+        'total_price': total_price,
+        'property': property,        
+    }
+    print(checkin, checkout)
+    return render(request, 'main-web/room.html', context)
+
+
+
+def house_list(request):
+    """List all houses and show if they are available for selected dates."""
+    
+    houses = House.objects.all()
+    start_date = None
+    end_date = None
+
+    if request.method == "POST":
+        start_date = request.POST.get("checkIn") or None
+        end_date = request.POST.get("checkOut") or None
+
+        if start_date and end_date:
+            try:
+                start_date = datetime.strptime(start_date, "%Y-%m-%d").date()
+                end_date = datetime.strptime(end_date, "%Y-%m-%d").date()
+
+                if end_date <= start_date:
+                    return HttpResponseBadRequest("Check-out date must be after check-in date.")
+
+    # Attach availability info for each house without filtering
+                for house in houses:
+                    house.is_available_for_dates = house.check_availability(start_date, end_date) if start_date and end_date else None
+
+            except ValueError:
+                return HttpResponseBadRequest("Invalid date format. Please use YYYY-MM-DD.")
+
+    # Paginate only the filtered houses
+    paginator = Paginator(houses, 5)
+    page_number = request.GET.get("page")
+    page_obj = paginator.get_page(page_number)
+
+    context = {
+        "page_obj": page_obj,
+        "start_date": start_date,
+        "end_date": end_date,
+    }
+    return render(request, "main-web/house-list.html", context)
+
+
+
+def house_details(request, slug, checkin=None, checkout=None):
     house = get_object_or_404(House, slug=slug)  # Fetch by slug
 
-    check_in = request.GET.get('checkIn')
-    check_out = request.GET.get('checkOut')
+    checkin = datetime.strptime(checkin, "%Y-%m-%d").date()
+    checkout = datetime.strptime(checkout, "%Y-%m-%d").date()
+    nights = (checkin - checkout).days
 
     property = house.property    
 
     price_per_night = house.price_per_night  # Assuming `price` field exists
-    total_price = price_per_night  # Default price for 1 night
-
-    if check_in and check_out:
-        try:
-            check_in = datetime.strptime(check_in, "%Y-%m-%d")
-            check_out = datetime.strptime(check_out, "%Y-%m-%d")
-            nights = (check_out - check_in).days
-            if nights > 0:
-                total_price = price_per_night * nights
-        except ValueError:
-            pass  # Handle invalid date format gracefully
+    total_price = price_per_night * nights  # Default price for 1 night
 
     context = {
         'house': house,
-        'checkin': check_in,
-        'checkout': check_out,
+        'checkin': checkin.strftime("%Y-%m-%d"),
+        'checkout': checkout.strftime("%Y-%m-%d"),
         'total_price': total_price,
-        'property': property,
-        
+        'property': property,        
     }
-
+    print(checkin, checkout)
     return render(request, 'main-web/house-details.html', context)
 
 

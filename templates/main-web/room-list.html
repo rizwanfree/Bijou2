@@ -109,29 +109,29 @@
 <main class="rooms section">
     <div class="container">
 
-        <!-- Booking Form -->
-        <form class="booking" action="#" method="get" autocomplete="off">
-            <div class="item-wrapper d-sm-flex flex-wrap flex-lg-nowrap align-items-lg-center">
-                <!-- Check-in date field -->
-                <div class="booking_group d-flex flex-column">
-                    <label class="booking_group-label h5" for="checkIn">Check-in</label>
-                    <div class="booking_group-wrapper">
-                        <input class="booking_group-field field required" type="date" id="checkIn" name="checkIn" required>
-                    </div>
-                </div>
-
-                <!-- Check-out date field -->
-                <div class="booking_group d-flex flex-column">
-                    <label class="booking_group-label h5" for="checkOut">Check-out</label>
-                    <div class="booking_group-wrapper">
-                        <input class="booking_group-field field required" type="date" id="checkOut" name="checkOut" required>
-                    </div>
-                </div>
-
-                <!-- Submit button -->
-                <button class="booking_btn btn theme-element theme-element--accent" type="submit">Search</button>
+<form class="booking" action="#" method="post" autocomplete="off">
+    {% csrf_token %}
+    <div class="item-wrapper d-sm-flex flex-wrap flex-lg-nowrap align-items-lg-center">
+        <!-- Check-in date field -->
+        <div class="booking_group d-flex flex-column">
+            <label class="booking_group-label h5" for="checkIn">Check-in</label>
+            <div class="booking_group-wrapper">                
+                <input class="booking_group-field field required" type="date" id="checkIn" name="checkIn" required>
             </div>
-        </form>
+        </div>
+        
+        <!-- Check-out date field -->
+        <div class="booking_group d-flex flex-column">
+            <label class="booking_group-label h5" for="checkOut">Check-out</label>
+            <div class="booking_group-wrapper">
+                
+                <input class="booking_group-field field required" type="date" id="checkOut" name="checkOut" required>
+            </div>
+        </div>        
+        <!-- Submit button -->
+        <button class="booking_btn btn theme-element theme-element--accent" type="submit">Search</button>
+    </div>
+</form>
 
         <!-- Room List -->
         <ul class="rooms_list">	            
@@ -150,7 +150,7 @@
                         </div>
                         <div class="main d-md-flex justify-content-between">
                             <div class="main_info d-md-flex flex-column justify-content-between">
-                                <a class="main_title h4" href="{% url 'mainweb:room-details' slug=obj.slug %}">{{ obj.name }}</a>
+                                <a class="main_title h4" href={% url 'mainweb:room-details' obj.slug start_date end_date %}>{{ obj.name }}</a>
                                 <p class="main_description">{{ obj.description|slice:":100" }}{% if obj.description|length > 100 %}...{% endif %}</p>
                                 <div class="main_amenities">
                                     <span class="main_amenities-item d-inline-flex align-items-center">
@@ -169,24 +169,17 @@
                                     {% endif %}
                                 </div>
 
-                                <!-- Availability Status -->
-                                <div class="availability-status">
-                                    {% if start_date and end_date %}
-                                        {% if obj.is_available_for_dates %}
-                                            <span class="available" style="color: green;">Available</span>
-                                        {% else %}
-                                            <span class="not-available" style="color: red;">Not Available</span>
-                                        {% endif %}
+                            <!-- Availability Status -->
+                            <div class="availability-status">
+                                {% if start_date and end_date %}
+                                    {% if obj.is_available_for_dates %}
+                                        <span class="available" style="color: green;">Available</span>
                                     {% else %}
-                                        <span style="color: blue;">Select dates to check availability</span>
+                                        <span class="not-available" style="color: red;">Not Available</span>
                                     {% endif %}
-                                </div>
-
-                                <!-- Book Now Button -->
-                                <a class="theme-element theme-element--accent btn {% if start_date and end_date and not obj.is_available_for_dates %}disabled{% endif %}" 
-                                    href="{% if start_date and end_date and obj.is_available_for_dates %}booking-page-url{% else %}#{% endif %}">
-                                    Book now
-                                </a>
+                                {% else %}
+                                    <span style="color: blue;">Select dates to check availability</span>                                    
+                                {% endif %}
                             </div>
                         </div>
                     </div>

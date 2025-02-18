@@ -131,11 +131,17 @@
                         <div class=room_main-cards_card><span class=pricing><span class="pricing_price h2">${{ room.price_per_night }}</span> / 1 night</span>
                             <form class=booking action=# method=post autocomplete=off data-type=booking>
                                 <div class="booking_group d-flex flex-column"><label class="booking_group-label h5" for=checkIn>Check-in</label>
-                                    <div class=booking_group-wrapper><i class="icon-calendar icon"></i> <input class="booking_group-field field required" data-type=date data-start=true type=text id=checkIn name=contactsDate placeholder="Add arrival date" readonly=readonly> <i class="icon-chevron_down icon"></i></div>
+                                    <div class=booking_group-wrapper><i class="icon-calendar icon"></i> 
+                                        <input class="booking_group-field field required" data-type="date" data-end="true" type="date" id="checkIn" name="checkIn" value="{{ checkin }}" required> 
+                                    </div>
                                 </div>
                                 <div class="booking_group d-flex flex-column"><label class="booking_group-label h5" for=checkOut>Check-out</label>
-                                    <div class=booking_group-wrapper><i class="icon-calendar icon"></i> <input class="booking_group-field field required" data-type=date data-end=true type=text id=checkOut name=contactsDate placeholder="Add departure date" readonly=readonly> <i class="icon-chevron_down icon"></i></div>
-                                </div><button class="booking_btn btn theme-element theme-element--accent" type=submit>Book now</button></form>
+                                    <div class=booking_group-wrapper><i class="icon-calendar icon"></i> 
+                                        <input class="booking_group-field field required" data-type="date" data-end="true" type="date" id="checkOut" name="checkOut" value="{{ checkout }}">
+                                    </div>
+                                </div>
+                                <button class="booking_btn btn theme-element theme-element--accent" type=submit>Book now</button>
+                            </form>
                         </div>
 
                         {% comment %} <!--Map--> {% endcomment %}

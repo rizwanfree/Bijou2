@@ -148,20 +148,26 @@
     <!-- Left Column -->
     <div class="booking-left-column">
         <h1 class="booking-title">Request to book</h1>
-        <div class="booking-price-info">
-            <strong></strong> Your dates are $10 less than the avg. nightly rate over the last 3 months.
-        </div>
 
         <div class="booking-trip-details">
             <h2 class="booking-subtitle">Your Stay</h2>
-            <p><strong>Dates</strong><br>
+            
                 {% if checkin_date and checkout_date %}
-                    {{ checkin_date }} – {{ checkout_date }}
+                    <p><strong>From</strong><br></p>
+                    {{ checkin_date }}
+                    <p><strong>To</strong><br></p>
+                    {{ checkout_date }}
                 {% else %}
                     <span style="color: red;">Please select dates!</span>
-                {% endif %}
-            </p>            
+                {% endif %}                        
         </div>
+        <hr>
+        <div class="mt-3">
+            <p><strong>Please select the following payment method for booking confirmation. 
+                Once we receive the payment we will get in touch with you. 
+                Thank you and looking forward to welcoming you to our home.</strong></p>
+        </div>
+
 
         <div class="booking-payment-options">
         <h2 class="booking-subtitle mb-4">Choose how to pay</h2>

@@ -12,9 +12,10 @@ urlpatterns = [
     path('about/', views.about, name='about'),
     path('contact/', views.contact, name='contact'),
     path('room-list/', views.room_list, name='room-list'),
-    path('room/<slug:slug>/', views.room_details, name='room-details'),
+    path('room/<slug:slug>/<str:checkin>/<str:checkout>/', views.room_details, name='room-details'),
     path('house-list/', views.house_list, name='house-list'),
     path('house/<slug:slug>/', views.house_details, name='house-details'),
+    path('house/<slug:slug>/<str:checkin>/<str:checkout>/', views.house_details, name='house-details'),
     path('payment-methods/<int:id>', views.payment_methods, name='payment-methods'),
 ]
 # Serve media files during development
