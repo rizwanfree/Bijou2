@@ -278,31 +278,64 @@ def confirm_booking(request, type, id):
         messages.error(request, "Invalid booking type.")
         return redirect('mainweb:index')
 
-    # Email Settings (Use your email address)
+    # Email Settings
     from_email = "rizwansoomro@gmail.com"  # Replace with your email
-    recipient_list = ['rizwansoomro@gmail.com']  # Send email to this address
-    subject = "New Booking Request"
-    message = (
+    admin_recipient = ['rizwansoomro@gmail.com','skhan.bijou@gmail.com']  # Admin email
+    tenant_recipient = [request.user.email]  # Authenticated user's email
+
+    # Get Tenant Details
+    first_name = request.user.first_name
+    last_name = request.user.last_name
+    phone_number = request.user.tenant_profile.phone_number  # Assuming phone number is in the profile model
+
+    # Email Subject
+    subject_admin = "New Booking Request"
+    subject_tenant = "Booking Confirmation - Pending Payment"
+
+    # Message to Admin
+    message_admin = (
         f"A new booking request has been made:\n\n"
-        f"Tenant: {request.user.username} ({request.user.email})\n"
-        f"Property: {obj.name}\n"
-        f"Check-in: {checkin_date}\n"
-        f"Check-out: {checkout_date}\n"
-        f"Status: Pending\n\n"
+        f"👤 Tenant: {first_name} {last_name}\n"
+        f"📧 Email: {request.user.email}\n"
+        f"📞 Phone: {phone_number}\n"
+        f"🏠 Property: {obj.name}\n"
+        f"📅 Check-in Date: {checkin_date}\n"
+        f"📅 Check-out Date: {checkout_date}\n"
+        f"🛑 Status: Pending\n\n"
         "Please review and confirm the booking."
     )
 
+    # Message to Tenant
+    message_tenant = (
+        f"Dear {first_name} {last_name},\n\n"
+        f"Thank you for your booking request! Your booking details are as follows:\n\n"
+        f"🏠 Property: {obj.name}\n"
+        f"📅 Check-in Date: {checkin_date}\n"
+        f"📅 Check-out Date: {checkout_date}\n"
+        f"🛑 Status: Pending (Payment Required)\n\n"
+        "📞 Contact Support: +123456789 (for any inquiries)\n\n"
+        "Your booking is currently in a pending state. We will confirm it once we receive the payment.\n"
+        "If you have any questions, feel free to contact us.\n\n"
+        "Best Regards,\nYour Booking Team"
+    )
+
     try:
-        print("DEBUG: Sending email...")
-        send_mail(subject, message, from_email, recipient_list, fail_silently=False)
-        print("DEBUG: Email sent successfully")
-        messages.success(request, "Booking request submitted. You will be contacted soon.")
+        # Send email to admin
+        print("DEBUG: Sending email to admin...")
+        send_mail(subject_admin, message_admin, from_email, admin_recipient, fail_silently=False)
+        print("DEBUG: Email to admin sent successfully")
+
+        # Send email to tenant
+        print("DEBUG: Sending email to tenant...")
+        send_mail(subject_tenant, message_tenant, from_email, tenant_recipient, fail_silently=False)
+        print("DEBUG: Email to tenant sent successfully")
+
+        messages.success(request, "Booking request submitted. A confirmation email has been sent.")
+
+        return redirect('users:tenant-dashboard')
     except Exception as e:
         print(f"DEBUG: Email failed to send - {e}")
         messages.error(request, f"Booking was created, but email failed: {e}")
-
-    print("DEBUG: Redirecting to tenant dashboard")
-    return redirect('users:tenant-dashboard')  # Redirect user to tenant dashboard
 
 
 
