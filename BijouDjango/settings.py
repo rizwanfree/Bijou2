@@ -78,26 +78,21 @@ WSGI_APPLICATION = 'BijouDjango.wsgi.application'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-
     # 'default': {
-    #     'ENGINE': 'mssql',
-    #     'NAME': 'Vuetesting',
-    #     'USER': 'rizwanadmincodecraft',
-    #     'PASSWORD': 'Aspire$112',
-    #     'HOST': 'codecraftsolutions.database.windows.net',
-    #     'PORT': 1433,
-    #     'OPTIONS': {
-    #         'driver': 'ODBC Driver 17 for SQL Server',
-    #         'extra_params': 'schema=dj_testing;',  # Use your test schema here                        
-    #         'extra_params': 'Encrypt=yes;TrustServerCertificate=no',
-    #     },
+    #     'ENGINE': 'django.db.backends.sqlite3',
+    #     'NAME': BASE_DIR / 'db.sqlite3',
     # }
-}
 
+    
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'bijou',
+        'USER': 'riz',
+        'PASSWORD': 'admin112',
+        'HOST': '172.210.155.145',
+        'PORT': '5432',
+    }    
+}
 
 
 # Password validation
