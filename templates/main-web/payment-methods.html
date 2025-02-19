@@ -217,8 +217,7 @@
         </div>
         <div>
             {% if user.is_authenticated %}
-                <form method="POST" action="{% url 'mainweb:confirm-booking' type=type id=obj.id %}">
-                
+                <form method="POST" action="{% url 'mainweb:confirm-booking' type=type id=obj.id %}">                
                     {% csrf_token %}
                     <label for="checkIn">Check-in Date:</label>
                     <input type="date" id="checkIn" name="checkIn" value={{checkin_date}} required>

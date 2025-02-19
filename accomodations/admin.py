@@ -11,8 +11,16 @@ class BookingAdmin(admin.ModelAdmin):
             # Only include users that have a TenantProfile
             kwargs["queryset"] = User.objects.filter(tenant_profile__isnull=False)
         return super().formfield_for_foreignkey(db_field, request, **kwargs)
+    
 
-admin.site.register(Property)
+class PropertyAdmin(admin.ModelAdmin):
+    def formfield_for_manytomany(self, db_field, request, **kwargs):
+        if db_field.name == "managers":
+            # ✅ Only include users that have a PropertyManagerProfile
+            kwargs["queryset"] = User.objects.filter(manager_profile__isnull=False)
+        return super().formfield_for_manytomany(db_field, request, **kwargs)
+
+admin.site.register(Property, PropertyAdmin)
 admin.site.register(Room)
 admin.site.register(House)
 
