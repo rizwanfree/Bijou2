@@ -4,6 +4,8 @@ from django.forms import ValidationError
 from django.utils.text import slugify
 from django.core.validators import URLValidator
 import requests
+from django.core.mail import send_mail
+from django.conf import settings
 
 
 class Amenity(models.Model):
@@ -161,25 +163,55 @@ class Booking(models.Model):
     ], default='pending')
     created_at = models.DateTimeField(auto_now_add=True)
 
+
+    def save(self, *args, **kwargs):
+        # Check if the status has changed
+        if self.pk:
+            old_status = Booking.objects.get(pk=self.pk).status
+            if old_status != self.status and self.status in ["confirmed", "cancelled"]:
+                self.send_status_email()
+
+        super().save(*args, **kwargs)
+
+    def send_status_email(self):
+        """Send an email notification to the tenant about the booking status change."""
+        subject = f"Your Booking is {self.status.capitalize()}"
+        message = f"Dear {self.tenant.first_name} {self.tenant.last_name},\n\n"
+        
+        property_name = self.house.name if self.house else self.room.name if self.room else "your booked property"
+        if self.status == "confirmed":
+            message += f"Good news! Your booking for {property_name} from {self.check_in} to {self.check_out} has been confirmed. 🎉\n\n"
+        elif self.status == "cancelled":
+            message += f"Your booking for {property_name} from {self.check_in} to {self.check_out} has been cancelled. ❌\n\n"
+
+        message += "If you have any questions, feel free to contact us.\n\nBest regards,\nBijou Team"
+
+        send_mail(
+            subject,
+            message,
+            settings.DEFAULT_FROM_EMAIL,  # Must be set in Django settings
+            [self.tenant.email],  # Send email to tenant
+            fail_silently=False,
+        )
+
+
+    def __str__(self):
+        property_name = self.house.name if self.house else self.room.name if self.room else "Unknown Property"
+        return f"Booking by {self.tenant.first_name} {self.tenant.last_name} for {property_name} ({self.check_in} to {self.check_out}) - {self.status}"
+
     class Meta:
         indexes = [
             models.Index(fields=['check_in', 'check_out']),
         ]
 
     def clean(self):
-        # Enforce that exactly one of house or room is set
         if (self.house and self.room) or (not self.house and not self.room):
             raise ValidationError("Booking must be for either a House or a Room (but not both).")
         if self.check_out <= self.check_in:
             raise ValidationError("Check-out date must be after check-in date.")
-        # Check availability
-        if self.house and not self.house.is_available(self.check_in, self.check_out):
+        
+        # Corrected availability check
+        if self.house and not self.house.check_availability(self.check_in, self.check_out):
             raise ValidationError("This house is not available for the selected dates.")
-        if self.room and not self.room.is_available(self.check_in, self.check_out):
+        if self.room and not self.room.check_availability(self.check_in, self.check_out):
             raise ValidationError("This room is not available for the selected dates.")
-
-    def __str__(self):
-        if self.house:
-            return f"Booking for House: {self.house.name} ({self.check_in} to {self.check_out})"
-        else:
-            return f"Booking for Room: {self.room.name} ({self.check_in} to {self.check_out})"
