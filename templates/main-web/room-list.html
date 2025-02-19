@@ -105,6 +105,63 @@
     opacity: 0.5; /* Makes it look disabled */
     cursor: not-allowed;
 }
+
+/* Pagination Container */
+.pagination {
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    padding: 0;
+}
+
+/* Pagination Items */
+.pagination-page {
+    display: inline-block;
+}
+
+/* Pagination Links */
+.pagination-page_link {
+    display: inline-block;
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    text-decoration: none;
+    color: #333;
+    background-color: #fff;
+    font-size: 14px;
+    font-weight: 500;
+    min-width: 40px;
+    text-align: center;
+}
+
+/* Hover & Active Styles */
+.pagination-page_link:hover {
+    background-color: #f8f9fa;
+    border-color: #bbb;
+}
+
+.pagination-page.active .pagination-page_link {
+    background-color: #007bff;
+    color: white;
+    border-color: #007bff;
+}
+
+/* Ensure "First" & "Last" buttons have proper spacing */
+.pagination-page:first-child .pagination-page_link,
+.pagination-page:last-child .pagination-page_link {
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+/* Fix alignment of arrows */
+.pagination-page_link:has(span) {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
 </style>
 <main class="rooms section">
     <div class="container">
@@ -166,7 +223,7 @@
                                         <i class="icon-user icon"></i> {{ obj.capacity }} Sleeps
                                     </span>
                                     <span class="main_amenities-item d-inline-flex align-items-center">
-                                        <i class="icon-bunk_bed icon"></i> {{ obj.capacity }} bunk bed
+                                        <i class="icon-bunk_bed icon"></i> {{ obj.capacity }} Bed
                                     </span>
                                 </div>
                             </div>
@@ -174,7 +231,7 @@
                                 <div class="wrapper d-flex flex-column">                                        
                                     {% if obj.price_per_night %}
                                         <span class="main_pricing-item"><span class="h2">${{ obj.price_per_night }}</span> / 1 night</span>
-                                        <span class="main_pricing-item"><span class="h4">${{ obj.price_for_total_nights }}</span> / {{ total_nights }} nights</span>
+                                        {% comment %} <span class="main_pricing-item"><span class="h4">${{ obj.price_for_total_nights }}</span> / {{ total_nights }} nights</span> {% endcomment %}
                                     {% endif %}
                                 </div>
 
@@ -196,32 +253,42 @@
             {% endfor %}
         </ul>
 
-        <!-- Pagination Controls -->
-        <ul class="pagination d-flex justify-content-center align-items-center">
-            {% if page_obj.has_previous %}
-                <li class="pagination-page">
-                    <a class="pagination-page_link d-flex align-items-center justify-content-center" href="?page=1">&laquo; First</a>
-                </li>
-                <li class="pagination-page">
-                    <a class="pagination-page_link d-flex align-items-center justify-content-center" href="?page={{ page_obj.previous_page_number }}">Previous</a>
-                </li>
-            {% endif %}
+            <!-- Pagination Controls -->
+            <ul class="pagination d-flex justify-content-center align-items-center">
+                {% if page_obj.has_previous %}
+                    <li class="pagination-page">
+                        <a class="pagination-page_link d-flex align-items-center justify-content-center" href="?page=1">
+                            &laquo;
+                        </a>
+                    </li>
+                    {% comment %} <li class="pagination-page">
+                        <a class="pagination-page_link d-flex align-items-center justify-content-center" href="?page={{ page_obj.previous_page_number }}">
+                            Previous
+                        </a>
+                    </li> {% endcomment %}
+                {% endif %}
 
-            {% for num in page_obj.paginator.page_range %}
-                <li class="pagination-page {% if num == page_obj.number %}active{% endif %}">
-                    <a class="pagination-page_link d-flex align-items-center justify-content-center" href="?page={{ num }}">{{ num }}</a>
-                </li>
-            {% endfor %}
+                {% for num in page_obj.paginator.page_range %}
+                    <li class="pagination-page {% if num == page_obj.number %} active {% endif %}">
+                        <a class="pagination-page_link d-flex align-items-center justify-content-center" href="?page={{ num }}">
+                            {{ num }}
+                        </a>
+                    </li>
+                {% endfor %}
 
-            {% if page_obj.has_next %}
-                <li class="pagination-page">
-                    <a class="pagination-page_link d-flex align-items-center justify-content-center" href="?page={{ page_obj.next_page_number }}">Next</a>
-                </li>
-                <li class="pagination-page">
-                    <a class="pagination-page_link d-flex align-items-center justify-content-center" href="?page={{ page_obj.paginator.num_pages }}">Last &raquo;</a>
-                </li>
-            {% endif %}
-        </ul>
+                {% if page_obj.has_next %}
+                    {% comment %} <li class="pagination-page">
+                        <a class="pagination-page_link d-flex align-items-center justify-content-center" href="?page={{ page_obj.next_page_number }}">
+                            Next
+                        </a>
+                    </li> {% endcomment %}
+                    <li class="pagination-page">
+                        <a class="pagination-page_link d-flex align-items-center justify-content-center" href="?page={{ page_obj.paginator.num_pages }}">
+                            &raquo;
+                        </a>
+                    </li>
+                {% endif %}
+            </ul>
     </div>
 </main>
 

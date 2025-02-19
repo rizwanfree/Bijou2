@@ -55,7 +55,7 @@
                         
                         <!-- Add login or welcome logic here -->
                         {% if user.is_authenticated and user.tenant_profile %}
-                            <li class="header_nav-list_item"><a class="nav-item" href={% url "users:tenant-dashboard" %}><b>Welcome {{ user.tenant_profile.last_name }}</b></a></li>
+                            <li class="header_nav-list_item"><a class="nav-item" href={% url "users:tenant-dashboard" %}><b>Welcome {{ user.tenant_profile.user.last_name }}</b></a></li>
                             {% comment %} <span class="header_nav-list_item"><b>Welcome {{ user.last_name }}</b></span> {% endcomment %}
                             {% comment %} <a class="logout-link" href="{% url 'users:logout' %}">Logout</a> {% endcomment %}
                         {% else %}

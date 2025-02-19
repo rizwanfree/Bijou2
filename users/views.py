@@ -121,13 +121,16 @@ def create_tenant(request):
                     return render(request, 'users/registration.html', {'form': form})
 
                 # Create User
-                user = User.objects.create_user(username=username, email=email, password=password)
+                user = User.objects.create_user(
+                    username=username,
+                    first_name=first_name,
+                    last_name=last_name, 
+                    email=email, 
+                    password=password)
 
                 # Create Tenant Profile
                 TenantProfile.objects.create(
                     user=user,
-                    first_name=first_name,
-                    last_name=last_name,
                     phone_number=phone_number,
                     address=address
                 )

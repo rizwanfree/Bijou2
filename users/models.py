@@ -7,8 +7,8 @@ from accomodations.models import Property, Room, House
 
 class TenantProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='tenant_profile')
-    first_name = models.CharField(max_length=50, blank=True, null=True)
-    last_name = models.CharField(max_length=50)
+    # first_name = models.CharField(max_length=50, blank=True, null=True)
+    # last_name = models.CharField(max_length=50)
     phone_number = models.CharField(max_length=15, blank=True, null=True)
     address = models.TextField(blank=True, null=True)
     rented_room = models.ForeignKey(Room, null=True, blank=True, on_delete=models.SET_NULL, related_name='tenants')
@@ -63,8 +63,6 @@ class TenantProfile(models.Model):
 
 class PropertyManagerProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='manager_profile')
-    first_name = models.CharField(max_length=50, blank=True, null=True)
-    last_name = models.CharField(max_length=50, blank=True, null=True)
     phone_number = models.CharField(max_length=15, blank=True, null=True)
     address = models.TextField(blank=True, null=True)
     managed_properties = models.ManyToManyField(Property, related_name='assigned_managers', blank=True)

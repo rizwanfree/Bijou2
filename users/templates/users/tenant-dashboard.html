@@ -9,8 +9,13 @@
     <!-- Upper section: Tenant Information -->
     <div class="card mb-4">
         <div class="card-header d-flex justify-content-between align-items-center">
-            <h3>Welcome, {{ tenant_profile.first_name }} {{ tenant_profile.last_name }}</h3>
-            <a href="{% url 'users:logout' %}" class="btn btn-outline-danger">Logout</a>
+            <h3>Welcome, {{ tenant_profile.user.first_name }} {{ tenant_profile.user.last_name }}</h3>
+            <div>
+                <a href="{% url 'mainweb:index' %}" class="btn btn-outline-info">Go Back</a>
+                <a href="#" class="btn btn-outline-success">Profile</a>
+                <a href="{% url 'users:logout' %}" class="btn btn-outline-danger">Logout</a>
+            </div>
+
         </div>
         <div class="card-body">
             <p><strong>Phone Number:</strong> {{ tenant_profile.phone_number }}</p>
@@ -55,12 +60,14 @@
                     </p>
                 </div>
             </div>
-
-
         </div>
-
-
     </div>
+
+    {% if booking.status == 'pending' %}
+        <div class="alert alert-warning" role="alert">
+            Your booking is <strong>Pending</strong>. Please wait for confirmation.
+        </div>
+    {% endif %}
 
     <!-- Lower section: Payments Table -->
     <div class="card">

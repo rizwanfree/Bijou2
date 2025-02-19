@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.forms import ValidationError
 from django.utils.text import slugify
+from django.core.validators import URLValidator
 import requests
 
 
@@ -65,6 +66,8 @@ class House(models.Model):
     price_per_night = models.DecimalField(max_digits=10, decimal_places=2)
     number_of_rooms = models.IntegerField(default=1)
     description = models.TextField(blank=True, null=True)
+    facebook_url = models.URLField(max_length=500, blank=True, null=True, validators=[URLValidator()])
+    instagram_url = models.URLField(max_length=500, blank=True, null=True, validators=[URLValidator()])
     is_available = models.BooleanField(default=True)  # This is still needed to mark the house as available
 
     def save(self, *args, **kwargs):
@@ -112,6 +115,8 @@ class Room(models.Model):
     type_of_bed = models.CharField(choices=TYPE_OF_BED, max_length=50, default='single')
     price_per_night = models.DecimalField(max_digits=10, decimal_places=2)
     description = models.TextField(blank=True, null=True)
+    facebook_url = models.URLField(max_length=500, blank=True, null=True, validators=[URLValidator()])
+    instagram_url = models.URLField(max_length=500, blank=True, null=True, validators=[URLValidator()])
     is_available = models.BooleanField(default=True)  # Ensuring new rooms start as available
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
