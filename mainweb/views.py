@@ -316,7 +316,7 @@ def confirm_booking(request, type, id):
         "📞 Contact Support: +123456789 (for any inquiries)\n\n"
         "Your booking is currently in a pending state. We will confirm it once we receive the payment.\n"
         "If you have any questions, feel free to contact us.\n\n"
-        "Best Regards,\nYour Booking Team"
+        "Best Regards,\nBijou Team"
     )
 
     try:
