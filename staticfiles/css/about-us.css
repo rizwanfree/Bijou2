@@ -1,0 +1,127 @@
+/* Global Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Roboto', sans-serif;
+}
+
+body {
+    background-color: #f5f5f5;
+    color: #333;
+}
+
+/* About Us Banner */
+.about-us-banner {
+    background: url("{% static 'images/banner.jpg' %}") no-repeat center center/cover;
+    height: 400px;
+    color: white;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    background-size: cover;
+}
+
+.about-us-banner h1 {
+    font-size: 3rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+}
+
+.about-us-banner p {
+    font-size: 1.2rem;
+    font-weight: 300;
+    letter-spacing: 1px;
+}
+
+/* About Us Section */
+.about-us-section {
+    padding: 50px 0;
+    background-color: white;
+}
+
+.container {
+    width: 80%;
+    margin: 0 auto;
+    max-width: 1200px;
+}
+
+h2 {
+    font-size: 2.5rem;
+    color: #444;
+    margin-bottom: 1.5rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+h3 {
+    font-size: 1.8rem;
+    color: #555;
+    margin-bottom: 1rem;
+}
+
+/* Paragraph Styling */
+p {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: #666;
+    margin-bottom: 1.5rem;
+    text-align: justify;
+    text-justify: inter-word;
+}
+
+/* Section Styling */
+.about-us-section .intro,
+.about-us-section .commitment,
+.about-us-section .guest-experience,
+.about-us-section .vision-mission {
+    margin-bottom: 3rem;
+}
+
+/* Vision & Mission */
+.vision, .mission {
+    margin-top: 1rem;
+}
+
+/* Hover Effect for Headings */
+h2, h3 {
+    transition: color 0.3s ease-in-out;
+}
+
+h2:hover, h3:hover {
+    color: #1E90FF;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .about-us-banner {
+        height: 300px;
+        padding: 20px;
+    }
+
+    .about-us-banner h1 {
+        font-size: 2rem;
+    }
+
+    .about-us-banner p {
+        font-size: 1rem;
+    }
+
+    .container {
+        width: 90%;
+    }
+
+    h2 {
+        font-size: 2rem;
+    }
+
+    h3 {
+        font-size: 1.5rem;
+    }
+
+    p {
+        font-size: 1rem;
+    }
+}

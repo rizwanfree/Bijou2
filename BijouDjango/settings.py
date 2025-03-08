@@ -87,10 +87,10 @@ DATABASES = {
     
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'bijou',
+        'NAME': 'bijoudb',
         'USER': 'riz',
-        'PASSWORD': 'admin112',
-        'HOST': '172.210.155.145',
+        'PASSWORD': '@Bijou2025',
+        'HOST': '3.139.116.54',
         'PORT': '5432',
     }    
 }
@@ -143,12 +143,8 @@ CSRF_TRUSTED_ORIGINS = [
     'https://baijotest-e5becebbd9byawbh.uaenorth-01.azurewebsites.net'
 ]
 
-STATIC_URL = '/static/'
-STATICFILES_DIRS = [BASE_DIR / 'static']
 
 
-MEDIA_URL = '/media/'
-MEDIA_ROOT = BASE_DIR / 'media'
 
 # STORAGES = {
 #     # Store static files locally (CSS, JS, images)
@@ -320,3 +316,15 @@ JAZZMIN_SETTINGS = {
     # Add a language dropdown into the admin
     # "language_chooser": True,
 }
+
+# Define the base directory
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+# Static files (CSS, JavaScript, Images)
+STATIC_URL = '/static/'
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]  # For development
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')    # For production
+
+# Media files (user-uploaded files)
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
