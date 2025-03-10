@@ -30,7 +30,6 @@ ALLOWED_HOSTS = ['*']
 
 INSTALLED_APPS = [
     'jazzmin',
-    'storages',
     'users.apps.UsersConfig',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -190,7 +189,7 @@ JAZZMIN_SETTINGS = {
     "site_logo": "img/logo-lg2.png",
 
     # Logo to use for your site, must be present in static files, used for login form logo (defaults to site_logo)
-    "login_logo": 'img/logo-sm.png',
+    #"login_logo": 'img/logo-sm.png',
 
     # Logo to use for login form in dark themes (defaults to login_logo)
     "login_logo_dark": None,
