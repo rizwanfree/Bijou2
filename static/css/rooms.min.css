@@ -1077,7 +1077,7 @@ a[href^="https://maps.google.com/maps"] {
 }
 
 .rooms_list-item .item-wrapper .main_description {
-    margin: 15px 0
+    margin: 10px 0
 }
 
 .rooms_list-item .item-wrapper .main_amenities {
@@ -1127,12 +1127,12 @@ a[href^="https://maps.google.com/maps"] {
         width: calc(100% - 200px)
     }
     .rooms_list-item .item-wrapper .main_info {
-        width: 280px;
+        width: 480px;
         margin-right: 20px
     }
     .rooms_list-item .item-wrapper .main_amenities {
         margin-top: -5px;
-        margin-bottom: 0
+        margin-bottom: 10px;
     }
     .rooms_list-item .item-wrapper .main_description {
         margin: 20px 0

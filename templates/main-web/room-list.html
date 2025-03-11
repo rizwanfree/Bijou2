@@ -206,14 +206,12 @@
                             {% endif %}
                         </div>
                         <div class="main d-md-flex justify-content-between">
-                            <div class="main_info d-md-flex flex-column justify-content-between">
-                                
-                                
+                            <div class="main_info d-md-flex flex-column justify-content-between">                              
 
                                 {% if start_date and end_date %}
-                                    <a class="main_title h4" href="{% url 'mainweb:room-details' obj.slug start_date end_date %}">{{ obj.name }}</a>
+                                    <a class="main_title h5" href="{% url 'mainweb:room-details' obj.slug start_date end_date %}">{{ obj.name }}</a>
                                 {% else %}
-                                    <a class="main_title h4" href="{% url 'mainweb:room-details' obj.slug %}">{{ obj.name }}</a>
+                                    <a class="main_title h5" href="{% url 'mainweb:room-details' obj.slug %}">{{ obj.name }}</a>
                                 {% endif %}
 
 
@@ -230,8 +228,7 @@
                             <div class="main_pricing d-flex flex-column align-items-md-end justify-content-md-between">
                                 <div class="wrapper d-flex flex-column">                                        
                                     {% if obj.price_per_night %}
-                                        <span class="main_pricing-item"><span class="h2">${{ obj.price_per_night }}</span> / 1 night</span>
-                                        {% comment %} <span class="main_pricing-item"><span class="h4">${{ obj.price_for_total_nights }}</span> / {{ total_nights }} nights</span> {% endcomment %}
+                                        <span class="main_pricing-item"><span class="h4">${{ obj.price_per_night }}</span> / 1 night</span>                                        
                                     {% endif %}
                                 </div>
 

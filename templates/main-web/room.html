@@ -90,7 +90,7 @@
                         <section class="facilities">
                             <h4 class="facilities_header">Room Facilities</h4>
                             <div class="facilities_list d-sm-flex flex-wrap">
-                                {% for facility in room.facilities.all %}
+                                {% for facility in amenities %}
                                     <div class="facilities_list-block">
                                         <span class="facilities_list-block_item d-flex align-items-center">
                                             <!-- Use appropriate Material Icon for the facility -->
@@ -204,7 +204,7 @@
 
 <script>
 document.addEventListener("DOMContentLoaded", function () {
-    var latitude = {{ property.latitude|default:0 }};  // Default: Bahria Town Karachi
+    var latitude = {{ property.latitude|default:0 }};  
     var longitude = {{ property.longitude|default:0 }};
 
     // Check if latitude and longitude are valid
@@ -212,6 +212,8 @@ document.addEventListener("DOMContentLoaded", function () {
         latitude = latitude;
         longitude = longitude;
     }
+
+    console.log("Latitude:", latitude, "Longitude:", longitude);
 
     var map = L.map('map1').setView([latitude, longitude], 5); // Set correct zoom
 
