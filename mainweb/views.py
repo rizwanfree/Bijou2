@@ -15,7 +15,24 @@ from django.conf import settings
 # Create your views here.
 
 def index(request):
-    return render(request, 'main-web/index-2.html')
+    # Fetch 1 random house
+    random_house = House.objects.order_by('?').first()
+    # Fetch the first image for the random house
+    house_image = random_house.images.first() if random_house else None
+
+    # Fetch 1 random room
+    random_room = Room.objects.order_by('?').first()
+    # Fetch the first image for the random room
+    room_image = random_room.images.first() if random_room else None
+
+    print(room_image.image.url)
+    context = {
+        'house': random_house,
+        'house_image': house_image,
+        'room': random_room,
+        'room_image': room_image,
+    }
+    return render(request, 'main-web/index-2.html', context)
 
 def about(request):
     return render(request, 'main-web/about.html')
