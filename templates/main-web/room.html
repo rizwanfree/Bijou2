@@ -117,14 +117,16 @@
                                 </div>
                             </div>
                         </section>
-                        <div class=rating><span class=rating_summary><span class=h2>4.25</span> <sup class=h4>/5</sup></span>
+
+                        {% comment %} <div class=rating><span class=rating_summary><span class=h2>4.25</span> <sup class=h4>/5</sup></span>
                             <div class="rating_list d-flex flex-wrap">
                                 <div class="rating_list-item d-sm-flex align-items-center justify-content-between" data-order=1><span class=label>Location</span> <span class=progressLine id=location data-value=4.7 data-fill=#0DA574></span></div>
                                 <div class="rating_list-item d-sm-flex align-items-center justify-content-between" data-order=2><span class=label>Comfort</span> <span class=progressLine id=comfort data-value=4.5 data-fill=#0DA574></span></div>
                                 <div class="rating_list-item d-sm-flex align-items-center justify-content-between" data-order=3><span class=label>Pricing</span> <span class=progressLine id=pricing data-value=4.9 data-fill=#0DA574></span></div>
                                 <div class="rating_list-item d-sm-flex align-items-center justify-content-between" data-order=4><span class=label>Service</span> <span class=progressLine id=service data-value=4.8 data-fill=#0DA574></span></div>
                             </div>
-                        </div>
+                        </div> {% endcomment %}
+
                     </div>
                     <div class="room_main-cards col-lg-4">
                         
@@ -167,7 +169,9 @@
                         </div>
                     </div>
                 </div>
-                <section class="room_comments col-lg-8">
+
+                <!--Comment Section-->
+                {% comment %} <section class="room_comments col-lg-8">
                     <h3 class=room_comments-header>Post comments</h3>
                     <ul class=room_comments-list>
                         <li class="list-item d-flex flex-column flex-sm-row align-items-start">
@@ -187,12 +191,12 @@
                         <div class="review_rating d-flex flex-wrap">
                             <div class="review_rating-block d-sm-flex align-items-center justify-content-between" data-order=1><label class="label h6" for=locationStars>Location</label> <select class=star-rating id=locationStars><option value=5>Excellent</option><option value=4>Very Good</option><option value=3>Average</option><option value=2>Poor</option><option value=1>Terrible</option></select></div>
                             <div class="review_rating-block d-sm-flex align-items-center justify-content-between" data-order=2><label class="label h6" for=pricingStars>Pricing</label> <select class=star-rating id=pricingStars><option value=5>Excellent</option><option value=4>Very Good</option><option value=3>Average</option><option value=2>Poor</option><option value=1>Terrible</option></select></div>
-                        <div class="review_rating-block d-sm-flex align-items-center justify-content-between" data-order=3><label class="label h6" for=comfortStars>Comfort</label> <select class=star-rating id=comfortStars><option value=5>Excellent</option><option value=4>Very Good</option><option value=3>Average</option><option value=2>Poor</option><option value=1>Terrible</option></select></div>
-            <div class="review_rating-block d-sm-flex align-items-center justify-content-between" data-order=4><label class="label h6" for=serviceStars>Service</label> <select class=star-rating id=serviceStars><option value=5>Excellent</option><option value=4>Very Good</option><option value=3>Average</option><option value=2>Poor</option><option value=1>Terrible</option></select></div>
-        </div>
-        <div class=field-wrapper><label class=label for=reviewRoomName><i class="icon-user icon"></i></label> <input class="field required" id=reviewRoomName type=text placeholder=Name></div>
-        <div class=field-wrapper><label class=label for=reviewRoomEmail><i class="icon-email icon"></i></label> <input class="field required" id=reviewRoomEmail type=text data-type=email placeholder=Email></div><textarea class="field textarea required" id=reviewRoomMessage placeholder=Message></textarea>        <button class="btn theme-element theme-element--accent" type=submit>Submit</button></form>
-        </section>
+                            <div class="review_rating-block d-sm-flex align-items-center justify-content-between" data-order=3><label class="label h6" for=comfortStars>Comfort</label> <select class=star-rating id=comfortStars><option value=5>Excellent</option><option value=4>Very Good</option><option value=3>Average</option><option value=2>Poor</option><option value=1>Terrible</option></select></div>
+                            <div class="review_rating-block d-sm-flex align-items-center justify-content-between" data-order=4><label class="label h6" for=serviceStars>Service</label> <select class=star-rating id=serviceStars><option value=5>Excellent</option><option value=4>Very Good</option><option value=3>Average</option><option value=2>Poor</option><option value=1>Terrible</option></select></div>
+                        </div>
+                    <div class=field-wrapper><label class=label for=reviewRoomName><i class="icon-user icon"></i></label> <input class="field required" id=reviewRoomName type=text placeholder=Name></div>
+                    <div class=field-wrapper><label class=label for=reviewRoomEmail><i class="icon-email icon"></i></label> <input class="field required" id=reviewRoomEmail type=text data-type=email placeholder=Email></div><textarea class="field textarea required" id=reviewRoomMessage placeholder=Message></textarea>        <button class="btn theme-element theme-element--accent" type=submit>Submit</button></form>
+                </section> {% endcomment %}
         </div>
         </div>
         
@@ -205,12 +209,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Check if latitude and longitude are valid
     if (latitude === 0 || longitude === 0) {
-        console.warn("Invalid latitude/longitude, using default.");
         latitude = latitude;
         longitude = longitude;
     }
 
-    var map = L.map('map1').setView([latitude, longitude], 15); // Set correct zoom
+    var map = L.map('map1').setView([latitude, longitude], 5); // Set correct zoom
 
     // Load OpenStreetMap tiles
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -226,7 +229,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
  <script>
     document.querySelector('form').addEventListener('submit', function(event) {
-        console.log("Form is being submitted...");
         event.stopImmediatePropagation(); // Prevent other scripts from stopping submission
         this.submit(); // Force submission
     });

@@ -119,14 +119,14 @@
                                 </div>
                             </div>
                         </section>
-                        <div class=rating><span class=rating_summary><span class=h2>4.25</span> <sup class=h4>/5</sup></span>
+                        {% comment %} <div class=rating><span class=rating_summary><span class=h2>4.25</span> <sup class=h4>/5</sup></span>
                             <div class="rating_list d-flex flex-wrap">
                                 <div class="rating_list-item d-sm-flex align-items-center justify-content-between" data-order=1><span class=label>Location</span> <span class=progressLine id=location data-value=4.7 data-fill=#0DA574></span></div>
                                 <div class="rating_list-item d-sm-flex align-items-center justify-content-between" data-order=2><span class=label>Comfort</span> <span class=progressLine id=comfort data-value=4.5 data-fill=#0DA574></span></div>
                                 <div class="rating_list-item d-sm-flex align-items-center justify-content-between" data-order=3><span class=label>Pricing</span> <span class=progressLine id=pricing data-value=4.9 data-fill=#0DA574></span></div>
                                 <div class="rating_list-item d-sm-flex align-items-center justify-content-between" data-order=4><span class=label>Service</span> <span class=progressLine id=service data-value=4.8 data-fill=#0DA574></span></div>
                             </div>
-                        </div>
+                        </div> {% endcomment %}
                     </div>
                     <div class="room_main-cards col-lg-4">
                         <div class=room_main-cards_card><span class=pricing><span class="pricing_price h2">${{ house.price_per_night }}</span> / 1 night</span>
@@ -148,7 +148,15 @@
                                         
                                     </div>
                                 </div>
-                                <button type="submit" class="booking_btn btn theme-element theme-element--accent">Reserve</button>
+
+                                {% if user.is_authenticated %}
+                                    <button type="submit" class="booking_btn btn theme-element theme-element--accent">Reserve</button>
+                                {% else %}
+                                    <p class="mt-3" style="font-size: 14px;">
+                                        Please <strong><a href="{% url 'users:login' %}?next={{ request.path }}">Login</a></strong> 
+                                        or <strong><a href="{% url 'users:register' %}">Register</a></strong> for booking.
+                                    </p>
+                                {% endif %}
                             </form>
                         </div>
 
@@ -202,7 +210,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Check if latitude and longitude are valid
     if (latitude === 0 || longitude === 0) {
-        console.warn("Invalid latitude/longitude, using default.");
         latitude = latitude;
         longitude = longitude;
     }
@@ -223,7 +230,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
  <script>
     document.querySelector('form').addEventListener('submit', function(event) {
-        console.log("Form is being submitted...");
         event.stopImmediatePropagation(); // Prevent other scripts from stopping submission
         this.submit(); // Force submission
     });
