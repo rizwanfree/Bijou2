@@ -80,19 +80,21 @@ def room_details(request, slug, checkin=None, checkout=None):
         checkin = checkout = None
         nights = 1  # Default to 1 night if no dates provided
 
-    property = room.property    
+    property = room.property
+    amenities = property.amenities.all()  # Retrieve all amenities for the property
 
     price_per_night = room.price_per_night
     total_price = price_per_night * nights
 
     print(f"Slug: {slug}, Check-in: {checkin}, Check-out: {checkout}, Nights: {nights}, Total Price: {total_price}")
-
+    print(amenities)
     context = {
         'room': room,
         'checkin': checkin.strftime("%Y-%m-%d") if checkin else None,
         'checkout': checkout.strftime("%Y-%m-%d") if checkout else None,
         'total_price': total_price,
-        'property': property,        
+        'property': property,
+        'amenities': amenities        
     }
     return render(request, 'main-web/room.html', context)
 
@@ -155,21 +157,23 @@ def house_details(request, slug, checkin=None, checkout=None):
         nights = 1  # Default to 1 night if no dates provided
 
     property = house.property    
-
+    amenities = property.amenities.all()  # Retrieve all amenities for the property
     price_per_night = house.price_per_night
     total_price = price_per_night * nights
 
-    print(f"Slug: {slug}, Check-in: {checkin}, Check-out: {checkout}, Nights: {nights}, Total Price: {total_price}")
+    # print(f"Slug: {slug}, Check-in: {checkin}, Check-out: {checkout}, Nights: {nights}, Total Price: {total_price}")
 
     context = {
         'house': house,
         'checkin': checkin.strftime("%Y-%m-%d") if checkin else None,
         'checkout': checkout.strftime("%Y-%m-%d") if checkout else None,
         'total_price': total_price,
-        'property': property,        
+        'property': property,
+        'amenities': amenities         
     }
-    print(house.id)
+    
     return render(request, 'main-web/house-details.html', context)
+
 
 
 def payment_methods(request, type, id):

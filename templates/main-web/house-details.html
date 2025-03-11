@@ -84,13 +84,13 @@
                             </span>
                         </div>
                         <div class=description>
-                            <p class=description_text>{{ house.description }}</p>
+                            <p class="description_text">{{ house.description }}</p>
                         </div>
 
                         <section class="facilities">
                             <h4 class="facilities_header">House Facilities</h4>
                             <div class="facilities_list d-sm-flex flex-wrap">
-                                {% for facility in house.facilities.all %}
+                                {% for facility in amenities %}
                                     <div class="facilities_list-block">
                                         <span class="facilities_list-block_item d-flex align-items-center">
                                             <!-- Use appropriate Material Icon for the facility -->
@@ -105,14 +105,15 @@
 
 
                         <section class=rules>
-                            <h4 class=rules_header>Hostel rules</h4>
+                            <h4 class=rules_header>Rules</h4>
                             <div class="rules_list d-md-flex flex-lg-wrap">
                                 <div class=rules_list-block>
                                     <p class="rules_list-block_item d-flex align-items-baseline"><i class="icon-check icon"></i> Time of arrival is after 14-00. Time of departure is to 12-00</p>
                                     <p class="rules_list-block_item d-flex align-items-baseline"><i class="icon-check icon"></i> Does a settlement take place only at complete payment</p>
                                     <p class="rules_list-block_item d-flex align-items-baseline"><i class="icon-check icon"></i> Is there a settlement in hostel only after the presence of passport</p>
+                                    <p class="rules_list-block_item d-flex align-items-baseline"><i class="icon-check icon"></i> Cum sociis natoque penatibus et. Sed elementum tempus egestas sed</p>
                                 </div>
-                                <div class=rules_list-block>
+                                <div class="rules_list-block">
                                     <p class="rules_list-block_item d-flex align-items-baseline"><i class="icon-check icon"></i> Cum sociis natoque penatibus et. Sed elementum tempus egestas sed</p>
                                     <p class="rules_list-block_item rules_list-block_item--highlight d-flex align-items-start"><i class="icon-check icon"></i> Volutpat odio facilisis mauris sit amet massa vitae tortor condimentum. Quam elementum pulvinar etiam non quam lacus suspendisse. Eget gravida cum sociis natoque</p>
                                 </div>
@@ -161,7 +162,7 @@
 
                     </div>
                 </div>
-                <section class="room_comments col-lg-8">
+                {% comment %} <section class="room_comments col-lg-8">
                     <h3 class=room_comments-header>Post comments</h3>
                     <ul class=room_comments-list>
                         <li class="list-item d-flex flex-column flex-sm-row align-items-start">
@@ -188,7 +189,7 @@
         <div class=field-wrapper><label class=label for=reviewhouseEmail><i class="icon-email icon"></i></label> <input class="field required" id=reviewhouseEmail type=text data-type=email placeholder=Email></div><textarea class="field textarea required" id=reviewhouseMessage placeholder=Message></textarea>        <button class="btn theme-element theme-element--accent" type=submit>Submit</button></form>
         </section>
         </div>
-        </div>
+        </div> {% endcomment %}
         
 
     </main>
