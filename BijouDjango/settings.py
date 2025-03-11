@@ -30,6 +30,7 @@ ALLOWED_HOSTS = ['*']
 
 INSTALLED_APPS = [
     'jazzmin',
+    'tinymce',
     'users.apps.UsersConfig',
     'django.contrib.admin',
     'django.contrib.auth',

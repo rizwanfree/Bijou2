@@ -6,6 +6,7 @@ from django.core.validators import URLValidator
 import requests
 from django.core.mail import send_mail
 from django.conf import settings
+from tinymce.models import HTMLField
 
 
 class Amenity(models.Model):
@@ -29,7 +30,6 @@ class Property(models.Model):
     zip_code = models.CharField(max_length=10)
     latitude = models.FloatField(blank=True, null=True)
     longitude = models.FloatField(blank=True, null=True)
-    #description = models.TextField(blank=True, null=True)
     amenities = models.ManyToManyField('Amenity', related_name='properties', blank=True)
     rules = models.TextField(blank=True, null=True)
     managers = models.ManyToManyField(User, related_name='managed_properties', blank=True)
@@ -73,7 +73,7 @@ class House(models.Model):
     slug = models.SlugField(unique=True, blank=True)
     price_per_night = models.DecimalField(max_digits=10, decimal_places=2)
     number_of_rooms = models.IntegerField(default=1)
-    description = models.TextField(blank=True, null=True)
+    description = HTMLField(blank=True, null=True)
     facebook_url = models.URLField(max_length=500, blank=True, null=True, validators=[URLValidator()])
     instagram_url = models.URLField(max_length=500, blank=True, null=True, validators=[URLValidator()])
     is_available = models.BooleanField(default=True)  # This is still needed to mark the house as available
@@ -122,7 +122,7 @@ class Room(models.Model):
     number_of_bed = models.PositiveIntegerField(default=1)
     type_of_bed = models.CharField(choices=TYPE_OF_BED, max_length=50, default='single')
     price_per_night = models.DecimalField(max_digits=10, decimal_places=2)
-    description = models.TextField(blank=True, null=True)
+    description = HTMLField(blank=True, null=True)
     facebook_url = models.URLField(max_length=500, blank=True, null=True, validators=[URLValidator()])
     instagram_url = models.URLField(max_length=500, blank=True, null=True, validators=[URLValidator()])
     is_available = models.BooleanField(default=True)  # Ensuring new rooms start as available
