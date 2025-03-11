@@ -218,7 +218,7 @@
 
                             
                             
-                            <p class="main_description">{{ obj.description|slice:":100" }}{% if obj.description|length > 100 %}...{% endif %}</p>
+                            <p class="main_descriptio">{{ obj.description|safe|slice:":100" }}{% if obj.description|length > 100 %}...{% endif %}</p>
                             <div class="main_amenities">
                                 <span class="main_amenities-item d-inline-flex align-items-center">
                                     <i class="icon-user icon"></i> {{ obj.number_of_rooms }} Rooms
