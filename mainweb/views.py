@@ -179,7 +179,7 @@ def house_details(request, slug, checkin=None, checkout=None):
     total_price = price_per_night * nights
 
     # print(f"Slug: {slug}, Check-in: {checkin}, Check-out: {checkout}, Nights: {nights}, Total Price: {total_price}")
-
+    print(rules)
     context = {
         'house': house,
         'checkin': checkin.strftime("%Y-%m-%d") if checkin else None,
