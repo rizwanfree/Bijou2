@@ -15,6 +15,11 @@ class Amenity(models.Model):
     def __str__(self):
         return self.name
 
+class Rule(models.Model):
+    name = models.CharField(max_length=255, unique=True)
+    
+    def __str__(self):
+        return self.name
 
 class City(models.Model):
     name = models.CharField(max_length=50, unique=True)
@@ -31,7 +36,7 @@ class Property(models.Model):
     latitude = models.FloatField(blank=True, null=True)
     longitude = models.FloatField(blank=True, null=True)
     amenities = models.ManyToManyField('Amenity', related_name='properties', blank=True)
-    rules = models.TextField(blank=True, null=True)
+    rules = models.ManyToManyField('Rule', related_name='properties', blank=True)
     managers = models.ManyToManyField(User, related_name='managed_properties', blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.contrib.auth.models import User
-from .models import Property, Room, HouseImage, RoomImage, Amenity, House, Booking, City
+from .models import Property, Room, HouseImage, RoomImage, Amenity, House, Booking, City, Rule
 
 # Register your models here.
 
@@ -31,3 +31,4 @@ admin.site.register(RoomImage)
 
 admin.site.register(Amenity)
 admin.site.register(City)
+admin.site.register(Rule)
