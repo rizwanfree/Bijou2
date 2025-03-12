@@ -104,7 +104,21 @@
                         </section>
 
 
-                        <section class=rules>
+                        <section class="rules">
+                            <h4 class="rules_header">Rules</h4>
+                            <div class="rules_list d-md-flex flex-lg-wrap">
+                                <!-- Loop through the rules -->
+                                {% for rule in rules %}
+                                    <div class="rules_list-block">
+                                        <p class="rules_list-block_item d-flex align-items-baseline">
+                                            <i class="icon-check icon"></i> {{ rule.description }}
+                                        </p>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </section>
+
+                        {% comment %} <section class=rules>
                             <h4 class=rules_header>Rules</h4>
                             <div class="rules_list d-md-flex flex-lg-wrap">
                                 <div class=rules_list-block>
@@ -118,7 +132,7 @@
                                     <p class="rules_list-block_item rules_list-block_item--highlight d-flex align-items-start"><i class="icon-check icon"></i> Volutpat odio facilisis mauris sit amet massa vitae tortor condimentum. Quam elementum pulvinar etiam non quam lacus suspendisse. Eget gravida cum sociis natoque</p>
                                 </div>
                             </div>
-                        </section>
+                        </section> {% endcomment %}
                         {% comment %} <div class=rating><span class=rating_summary><span class=h2>4.25</span> <sup class=h4>/5</sup></span>
                             <div class="rating_list d-flex flex-wrap">
                                 <div class="rating_list-item d-sm-flex align-items-center justify-content-between" data-order=1><span class=label>Location</span> <span class=progressLine id=location data-value=4.7 data-fill=#0DA574></span></div>

@@ -99,7 +99,7 @@ def room_details(request, slug, checkin=None, checkout=None):
 
     property = room.property
     amenities = property.amenities.all()  # Retrieve all amenities for the property
-
+    rules = property.rules.all()
     price_per_night = room.price_per_night
     total_price = price_per_night * nights
 
@@ -109,7 +109,8 @@ def room_details(request, slug, checkin=None, checkout=None):
         'checkout': checkout.strftime("%Y-%m-%d") if checkout else None,
         'total_price': total_price,
         'property': property,
-        'amenities': amenities        
+        'amenities': amenities,
+        'rules': rules,        
     }
     return render(request, 'main-web/room.html', context)
 
@@ -173,6 +174,7 @@ def house_details(request, slug, checkin=None, checkout=None):
 
     property = house.property    
     amenities = property.amenities.all()  # Retrieve all amenities for the property
+    rules = property.rules.all()
     price_per_night = house.price_per_night
     total_price = price_per_night * nights
 
@@ -184,7 +186,8 @@ def house_details(request, slug, checkin=None, checkout=None):
         'checkout': checkout.strftime("%Y-%m-%d") if checkout else None,
         'total_price': total_price,
         'property': property,
-        'amenities': amenities         
+        'amenities': amenities,
+        'rules': rules,       
     }
     
     return render(request, 'main-web/house-details.html', context)
