@@ -118,7 +118,7 @@ def room_details(request, slug, checkin=None, checkout=None):
 def house_list(request):
     """List all houses and show if they are available for selected dates."""
     
-    houses = House.objects.all()
+    houses = list(House.objects.all())
     start_date = None
     end_date = None
 
