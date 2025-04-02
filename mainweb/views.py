@@ -25,7 +25,6 @@ def index(request):
     # Fetch the first image for the random room
     room_image = random_room.images.first() if random_room else None
 
-    print(room_image.image.url)
     context = {
         'house': random_house,
         'house_image': house_image,
