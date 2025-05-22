@@ -1,0 +1,25 @@
+<!-- templates/emails/detail.html -->
+<h2>{{ email.subject }}</h2>
+<p>From: {{ email.from_header }}</p>
+<p>Date: {{ email.processed }}</p>
+
+<div class="email-body">
+  {% if email.html %}
+    {{ email.html|safe }}
+  {% else %}
+    <pre>{{ email.text }}</pre>
+  {% endif %}
+</div>
+
+{% if attachments %}
+<h3>Attachments</h3>
+<ul>
+  {% for attachment in attachments %}
+  <li>
+    <a href="{{ attachment.file.url }}" download="{{ attachment.filename }}">
+      {{ attachment.filename }}
+    </a>
+  </li>
+  {% endfor %}
+</ul>
+{% endif %}

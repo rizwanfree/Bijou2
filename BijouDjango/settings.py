@@ -42,6 +42,9 @@ INSTALLED_APPS = [
     'mainweb',
     'accomodations',
     'finances',
+    'emails',
+    'django_mailbox',
+    'mailer',
     
 ]
 
@@ -165,12 +168,25 @@ LOGIN_REDIRECT_URL = 'mainweb:index'
 
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'rizwansoomro@gmail.com'  # Your email address
-EMAIL_HOST_PASSWORD = 'amqg djqq zflb gtdn'  # Use the App Password generated above
-DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+
+# SMTP (Outgoing) Configuration
+EMAIL_HOST = 'smtpout.secureserver.net'
+EMAIL_PORT = 465  # or 80/3535 if 465 is blocked
+EMAIL_USE_SSL = True  # For port 465
+# EMAIL_USE_TLS = True  # If using port 587
+EMAIL_HOST_USER = 'office@thebijou.me'
+EMAIL_HOST_PASSWORD = 'Sherry1989'
+
+# IMAP (Incoming) Configuration - for django-mailbox
+MAILBOXES = {
+    'godaddy': {
+        'host': 'imap.secureserver.net',
+        'port': 993,
+        'ssl': True,
+        'username': 'office@thebijou.me',
+        'password': 'Sherry1989',
+    }
+}
 
 
 
