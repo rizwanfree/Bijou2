@@ -1,0 +1,164 @@
+{% extends "main-web/base.html" %}
+{% load static %}
+
+{% block css %}
+<style>
+    /* Scoped styles that only affect content within .terms-container */
+    .terms-container {
+        font-family: 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+        line-height: 1.7;
+        color: #4a4a4a;
+        max-width: 800px;
+        margin: 2rem auto;
+        padding: 2.5rem;
+        background: white;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    }
+
+    .terms-container h1 {
+        color: #1a365d;
+        font-size: 2rem;
+        font-weight: 600;
+        margin-bottom: 1.5rem;
+        padding-bottom: 0.75rem;
+        border-bottom: 1px solid #e2e8f0;
+    }
+
+    .terms-container h2 {
+        color: #2c5282;
+        font-size: 1.25rem;
+        font-weight: 600;
+        margin: 1.75rem 0 1rem 0;
+    }
+
+    .terms-container p,
+    .terms-container li {
+        font-size: 0.9375rem;
+        color: #4a5568;
+        margin-bottom: 0.75rem;
+    }
+
+    .terms-container ul {
+        padding-left: 1.5rem;
+        margin: 1rem 0;
+    }
+
+    .terms-container li {
+        margin-bottom: 0.5rem;
+        position: relative;
+    }
+
+    .terms-container li:before {
+        content: "•";
+        color: #4299e1;
+        font-weight: bold;
+        display: inline-block;
+        width: 1em;
+        margin-left: -1em;
+    }
+
+    .terms-container .highlight {
+        background-color: #ebf8ff;
+        padding: 0.125rem 0.375rem;
+        border-radius: 4px;
+        color: #2b6cb0;
+        font-weight: 500;
+    }
+
+    .terms-container .opt-out {
+        font-weight: 600;
+        color: #c53030;
+    }
+
+    .terms-container a {
+        color: #3182ce;
+        text-decoration: none;
+        transition: color 0.2s;
+    }
+
+    .terms-container a:hover {
+        color: #2c5282;
+        text-decoration: underline;
+    }
+
+    /* Responsive Adjustments */
+    @media (max-width: 768px) {
+        .terms-container {
+            padding: 1.5rem;
+            margin: 1rem;
+        }
+
+        .terms-container h1 {
+            font-size: 1.75rem;
+        }
+
+        .terms-container h2 {
+            font-size: 1.125rem;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .terms-container {
+            padding: 1.25rem;
+        }
+
+        .terms-container h1 {
+            font-size: 1.5rem;
+        }
+    }
+</style>
+{% endblock css %}
+
+{% block content %}
+<div class="terms-container">
+    <h1>SMS Terms & Conditions</h1>
+    
+    <p>By opting in to receive SMS messages from <strong>Bijou LLC</strong>, you agree to the following terms:</p>
+    
+    <h2>1. SMS Consent & Communication</h2>
+    <p>By providing your phone number and opting in, you consent to receive text messages related to our <strong>property management services</strong>, including promotions, appointments, billing, and account updates. We respect your privacy and will not share your information with third parties for marketing purposes.</p>
+    
+    <h2>2. Types of Messages You May Receive</h2>
+    <ul>
+        <li>Promotional offers & property discounts</li>
+        <li>Appointment reminders (viewings, maintenance)</li>
+        <li>Follow-ups on inquiries or service requests</li>
+        <li>Billing & payment notifications</li>
+        <li>Important tenancy or account updates</li>
+    </ul>
+    
+    <h2>3. Message Frequency</h2>
+    <p>Message frequency varies but typically does not exceed <span class="highlight">2 messages per week</span>.</p>
+    
+    <h2>4. Message & Data Rates</h2>
+    <p>Standard carrier <strong>message and data rates may apply</strong>. The Bijou LLC is not responsible for any fees charged by your mobile provider.</p>
+    
+    <h2>5. How to Opt-In</h2>
+    <p>You can subscribe by:</p>
+    <ul>
+        <li>Completing the SMS consent form on our website</li>
+        <li>Providing your number during inquiries or service requests</li>
+    </ul>
+    
+    <h2>6. How to Opt-Out (Unsubscribe)</h2>
+    <p class="opt-out">You can cancel anytime by:</p>
+    <ul>
+        <li>Replying <strong>"STOP"</strong> to any message</li>
+        <li>Contacting us via phone or email to request removal</li>
+    </ul>
+    
+    <h2>7. Support</h2>
+    <p>For help, reply <strong>"HELP"</strong> to any message or visit <a href="https://www.thebijou.me" target="_blank" rel="noopener noreferrer">www.thebijou.me</a>.</p>
+    
+    <h2>8. Additional Notes</h2>
+    <ul>
+        <li>If you do not wish to receive texts, leave the consent box unchecked.</li>
+        <li>Carriers are not liable for delayed/undelivered messages.</li>
+        <li>Review our full <a href="{% url 'mainweb:policy' %}">Privacy Policy</a> and <a href="{% url 'mainweb:terms' %}">Terms & Conditions</a>.</li>
+    </ul>
+</div>
+{% endblock content %}
+
+{% block js %}
+{% endblock js %}

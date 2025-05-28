@@ -359,5 +359,8 @@ def confirm_booking(request, type, id):
         messages.error(request, f"Booking was created, but email failed: {e}")
 
 
+def policy(request):
+    return render(request, 'main-web/policy.html')
 
-
+def terms(request):
+    return render(request, 'main-web/terms.html')

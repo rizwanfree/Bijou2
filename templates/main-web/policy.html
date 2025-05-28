@@ -1,0 +1,175 @@
+{% extends "main-web/base.html" %}
+{% load static %}
+
+{% block css %}
+<style>
+    /* Scoped styles that only affect content within .policy-container */
+    .policy-container {
+        font-family: 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+        line-height: 1.7;
+        color: #4a4a4a;
+        max-width: 800px;
+        margin: 2rem auto;
+        padding: 2.5rem;
+        background: white;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    }
+
+    .policy-container h1 {
+        color: #1a365d;
+        font-size: 2rem;
+        font-weight: 600;
+        margin-bottom: 1.5rem;
+        padding-bottom: 0.75rem;
+        border-bottom: 1px solid #e2e8f0;
+    }
+
+    .policy-container h2 {
+        color: #2c5282;
+        font-size: 1.25rem;
+        font-weight: 600;
+        margin: 1.75rem 0 1rem 0;
+    }
+
+    .policy-container p,
+    .policy-container li {
+        font-size: 0.9375rem;
+        color: #4a5568;
+        margin-bottom: 0.75rem;
+    }
+
+    .policy-container ul {
+        padding-left: 1.5rem;
+        margin: 1rem 0;
+    }
+
+    .policy-container li {
+        margin-bottom: 0.5rem;
+        position: relative;
+    }
+
+    .policy-container li:before {
+        content: "•";
+        color: #4299e1;
+        font-weight: bold;
+        display: inline-block;
+        width: 1em;
+        margin-left: -1em;
+    }
+
+    .policy-container .highlight {
+        background-color: #ebf8ff;
+        padding: 0.125rem 0.375rem;
+        border-radius: 4px;
+        color: #2b6cb0;
+        font-weight: 500;
+    }
+
+    .policy-container .contact-info {
+        background-color: #f8fafc;
+        padding: 1.25rem;
+        border-radius: 6px;
+        border-left: 4px solid #4299e1;
+    }
+
+    .policy-container a {
+        color: #3182ce;
+        text-decoration: none;
+        transition: color 0.2s;
+    }
+
+    .policy-container a:hover {
+        color: #2c5282;
+        text-decoration: underline;
+    }
+
+    /* Responsive Adjustments */
+    @media (max-width: 768px) {
+        .policy-container {
+            padding: 1.5rem;
+            margin: 1rem;
+        }
+
+        .policy-container h1 {
+            font-size: 1.75rem;
+        }
+
+        .policy-container h2 {
+            font-size: 1.125rem;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .policy-container {
+            padding: 1.25rem;
+        }
+
+        .policy-container h1 {
+            font-size: 1.5rem;
+        }
+        
+        .policy-container .contact-info {
+            padding: 1rem;
+        }
+    }
+</style>
+{% endblock css %}
+
+{% block content %}
+<div class="policy-container">
+    <h1>The Bijou LLC Privacy Policy</h1>
+    
+    <h2>Introduction</h2>
+    <p>At The Bijou LLC, your privacy is important to us. This Privacy Policy explains how we collect, use, and protect your personal information when you interact with our property management services, including our website and SMS communications.</p>
+    
+    <h2>1. Information We Collect</h2>
+    <p>We may collect the following types of information from you:</p>
+    <ul>
+        <li><strong>Personal Information:</strong> such as your name, phone number, email address, and mailing address.</li>
+        <li><strong>Communication Data:</strong> including SMS consent information and messages exchanged with us.</li>
+        <li><strong>Usage Data:</strong> information about how you use our website and services.</li>
+    </ul>
+    
+    <h2>2. How We Use Your Information</h2>
+    <p>We use your information to:</p>
+    <ul>
+        <li>Provide and manage our property management services.</li>
+        <li>Communicate with you via SMS, email, or phone regarding appointments, promotions, billing, and updates.</li>
+        <li>Improve our services and customer experience.</li>
+        <li>Comply with legal and regulatory requirements.</li>
+    </ul>
+    
+    <h2>3. Sharing Your Information</h2>
+    <p>The Bijou LLC respects your privacy and does not sell or rent your personal information. Specifically:</p>
+    <ul>
+        <li>SMS opt-in and phone numbers collected for SMS communication purposes will <strong>not</strong> be shared with any third party or affiliates for marketing purposes.</li>
+        <li>We may share your information with trusted service providers who assist us in operating our business, subject to confidentiality agreements.</li>
+        <li>We may disclose information if required by law or to protect our rights.</li>
+    </ul>
+    
+    <h2>4. How We Protect Your Information</h2>
+    <p>We implement reasonable security measures to protect your personal data from unauthorized access, alteration, disclosure, or destruction.</p>
+    
+    <h2>5. Your Choices and Rights</h2>
+    <ul>
+        <li>You can opt out of SMS communications at any time by replying <span class="highlight">"STOP"</span> or contacting us directly.</li>
+        <li>You may update or correct your personal information by contacting us.</li>
+        <li>You have the right to request access to the information we hold about you.</li>
+    </ul>
+    
+    <h2>6. Accessibility of This Policy</h2>
+    <p>This Privacy Policy is available on a single page and is linked in the footer of every page on our website for easy access.</p>
+    
+    <h2>7. Contact Us</h2>
+    <div class="contact-info">
+        <p>If you have any questions or concerns about this Privacy Policy or how we handle your data, please contact us at:</p>
+        <p><strong>The Bijou LLC</strong><br>
+        Email: <a href="mailto:skhan.bijou@gmail.com">skhan.bijou@gmail.com</a><br>
+        Phone: <a href="tel:7345903466">734-590-3466</a></p>
+    </div>
+</div>
+{% endblock content %}
+
+{% block js %}
+{% endblock js %}
